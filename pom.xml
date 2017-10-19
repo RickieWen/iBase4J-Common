@@ -4,11 +4,35 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ibase4j</groupId>
 	<artifactId>ibase4j-common</artifactId>
-	<name>iBase4J-Common</name>
+	<name>ibase4j-common</name>
 	<version>1.1.0</version>
 	<packaging>jar</packaging>
-	<url>http://maven.apache.org</url>
 
+	<description>A demo for deployment to the Central Repository via OSSRH</description>
+	<url>https://gitee.com/iBase4J/iBase4J-Common</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://gitee.com:iBase4J/iBase4J-Common.git</connection>
+		<developerConnection>scm:git:ssh://gitee.com:iBase4J/iBase4J-Common.git</developerConnection>
+		<url>https://gitee.com/iBase4J/iBase4J-Common/tree/master</url>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
 	<properties>
 		<module.name>${project.artifactId}</module.name>
 		<other.jar>**/*.jar</other.jar>
@@ -53,7 +77,7 @@
 		<swagger.version>1.5.13</swagger.version>
 		<thumbnailator.version>0.4.8</thumbnailator.version>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
@@ -64,7 +88,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -468,9 +492,9 @@
 			<version>3.3.1</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
-		<finalName>${project.name}</finalName>
+		<finalName>${project.name}-${project.version}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
