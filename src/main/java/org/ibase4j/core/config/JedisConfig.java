@@ -13,8 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisPassword;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -35,7 +33,6 @@ public class JedisConfig {
         return config;
     }
 
-    @SuppressWarnings("deprecation")
     @Bean
     public JedisConnectionFactory jedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
         JedisConnectionFactory jedisConnectionFactory;
@@ -44,15 +41,13 @@ public class JedisConfig {
             List<String> list = InstanceUtil.newArrayList(nodes.split(","));
             RedisClusterConfiguration configuration = new RedisClusterConfiguration(list);
             configuration.setMaxRedirects(PropertiesUtil.getInt("spring.redis.cluster.max-redirects"));
-            configuration.setPassword(RedisPassword.of(PropertiesUtil.getString("redis.password")));
             jedisConnectionFactory = new JedisConnectionFactory(configuration, jedisPoolConfig);
+            jedisConnectionFactory.setPassword(PropertiesUtil.getString("redis.password"));
         } else {
-            RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-            configuration.setHostName(PropertiesUtil.getString("redis.host"));
-            configuration.setPort(PropertiesUtil.getInt("redis.port"));
-            configuration.setPassword(RedisPassword.of(PropertiesUtil.getString("redis.password")));
-            jedisConnectionFactory = new JedisConnectionFactory(configuration);
-            jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
+            jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
+            jedisConnectionFactory.setHostName(PropertiesUtil.getString("redis.host"));
+            jedisConnectionFactory.setPort(PropertiesUtil.getInt("redis.port"));
+            jedisConnectionFactory.setPassword(PropertiesUtil.getString("redis.password"));
         }
         jedisConnectionFactory.setTimeout(PropertiesUtil.getInt("redis.timeout"));
         return jedisConnectionFactory;
@@ -83,8 +78,9 @@ public class JedisConfig {
     @Bean
     @Qualifier("redisTemplate")
     public CacheManager redisCacheManager(RedisTemplate<Serializable, Serializable> redisTemplate) {
-        RedisCacheManager cacheManager = RedisCacheManager.create(redisTemplate.getConnectionFactory());
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         cacheManager.setTransactionAware(true);
+        cacheManager.setDefaultExpiration(PropertiesUtil.getInt("redis.expiration", 10));
         return cacheManager;
     }
 }

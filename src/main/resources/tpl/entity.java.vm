@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import ${pkg};
 #end
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * <p>
  * ${table.comment}
@@ -15,6 +18,7 @@ import ${pkg};
  * @author ${author}
  * @since ${date}
  */
+@ApiModel("${table.comment}")
 #if(${table.convert})
 @TableName("${table.name}")
 #end
