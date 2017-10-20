@@ -1,10 +1,7 @@
-/**
- * Copyright (C) 2008 Happy Fish / YuQing
- *
+/** Copyright (C) 2008 Happy Fish / YuQing
  * FastDFS Java Client may be copied only under the terms of the GNU Lesser
  * General Public License (LGPL).
- * Please visit the FastDFS Home Page http://www.csource.org/ for more detail.
- **/
+ * Please visit the FastDFS Home Page http://www.csource.org/ for more detail. **/
 
 package org.csource.fastdfs;
 
@@ -23,16 +20,16 @@ import org.csource.common.MyException;
  * @version Version 1.11
  */
 public class ClientGlobal {
-    public static int g_connect_timeout; //millisecond
-    public static int g_network_timeout; //millisecond
+    public static int g_connect_timeout; // millisecond
+    public static int g_network_timeout; // millisecond
     public static String g_charset;
     public static int g_tracker_http_port;
-    public static boolean g_anti_steal_token;  //if anti-steal token
-    public static String g_secret_key;   //generage token secret key
+    public static boolean g_anti_steal_token; // if anti-steal token
+    public static String g_secret_key; // generage token secret key
     public static TrackerGroup g_tracker_group;
 
-    public static final int DEFAULT_CONNECT_TIMEOUT = 5;  //second
-    public static final int DEFAULT_NETWORK_TIMEOUT = 30; //second
+    public static final int DEFAULT_CONNECT_TIMEOUT = 5; // second
+    public static final int DEFAULT_NETWORK_TIMEOUT = 30; // second
 
     private ClientGlobal() {
     }
@@ -53,13 +50,13 @@ public class ClientGlobal {
         if (g_connect_timeout < 0) {
             g_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
         }
-        g_connect_timeout *= 1000; //millisecond
+        g_connect_timeout *= 1000; // millisecond
 
         g_network_timeout = iniReader.getIntValue("network_timeout", DEFAULT_NETWORK_TIMEOUT);
         if (g_network_timeout < 0) {
             g_network_timeout = DEFAULT_NETWORK_TIMEOUT;
         }
-        g_network_timeout *= 1000; //millisecond
+        g_network_timeout *= 1000; // millisecond
 
         g_charset = iniReader.getStrValue("charset");
         if (g_charset == null || g_charset.length() == 0) {
@@ -75,7 +72,8 @@ public class ClientGlobal {
         for (int i = 0; i < szTrackerServers.length; i++) {
             parts = szTrackerServers[i].split("\\:", 2);
             if (parts.length != 2) {
-                throw new MyException("the value of item \"tracker_server\" is invalid, the correct format is host:port");
+                throw new MyException(
+                    "the value of item \"tracker_server\" is invalid, the correct format is host:port");
             }
 
             tracker_servers[i] = new InetSocketAddress(parts[0].trim(), Integer.parseInt(parts[1].trim()));

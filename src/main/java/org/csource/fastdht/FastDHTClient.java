@@ -1,10 +1,7 @@
-/**
- * Copyright (C) 2008 Happy Fish / YuQing
- *
+/** Copyright (C) 2008 Happy Fish / YuQing
  * FastDHT Java Client may be copied only under the terms of the GNU Lesser
  * General Public License (LGPL).
- * Please visit the FastDHT Home Page http://fastdht.csource.org/ for more detail.
- */
+ * Please visit the FastDHT Home Page http://fastdht.csource.org/ for more detail. */
 
 package org.csource.fastdht;
 
@@ -23,7 +20,7 @@ import org.csource.common.MyException;
  * @author Happy Fish / YuQing
  * @version Version 1.05
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class FastDHTClient {
     protected ServerGroup serverGroup;
     protected byte status;
@@ -40,7 +37,7 @@ public class FastDHTClient {
      */
     public FastDHTClient(boolean bMultiThread) {
         if (bMultiThread) {
-            this.serverGroup = (ServerGroup) ClientGlobal.g_server_group.clone();
+            this.serverGroup = (ServerGroup)ClientGlobal.g_server_group.clone();
         } else {
             this.serverGroup = ClientGlobal.g_server_group;
         }
@@ -116,8 +113,8 @@ public class FastDHTClient {
         try {
             header.body_len = keyInfo.getPackLength() + 4 + value.length;
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_SET;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = expires;
 
             bsPackage = new byte[ProtoCommon.FDHT_PROTO_PKG_HEADER_SIZE + header.body_len];
@@ -132,12 +129,12 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, 0);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, 0);
             this.status = pkgInfo.header.status;
             return this.status;
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -169,8 +166,8 @@ public class FastDHTClient {
         try {
             header.body_len = keyInfo.getPackLength();
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_DEL;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = 0;
 
             bsPackage = new byte[ProtoCommon.FDHT_PROTO_PKG_HEADER_SIZE + header.body_len];
@@ -181,12 +178,12 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, 0);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, 0);
             this.status = pkgInfo.header.status;
             return this.status;
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -257,8 +254,8 @@ public class FastDHTClient {
         try {
             header.body_len = keyInfo.getPackLength();
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_GET;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = expires;
 
             bsPackage = new byte[ProtoCommon.FDHT_PROTO_PKG_HEADER_SIZE + header.body_len];
@@ -269,7 +266,7 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
             this.status = pkgInfo.header.status;
             if (this.status != 0) {
                 return null;
@@ -293,7 +290,7 @@ public class FastDHTClient {
             return result;
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -333,8 +330,8 @@ public class FastDHTClient {
         try {
             header.body_len = keyInfo.getPackLength() + 4;
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_INC;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = expires;
 
             bsPackage = new byte[ProtoCommon.FDHT_PROTO_PKG_HEADER_SIZE + header.body_len];
@@ -346,7 +343,7 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
             this.status = pkgInfo.header.status;
             if (this.status != 0) {
                 return null;
@@ -369,7 +366,7 @@ public class FastDHTClient {
             return new Long(value);
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
             this.serverGroup.forceClose(server);
             this.status = 5;
             return null;
@@ -378,7 +375,8 @@ public class FastDHTClient {
         }
     }
 
-	private int parseBatchUpdate(int src_key_count, ServerInfo server, ProtoCommon.PkgInfo pkgInfo, Map failKeys) throws UnsupportedEncodingException {
+    private int parseBatchUpdate(int src_key_count, ServerInfo server, ProtoCommon.PkgInfo pkgInfo, Map failKeys)
+        throws UnsupportedEncodingException {
         int offset;
         int key_count;
         int success_count;
@@ -393,7 +391,7 @@ public class FastDHTClient {
 
         if (pkgInfo.body.length < 8 + 5 * src_key_count) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " body length: " + pkgInfo.body.length + " < " + (8 + 5 * src_key_count));
+                + " body length: " + pkgInfo.body.length + " < " + (8 + 5 * src_key_count));
 
             this.serverGroup.forceClose(server);
             this.status = 22;
@@ -403,7 +401,7 @@ public class FastDHTClient {
         key_count = ProtoCommon.buff2int(pkgInfo.body, 0);
         if (key_count != src_key_count) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " key count: " + key_count + " != " + src_key_count);
+                + " key count: " + key_count + " != " + src_key_count);
 
             this.serverGroup.forceClose(server);
             this.status = 22;
@@ -476,18 +474,18 @@ public class FastDHTClient {
         try {
             header.body_len = objInfo.getPackLength() + 4;
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_BATCH_SET;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = expires;
 
             it = keyValues.entrySet().iterator();
             while (it.hasNext()) {
-                entry = (Map.Entry) it.next();
-                key = (String) entry.getKey();
-                value = (String) entry.getValue();
+                entry = (Map.Entry)it.next();
+                key = (String)entry.getKey();
+                value = (String)entry.getValue();
 
                 header.body_len += 8 + key.getBytes(ClientGlobal.g_charset).length
-                        + value.getBytes(ClientGlobal.g_charset).length;
+                    + value.getBytes(ClientGlobal.g_charset).length;
             }
 
             bsPackage = new byte[ProtoCommon.FDHT_PROTO_PKG_HEADER_SIZE + header.body_len];
@@ -498,9 +496,9 @@ public class FastDHTClient {
 
             it = keyValues.entrySet().iterator();
             while (it.hasNext()) {
-                entry = (Map.Entry) it.next();
-                key = (String) entry.getKey();
-                value = (String) entry.getValue();
+                entry = (Map.Entry)it.next();
+                key = (String)entry.getKey();
+                value = (String)entry.getValue();
 
                 bsKey = key.getBytes(ClientGlobal.g_charset);
                 bsValue = value.getBytes(ClientGlobal.g_charset);
@@ -520,11 +518,11 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
             return this.parseBatchUpdate(keyValues.size(), server, pkgInfo, failKeys);
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -543,7 +541,7 @@ public class FastDHTClient {
      * @return success set key count, < 0 for all keys fail
      */
     @SuppressWarnings("unused")
-	public int batchDelete(ObjectInfo objInfo, String[] keys, Map failKeys) throws MyException {
+    public int batchDelete(ObjectInfo objInfo, String[] keys, Map failKeys) throws MyException {
         ServerInfo server;
         ProtoCommon.PkgHeader header;
         byte[] bsPackage;
@@ -567,8 +565,8 @@ public class FastDHTClient {
         try {
             header.body_len = objInfo.getPackLength() + 4;
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_BATCH_DEL;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = 0;
 
             for (i = 0; i < keys.length; i++) {
@@ -594,11 +592,11 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
             return this.parseBatchUpdate(keys.length, server, pkgInfo, failKeys);
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -630,7 +628,7 @@ public class FastDHTClient {
      * @return none null for success, null for all keys fail
      */
     @SuppressWarnings("unused")
-	public Hashtable batchGet(ObjectInfo objInfo, String[] keys, Map failKeys, int expires) throws MyException {
+    public Hashtable batchGet(ObjectInfo objInfo, String[] keys, Map failKeys, int expires) throws MyException {
         ServerInfo server;
         ProtoCommon.PkgHeader header;
         byte[] bsPackage;
@@ -659,8 +657,8 @@ public class FastDHTClient {
         try {
             header.body_len = objInfo.getPackLength() + 4;
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_BATCH_GET;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = expires;
 
             for (i = 0; i < keys.length; i++) {
@@ -686,7 +684,7 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
 
             this.status = pkgInfo.header.status;
             if (this.status != 0) {
@@ -694,7 +692,8 @@ public class FastDHTClient {
             }
 
             if (pkgInfo.body.length < 8 + 5 * keys.length) {
-                System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
+                System.err
+                    .println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
                         + " body length: " + pkgInfo.body.length + " < " + (8 + 5 * keys.length));
 
                 this.serverGroup.forceClose(server);
@@ -704,8 +703,8 @@ public class FastDHTClient {
 
             key_count = ProtoCommon.buff2int(pkgInfo.body, 0);
             if (key_count != keys.length) {
-                System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                        + " key count: " + key_count + " != " + keys.length);
+                System.err.println("server " + server.address.getAddress().getHostAddress() + ":"
+                    + server.address.getPort() + " key count: " + key_count + " != " + keys.length);
 
                 this.serverGroup.forceClose(server);
                 this.status = 22;
@@ -714,7 +713,7 @@ public class FastDHTClient {
 
             offset = 8;
             failKeys.clear();
-            keyValues = new Hashtable(2 * keys.length, (float) 0.50);
+            keyValues = new Hashtable(2 * keys.length, (float)0.50);
             for (i = 0; i < key_count; i++) {
                 key_len = ProtoCommon.buff2int(pkgInfo.body, offset);
                 offset += 4;
@@ -735,7 +734,7 @@ public class FastDHTClient {
             return keyValues;
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -752,7 +751,7 @@ public class FastDHTClient {
      * @return stat Hashtable for success, null for fail
      */
     @SuppressWarnings("unused")
-	public Hashtable stat(int server_index) throws MyException {
+    public Hashtable stat(int server_index) throws MyException {
         ServerInfo server;
         ProtoCommon.PkgHeader header;
         int offset;
@@ -770,8 +769,8 @@ public class FastDHTClient {
             header.key_hash_code = 0;
             header.body_len = 0;
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_STAT;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
-            header.timestamp = (int) (System.currentTimeMillis() / 1000);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
+            header.timestamp = (int)(System.currentTimeMillis() / 1000);
             header.expires = 0;
 
             byte[] bsPackage = new byte[ProtoCommon.FDHT_PROTO_PKG_HEADER_SIZE];
@@ -781,7 +780,7 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
 
             this.status = pkgInfo.header.status;
             if (this.status != 0) {
@@ -791,7 +790,7 @@ public class FastDHTClient {
             String szBody = new String(pkgInfo.body, ClientGlobal.g_charset);
             String[] rows = szBody.split("\n");
             String[] cols;
-            keyValues = new Hashtable(rows.length, (float) 0.50);
+            keyValues = new Hashtable(rows.length, (float)0.50);
             for (int i = 0; i < rows.length; i++) {
                 cols = rows[i].split("=");
                 keyValues.put(cols[0], cols[1]);
@@ -800,7 +799,7 @@ public class FastDHTClient {
             return keyValues;
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;
@@ -817,7 +816,7 @@ public class FastDHTClient {
      * @return string array for success, null for fail
      */
     @SuppressWarnings("unused")
-	public String[] getSubKeys(ObjectInfo objInfo) throws UnsupportedEncodingException, MyException {
+    public String[] getSubKeys(ObjectInfo objInfo) throws UnsupportedEncodingException, MyException {
         ServerInfo server;
         ProtoCommon.PkgHeader header;
         byte[] bsPackage;
@@ -834,7 +833,7 @@ public class FastDHTClient {
         try {
             header.body_len = objInfo.getPackLength();
             header.cmd = ProtoCommon.FDHT_PROTO_CMD_GET_SUB_KEYS;
-            header.keep_alive = (byte) (this.serverGroup.keep_alive ? 1 : 0);
+            header.keep_alive = (byte)(this.serverGroup.keep_alive ? 1 : 0);
             header.timestamp = 0;
             header.expires = 0;
 
@@ -846,7 +845,7 @@ public class FastDHTClient {
             out.write(bsPackage);
 
             ProtoCommon.PkgInfo pkgInfo = ProtoCommon.recvPackage(server.sock.getInputStream(),
-                    ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
+                ProtoCommon.FDHT_PROTO_CMD_RESP, -1);
 
             this.status = pkgInfo.header.status;
             if (this.status != 0) {
@@ -857,7 +856,7 @@ public class FastDHTClient {
             return szSubKeys.split(ProtoCommon.FDHT_KEY_LIST_SEP_STR);
         } catch (IOException ex) {
             System.err.println("server " + server.address.getAddress().getHostAddress() + ":" + server.address.getPort()
-                    + " IOException, error msg: " + ex.getMessage());
+                + " IOException, error msg: " + ex.getMessage());
 
             this.serverGroup.forceClose(server);
             this.status = 5;

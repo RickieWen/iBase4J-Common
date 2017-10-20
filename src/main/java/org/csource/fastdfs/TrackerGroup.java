@@ -1,10 +1,7 @@
-/**
- * Copyright (C) 2008 Happy Fish / YuQing
- *
+/** Copyright (C) 2008 Happy Fish / YuQing
  * FastDFS Java Client may be copied only under the terms of the GNU Lesser
  * General Public License (LGPL).
- * Please visit the FastDFS Home Page http://www.csource.org/ for more detail.
- */
+ * Please visit the FastDFS Home Page http://www.csource.org/ for more detail. */
 
 package org.csource.fastdfs;
 
@@ -67,7 +64,8 @@ public class TrackerGroup {
         try {
             return this.getConnection(current_index);
         } catch (IOException ex) {
-            System.err.println("connect to server " + this.tracker_servers[current_index].getAddress().getHostAddress() + ":" + this.tracker_servers[current_index].getPort() + " fail");
+            System.err.println("connect to server " + this.tracker_servers[current_index].getAddress().getHostAddress()
+                + ":" + this.tracker_servers[current_index].getPort() + " fail");
             ex.printStackTrace(System.err);
         }
 
@@ -87,7 +85,8 @@ public class TrackerGroup {
 
                 return trackerServer;
             } catch (IOException ex) {
-                System.err.println("connect to server " + this.tracker_servers[i].getAddress().getHostAddress() + ":" + this.tracker_servers[i].getPort() + " fail");
+                System.err.println("connect to server " + this.tracker_servers[i].getAddress().getHostAddress() + ":"
+                    + this.tracker_servers[i].getPort() + " fail");
                 ex.printStackTrace(System.err);
             }
         }
@@ -98,7 +97,8 @@ public class TrackerGroup {
     public Object clone() {
         InetSocketAddress[] trackerServers = new InetSocketAddress[this.tracker_servers.length];
         for (int i = 0; i < trackerServers.length; i++) {
-            trackerServers[i] = new InetSocketAddress(this.tracker_servers[i].getAddress().getHostAddress(), this.tracker_servers[i].getPort());
+            trackerServers[i] = new InetSocketAddress(this.tracker_servers[i].getAddress().getHostAddress(),
+                this.tracker_servers[i].getPort());
         }
 
         return new TrackerGroup(trackerServers);
