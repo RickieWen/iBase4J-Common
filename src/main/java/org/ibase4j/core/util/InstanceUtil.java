@@ -32,6 +32,7 @@ import org.apache.logging.log4j.Logger;
 import org.ibase4j.core.exception.DataParseException;
 import org.ibase4j.core.exception.InstanceException;
 
+import com.alibaba.fastjson.JSON;
 import com.esotericsoftware.reflectasm.MethodAccess;
 
 /**
@@ -42,6 +43,7 @@ import com.esotericsoftware.reflectasm.MethodAccess;
  */
 public final class InstanceUtil {
     protected static Logger logger = LogManager.getLogger(InstanceUtil.class);
+
     private InstanceUtil() {
     }
 
@@ -52,8 +54,20 @@ public final class InstanceUtil {
             bean = clazz.newInstance();
             PropertyUtils.copyProperties(bean, orig);
         } catch (Exception e) {
+            logger.error("to", e);
         }
         return bean;
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static final <T> T parse(String json, Class<T> clazz) {
+        try {
+            Map map = JSON.parseObject(json, Map.class);
+            return (T)transMap2Bean(map, clazz);
+        } catch (Exception e) {
+            logger.error("parse", e);
+        }
+        return null;
     }
 
     // Map --> Bean 1: 利用Introspector,PropertyDescriptor实现 Map --> Bean

@@ -183,7 +183,7 @@ public final class WebUtil {
                 if (logger.isDebugEnabled()) {
                     logger.debug("request===>" + wholeStr);
                 }
-                return JSON.parseObject(wholeStr, cls);
+                return InstanceUtil.parse(wholeStr, cls);
             }
         } catch (Exception e) {
             logger.error("", e);
@@ -194,7 +194,7 @@ public final class WebUtil {
         return Request2ModelUtil.covert(cls, request);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> List<T> getParameters(HttpServletRequest request, Class<T> cls) {
         String str, wholeStr = "";
         try {
@@ -206,7 +206,11 @@ public final class WebUtil {
                 if (logger.isDebugEnabled()) {
                     logger.debug("request===>" + wholeStr);
                 }
-                return JSON.parseObject(wholeStr, List.class);
+                List list = JSON.parseObject(wholeStr, List.class);
+                List<T> resultList = InstanceUtil.newArrayList();
+                for (Object map : list) {
+                    resultList.add(InstanceUtil.transMap2Bean((Map)map, cls));
+                }
             }
         } catch (Exception e) {
             logger.error("", e);
