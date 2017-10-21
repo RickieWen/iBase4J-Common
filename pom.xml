@@ -82,9 +82,9 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>alipay-sdk-java</artifactId>
-			<version>java20170615110434</version>
+			<version>java20171012102412</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/alipay-sdk-java20170615110434.jar</systemPath>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/alipay-sdk-java20171012102412.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

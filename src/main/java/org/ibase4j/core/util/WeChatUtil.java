@@ -12,7 +12,7 @@ import org.ibase4j.core.support.pay.WxPayment;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 
 /**
- * 
+ * 微信
  * @author ShenHuaJie
  * @version 2017年10月21日 下午10:52:22
  */
