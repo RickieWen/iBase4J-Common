@@ -49,6 +49,7 @@ public class MotanConfig {
 		ProtocolConfigBean config = new ProtocolConfigBean();
 		config.setDefault(true);
 		config.setName("motan");
+		config.setSerialization("fastjson");
 		config.setMaxContentLength(1048576);
 		config.setMaxServerConnection(8000);
 		config.setMaxWorkerThread(PropertiesUtil.getInt("rpc.protocol.maxThread"));
