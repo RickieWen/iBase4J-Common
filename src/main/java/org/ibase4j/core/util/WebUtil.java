@@ -158,10 +158,16 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("request===>" + wholeStr);
+                }
                 return JSON.parseObject(wholeStr, Map.class);
             }
         } catch (Exception e) {
             logger.error("", e);
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
         }
         return getParameterMap(request);
     }
@@ -174,10 +180,16 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("request===>" + wholeStr);
+                }
                 return JSON.parseObject(wholeStr, cls);
             }
         } catch (Exception e) {
             logger.error("", e);
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
         }
         return Request2ModelUtil.covert(cls, request);
     }
@@ -191,10 +203,16 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("request===>" + wholeStr);
+                }
                 return JSON.parseObject(wholeStr, List.class);
             }
         } catch (Exception e) {
             logger.error("", e);
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
         }
         return Request2ListUtil.covert(cls, request);
     }
