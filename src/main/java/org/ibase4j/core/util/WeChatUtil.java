@@ -25,7 +25,7 @@ public class WeChatUtil {
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public Map<String, String> getSign(String out_trade_no, String detail, String amount, String ip, String callBack) {
+    public static Map<String, String> getSign(String out_trade_no, String detail, String amount, String ip, String callBack) {
         Map<String, String> params = WxPayment.buildUnifiedOrderParasMap(PropertiesUtil.getString("wx.appId"), null,
             PropertiesUtil.getString("wx.mch_id"), null, null, detail, null, null, out_trade_no, amount, ip, callBack,
             "APP", PropertiesUtil.getString("wx.partnerKey"), null);
