@@ -6,6 +6,7 @@ import org.ibase4j.core.support.cache.redisson.Client;
 import org.ibase4j.core.util.PropertiesUtil;
 import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Redis连接配置
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Bean;
  * @author ShenHuaJie
  * @since 2017年8月14日 上午10:17:29
  */
-//@Configuration
+@Configuration
 public class RedissonConfig {
     @Bean
     public RedissonClient redissonClient() {
