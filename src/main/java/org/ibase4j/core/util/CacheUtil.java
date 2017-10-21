@@ -1,9 +1,7 @@
 package org.ibase4j.core.util;
 
 import org.ibase4j.core.support.cache.CacheManager;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 public class CacheUtil {
     private static CacheManager cacheManager;
     private static CacheManager lockManager;
@@ -30,10 +28,12 @@ public class CacheUtil {
         return lockManager.setnx(key, expires);
     }
 
+    /** 获取锁 */
     public static boolean getLock(String key) {
         return lockManager.lock(key);
     }
 
+    /** 解锁 */
     public static void unlock(String key) {
         lockManager.unlock(key);
     }
