@@ -36,11 +36,11 @@ public class JedisConfig {
     @Bean
     public JedisConnectionFactory jedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
         JedisConnectionFactory jedisConnectionFactory;
-        String nodes = PropertiesUtil.getString("spring.redis.cluster.nodes");
+        String nodes = PropertiesUtil.getString("redis.cluster.nodes");
         if (StringUtils.isNotBlank(nodes)) {
             List<String> list = InstanceUtil.newArrayList(nodes.split(","));
             RedisClusterConfiguration configuration = new RedisClusterConfiguration(list);
-            configuration.setMaxRedirects(PropertiesUtil.getInt("spring.redis.cluster.max-redirects"));
+            configuration.setMaxRedirects(PropertiesUtil.getInt("redis.cluster.max-redirects"));
             jedisConnectionFactory = new JedisConnectionFactory(configuration, jedisPoolConfig);
             jedisConnectionFactory.setPassword(PropertiesUtil.getString("redis.password"));
         } else {
