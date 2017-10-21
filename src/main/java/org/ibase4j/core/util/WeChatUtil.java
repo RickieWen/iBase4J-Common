@@ -3,6 +3,7 @@
  */
 package org.ibase4j.core.util;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import org.ibase4j.core.support.pay.WxPay;
@@ -25,10 +26,12 @@ public class WeChatUtil {
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public static Map<String, String> getSign(String out_trade_no, String detail, String amount, String ip, String callBack) {
+    public static Map<String, String> getSign(String out_trade_no, String detail, BigDecimal amount, String ip,
+        String callBack) {
+        String total_fee = amount.multiply(new BigDecimal("100")).setScale(0).toString();
         Map<String, String> params = WxPayment.buildUnifiedOrderParasMap(PropertiesUtil.getString("wx.appId"), null,
-            PropertiesUtil.getString("wx.mch_id"), null, null, detail, null, null, out_trade_no, amount, ip, callBack,
-            "APP", PropertiesUtil.getString("wx.partnerKey"), null);
+            PropertiesUtil.getString("wx.mch_id"), null, null, detail, null, null, out_trade_no, total_fee, ip,
+            callBack, "APP", PropertiesUtil.getString("wx.partnerKey"), null);
         String result = WxPay.pushOrder(params);
         Map<String, String> resultMap = WxPayment.xmlToMap(result);
         String return_code = resultMap.get("return_code");

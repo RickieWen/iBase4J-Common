@@ -122,6 +122,7 @@ public class WxPayment {
         params.put("attach", attach);
 
         params.put("total_fee", total_fee);
+        params.put("out_trade_no", out_trade_no);
         params.put("spbill_create_ip", spbill_create_ip);
         params.put("notify_url", notify_url);
         params.put("trade_type", trade_type);
@@ -132,6 +133,7 @@ public class WxPayment {
 
     /**
      * 构建支付参数
+     * 
      * @param appid
      * @return
      */
