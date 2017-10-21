@@ -209,7 +209,8 @@ public final class WebUtil {
                 List list = JSON.parseObject(wholeStr, List.class);
                 List<T> resultList = InstanceUtil.newArrayList();
                 for (Object map : list) {
-                    resultList.add(InstanceUtil.transMap2Bean((Map)map, cls));
+                    T t = (T)InstanceUtil.transMap2Bean((Map)map, cls);
+                    resultList.add(t);
                 }
             }
         } catch (Exception e) {
