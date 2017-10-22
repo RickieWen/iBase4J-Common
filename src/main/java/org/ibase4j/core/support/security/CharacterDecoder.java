@@ -76,7 +76,6 @@ import java.nio.ByteBuffer;
  * CEFormatException 82 * @see CharacterEncoder 83 * @see UCDecoder 84 * @see
  * UUDecoder 85 * @see BASE64Decoder 86
  */
-
 public abstract class CharacterDecoder {
 
     /** Return the number of bytes per atom of decoding */
@@ -115,7 +114,7 @@ public abstract class CharacterDecoder {
     /**
      * 121 * This method does an actual decode. It takes the decoded bytes and
      * 122 * writes them to the OutputStream. The integer <i>l</i> tells the 123
-     * * method how many bytes are required. This is always <= bytesPerAtom().
+     * * method how many bytes are required. This is always &lt;= bytesPerAtom().
      * 124
      */
     protected void decodeAtom(PushbackInputStream aStream, OutputStream bStream, int l) throws IOException {

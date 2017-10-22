@@ -38,6 +38,9 @@ public class ClientGlobal {
      * load global variables
      *
      * @param conf_filename config filename
+     * @throws FileNotFoundException if an error occurred
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
      */
     public static void init(String conf_filename) throws FileNotFoundException, IOException, MyException {
         IniFileReader iniReader;
@@ -93,6 +96,7 @@ public class ClientGlobal {
      * @param ip_addr ip address or hostname
      * @param port    port number
      * @return connected Socket object
+     * @throws IOException if an error occurred
      */
     public static Socket getSocket(String ip_addr, int port) throws IOException {
         Socket sock = new Socket();
@@ -106,6 +110,7 @@ public class ClientGlobal {
      *
      * @param addr InetSocketAddress object, including ip address and port
      * @return connected Socket object
+     * @throws IOException if an error occurred
      */
     public static Socket getSocket(InetSocketAddress addr) throws IOException {
         Socket sock = new Socket();

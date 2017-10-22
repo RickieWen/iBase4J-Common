@@ -7,7 +7,7 @@ import org.csource.fastdfs.UploadCallback;
 
 /**
 * Upload file by stream
-* @author zhouzezhong & Happy Fish / YuQing
+* @author zhouzezhong, Happy Fish / YuQing
 * @version Version 1.11
 */
 public class UploadStream implements UploadCallback {

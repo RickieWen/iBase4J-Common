@@ -29,7 +29,6 @@ public final class DateUtil {
 	 * 格式化日期
 	 * 
 	 * @param date
-	 * @param pattern
 	 * @return
 	 */
 	public static final String format(Object date) {

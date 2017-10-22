@@ -37,7 +37,7 @@ public final class ImageUtil {
 	/**
 	 * 根据比例缩放图片
 	 * 
-	 * @param orgImgFile 源图片路径
+	 * @param orgImg 源图片路径
 	 * @param scale 比例
 	 * @param targetFile 缩放后的图片存放路径
 	 * @throws IOException
@@ -69,7 +69,6 @@ public final class ImageUtil {
 	 * 根据宽度同比缩放
 	 * 
 	 * @param orgImg 源图片
-	 * @param orgWidth 原始宽度
 	 * @param targetWidth 缩放后的宽度
 	 * @param targetFile 缩放后的图片存放路径
 	 * @throws IOException
@@ -92,10 +91,9 @@ public final class ImageUtil {
 	/**
 	 * 根据高度同比缩放
 	 * 
-	 * @param orgImgFile //源图片
-	 * @param orgHeight //原始高度
-	 * @param targetHeight //缩放后的高度
-	 * @param targetFile //缩放后的图片存放地址
+	 * @param orgImg 源图片
+	 * @param targetHeight 缩放后的高度
+	 * @param targetFile 缩放后的图片存放地址
 	 * @throws IOException
 	 */
 	public static final double scaleHeight(BufferedImage orgImg, int targetHeight, String targetFile) throws IOException {

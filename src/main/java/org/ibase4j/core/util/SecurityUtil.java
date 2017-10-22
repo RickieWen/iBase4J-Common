@@ -31,7 +31,6 @@ public final class SecurityUtil {
 	 * 
 	 * @param key
 	 * @return
-	 * @throws Exception
 	 */
 	public static final byte[] decryptBASE64(String key) {
 		try {
@@ -46,7 +45,6 @@ public final class SecurityUtil {
 	 * 
 	 * @param key
 	 * @return
-	 * @throws Exception
 	 */
 	public static final String encryptBASE64(byte[] key) {
 		try {
@@ -100,7 +98,6 @@ public final class SecurityUtil {
 	 * 
 	 * @param data
 	 * @return
-	 * @throws Exception
 	 */
 	public static final String encryptSHA(String data) {
 		try {
@@ -115,7 +112,6 @@ public final class SecurityUtil {
 	 * 
 	 * @param data
 	 * @return
-	 * @throws Exception
 	 */
 	public static final String encryptHMAC(String data) {
 		return encryptHMAC(data, ENCRYPT_KEY);
@@ -126,6 +122,7 @@ public final class SecurityUtil {
 	 * 
 	 * @param cryptData
 	 *            加密数据
+     * @param key
 	 * @return 解密后的数据
 	 */
 	public static final String decryptDes(String cryptData, byte[] key) {
@@ -144,6 +141,7 @@ public final class SecurityUtil {
 	 * 
 	 * @param data
 	 *            要进行加密的数据
+     * @param key
 	 * @return 加密后的数据
 	 */
 	public static final String encryptDes(String data, byte[] key) {
@@ -161,8 +159,8 @@ public final class SecurityUtil {
 	 * HMAC加密
 	 * 
 	 * @param data
+     * @param key
 	 * @return
-	 * @throws Exception
 	 */
 	public static final String encryptHMAC(String data, byte[] key) {
 		try {
@@ -177,6 +175,7 @@ public final class SecurityUtil {
 	 * 
 	 * @param data
 	 *            原数据
+     * @param privateKey
 	 * @return
 	 */
 	public static final String signRSA(String data, String privateKey) {
@@ -192,6 +191,8 @@ public final class SecurityUtil {
 	 * 
 	 * @param data
 	 *            原数据
+     * @param publicKey
+     * @param sign
 	 * @return
 	 */
 	public static final boolean verifyRSA(String data, String publicKey, String sign) {
@@ -207,6 +208,7 @@ public final class SecurityUtil {
 	 * 
 	 * @param data
 	 *            数据
+     * @param privateKey
 	 * @return 加密后的数据
 	 */
 	public static final String encryptRSAPrivate(String data, String privateKey) {
@@ -222,6 +224,7 @@ public final class SecurityUtil {
 	 * 
 	 * @param cryptData
 	 *            加密数据
+     * @param publicKey
 	 * @return 解密后的数据
 	 */
 	public static final String decryptRSAPublic(String cryptData, String publicKey) {

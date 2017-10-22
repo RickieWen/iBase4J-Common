@@ -47,6 +47,7 @@ public class ServerInfo {
     /**
     * connect to server
     * @return connected Socket object
+     * @throws IOException if an error occurred
     */
     public Socket connect() throws IOException {
         Socket sock = new Socket();

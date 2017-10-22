@@ -89,8 +89,6 @@ public class WxPay {
 
 	/**
 	 * 撤销订单
-	 * 服务商模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_11&index=3
-	 * 商户模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3
 	 * 
 	 * @param params
 	 *            请求参数
@@ -149,8 +147,6 @@ public class WxPay {
 
 	/**
 	 * 交易保障
-	 * 服务商模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_14&index=7
-	 * 商户模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_14&index=7
 	 * 
 	 * @param params
 	 *            请求参数
@@ -162,8 +158,6 @@ public class WxPay {
 
 	/**
 	 * 转换短链接
-	 * 服务商模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_9&index=8
-	 * 商户模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_9&index=8
 	 * 
 	 * @param params
 	 *            请求参数
@@ -175,9 +169,6 @@ public class WxPay {
 
 	/**
 	 * 授权码查询openId
-	 * 服务商模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_12&index=9
-	 * 商户模式接入文档:
-	 * https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_13&index=9
 	 * 
 	 * @param params
 	 *            请求参数
@@ -189,9 +180,6 @@ public class WxPay {
 
 	/**
 	 * 刷卡支付
-	 * 服务商模式接入文档:https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_10&index=1
-	 * 商户模式接入文档:
-	 * https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1
 	 *
 	 * @param params
 	 *            请求参数

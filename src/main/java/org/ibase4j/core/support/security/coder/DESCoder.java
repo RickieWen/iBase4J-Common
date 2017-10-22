@@ -73,7 +73,6 @@ public abstract class DESCoder extends SecurityCoder {
 	 * @throws NoSuchPaddingException
 	 * @throws BadPaddingException
 	 * @throws IllegalBlockSizeException
-	 * @throws Exception
 	 */
 	public static byte[] decrypt(byte[] data, byte[] key) throws InvalidKeyException, NoSuchAlgorithmException,
 			InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
@@ -99,7 +98,6 @@ public abstract class DESCoder extends SecurityCoder {
 	 * @throws BadPaddingException
 	 * @throws IllegalBlockSizeException
 	 * @throws InvalidKeySpecException
-	 * @throws Exception
 	 */
 	public static byte[] encrypt(byte[] data, byte[] key) throws NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
@@ -120,7 +118,6 @@ public abstract class DESCoder extends SecurityCoder {
 	 * 
 	 * @return byte[] 二进制密钥
 	 * @throws NoSuchAlgorithmException
-	 * @throws Exception
 	 */
 	public static byte[] initKey() throws NoSuchAlgorithmException {
 		/*

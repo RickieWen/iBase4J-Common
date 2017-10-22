@@ -36,7 +36,9 @@ public class StorageClient {
         /** 
         * constructor
         * @param fileBuff the file buff for uploading
-        */
+         * @param offset
+         * @param length
+         */
         public UploadBuff(byte[] fileBuff, int offset, int length) {
             super();
             this.fileBuff = fileBuff;
@@ -96,6 +98,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file </li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String local_filename, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -113,6 +117,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file </li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected String[] upload_file(String group_name, String local_filename, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -131,6 +137,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file </li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected String[] upload_file(byte cmd, String group_name, String local_filename, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -163,6 +171,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(byte[] file_buff, int offset, int length, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -182,6 +192,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, byte[] file_buff, int offset, int length, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -198,6 +210,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -215,6 +229,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to store the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -233,6 +249,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, long file_size, UploadCallback callback, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -255,6 +273,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file </li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, String master_filename, String prefix_name, String local_filename,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -293,6 +313,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, String master_filename, String prefix_name, byte[] file_buff,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -319,6 +341,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, String master_filename, String prefix_name, byte[] file_buff,
         int offset, int length, String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -344,6 +368,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_file(String group_name, String master_filename, String prefix_name, long file_size,
         UploadCallback callback, String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -360,6 +386,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file </li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_appender_file(String local_filename, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -377,6 +405,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file </li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected String[] upload_appender_file(String group_name, String local_filename, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -395,6 +425,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_appender_file(byte[] file_buff, int offset, int length, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -414,6 +446,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_appender_file(String group_name, byte[] file_buff, int offset, int length,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -430,6 +464,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_appender_file(byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -447,6 +483,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_appender_file(String group_name, byte[] file_buff, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -465,6 +503,8 @@ public class StorageClient {
     *           <ul><li>results[0]: the group name to berth the file</li></ul>
     *           <ul><li>results[1]: the new created filename</li></ul>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String[] upload_appender_file(String group_name, long file_size, UploadCallback callback,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -481,6 +521,8 @@ public class StorageClient {
     * @param appender_filename the appender filename
     * @param local_filename local filename to append
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file(String group_name, String appender_filename, String local_filename)
         throws IOException, MyException {
@@ -500,6 +542,8 @@ public class StorageClient {
     * @param appender_filename the appender filename
     * @param file_buff file content/buff
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file(String group_name, String appender_filename, byte[] file_buff)
         throws IOException, MyException {
@@ -515,6 +559,8 @@ public class StorageClient {
     * @param offset start offset of the buff
     * @param length the length of buff to append
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file(String group_name, String appender_filename, byte[] file_buff, int offset, int length)
         throws IOException, MyException {
@@ -528,6 +574,8 @@ public class StorageClient {
     * @param file_size the file size
     * @param callback the write data callback object
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file(String group_name, String appender_filename, long file_size, UploadCallback callback)
         throws IOException, MyException {
@@ -541,6 +589,8 @@ public class StorageClient {
     * @param file_offset the offset of appender file
     * @param local_filename local filename to append
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file(String group_name, String appender_filename, long file_offset, String local_filename)
         throws IOException, MyException {
@@ -562,6 +612,8 @@ public class StorageClient {
     * @param file_offset the offset of appender file
     * @param file_buff file content/buff
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file(String group_name, String appender_filename, long file_offset, byte[] file_buff)
         throws IOException, MyException {
@@ -578,6 +630,8 @@ public class StorageClient {
     * @param buffer_offset start offset of the buff
     * @param buffer_length the length of buff to modify
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file(String group_name, String appender_filename, long file_offset, byte[] file_buff,
         int buffer_offset, int buffer_length) throws IOException, MyException {
@@ -593,6 +647,8 @@ public class StorageClient {
     * @param modify_size the modify size
     * @param callback the write data callback object
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file(String group_name, String appender_filename, long file_offset, long modify_size,
         UploadCallback callback) throws IOException, MyException {
@@ -613,6 +669,8 @@ public class StorageClient {
     *          <ul><li> results[0]: the group name to berth the file</li></ul>
     *          <ul><li> results[1]: the new created filename</li></ul> 
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected String[] do_upload_file(byte cmd, String group_name, String master_filename, String prefix_name,
         String file_ext_name, long file_size, UploadCallback callback, NameValuePair[] meta_list)
@@ -783,6 +841,8 @@ public class StorageClient {
     * @param file_size the file size
     * @param callback the write data callback object
     * @return return true for success, false for fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected int do_append_file(String group_name, String appender_filename, long file_size, UploadCallback callback)
         throws IOException, MyException {
@@ -872,6 +932,8 @@ public class StorageClient {
     * @param modify_size the modify size
     * @param callback the write data callback object
     * @return return true for success, false for fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected int do_modify_file(String group_name, String appender_filename, long file_offset, long modify_size,
         UploadCallback callback) throws IOException, MyException {
@@ -962,6 +1024,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
     * @return 0 for success, none zero for fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int delete_file(String group_name, String remote_filename) throws IOException, MyException {
         boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
@@ -1004,6 +1068,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param appender_filename the appender filename
     * @return 0 for success, none zero for fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int truncate_file(String group_name, String appender_filename) throws IOException, MyException {
         final long truncated_file_size = 0;
@@ -1016,6 +1082,8 @@ public class StorageClient {
     *	@param appender_filename the appender filename
     * @param truncated_file_size truncated file size
     * @return 0 for success, none zero for fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int truncate_file(String group_name, String appender_filename, long truncated_file_size)
         throws IOException, MyException {
@@ -1094,6 +1162,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
     * @return file content/buff, return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public byte[] download_file(String group_name, String remote_filename) throws IOException, MyException {
         final long file_offset = 0;
@@ -1109,6 +1179,8 @@ public class StorageClient {
     * @param file_offset the start offset of the file
     * @param download_bytes download bytes, 0 for remain bytes from offset
     * @return file content/buff, return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public byte[] download_file(String group_name, String remote_filename, long file_offset, long download_bytes)
         throws IOException, MyException {
@@ -1158,6 +1230,8 @@ public class StorageClient {
     *	@param remote_filename filename on storage server
     * @param local_filename  filename on local
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file(String group_name, String remote_filename, String local_filename)
         throws IOException, MyException {
@@ -1174,6 +1248,8 @@ public class StorageClient {
     * @param download_bytes download bytes, 0 for remain bytes from offset
     * @param local_filename  filename on local
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file(String group_name, String remote_filename, long file_offset, long download_bytes,
         String local_filename) throws IOException, MyException {
@@ -1255,6 +1331,8 @@ public class StorageClient {
     *	@param remote_filename filename on storage server
     * @param callback call callback.recv() when data arrive
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file(String group_name, String remote_filename, DownloadCallback callback)
         throws IOException, MyException {
@@ -1271,6 +1349,8 @@ public class StorageClient {
     * @param download_bytes download bytes, 0 for remain bytes from offset
     * @param callback call callback.recv() when data arrive
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file(String group_name, String remote_filename, long file_offset, long download_bytes,
         DownloadCallback callback) throws IOException, MyException {
@@ -1341,6 +1421,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
     * @return meta info array, return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public NameValuePair[] get_metadata(String group_name, String remote_filename) throws IOException, MyException {
         boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
@@ -1394,6 +1476,8 @@ public class StorageClient {
     *            <ul><li> ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE: merge, insert when
     *				       the metadata item not exist, otherwise update it</li></ul>
     * @return 0 for success, !=0 fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int set_metadata(String group_name, String remote_filename, NameValuePair[] meta_list, byte op_flag)
         throws IOException, MyException {
@@ -1487,6 +1571,8 @@ public class StorageClient {
     * @param group_name the group name
     *	@param remote_filename the filename
     * @return FileInfo object for success, return null for fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public FileInfo get_file_info(String group_name, String remote_filename) throws IOException, MyException {
         if (remote_filename.length() < ProtoCommon.FDFS_FILE_PATH_LEN + ProtoCommon.FDFS_FILENAME_BASE64_LENGTH
@@ -1526,6 +1612,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
     * @return FileInfo object for success, return null for fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public FileInfo query_file_info(String group_name, String remote_filename) throws IOException, MyException {
         boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
@@ -1603,6 +1691,8 @@ public class StorageClient {
     * check storage socket, if null create a new connection
     * @param group_name the group name to upload file to, can be empty
     * @return true if create a new connection
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected boolean newWritableStorageConnection(String group_name) throws IOException, MyException {
         if (this.storageServer != null) {
@@ -1622,6 +1712,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
     * @return true if create a new connection
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected boolean newReadableStorageConnection(String group_name, String remote_filename)
         throws IOException, MyException {
@@ -1642,6 +1734,8 @@ public class StorageClient {
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
     * @return true if create a new connection
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     protected boolean newUpdatableStorageConnection(String group_name, String remote_filename)
         throws IOException, MyException {
@@ -1662,6 +1756,7 @@ public class StorageClient {
     * @param cmd which command to send
     * @param group_name the group name of storage server
     *	@param remote_filename filename on storage server
+     * @throws IOException if an error occurred
     */
     protected void send_package(byte cmd, String group_name, String remote_filename) throws IOException {
         byte[] header;
@@ -1696,6 +1791,7 @@ public class StorageClient {
     *	@param remote_filename filename on storage server
     * @param file_offset the start offset of the file
     * @param download_bytes download bytes
+     * @throws IOException if an error occurred
     */
     protected void send_download_package(String group_name, String remote_filename, long file_offset,
         long download_bytes) throws IOException {

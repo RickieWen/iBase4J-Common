@@ -35,6 +35,7 @@ public class TrackerGroup {
      * return connected tracker server
      *
      * @return connected tracker server, null for fail
+     * @throws IOException if an error occurred
      */
     public TrackerServer getConnection(int serverIndex) throws IOException {
         Socket sock = new Socket();
@@ -48,6 +49,7 @@ public class TrackerGroup {
      * return connected tracker server
      *
      * @return connected tracker server, null for fail
+     * @throws IOException if an error occurred
      */
     public TrackerServer getConnection() throws IOException {
         int current_index;

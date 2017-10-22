@@ -233,7 +233,6 @@ public class DownloadExcelUtil {
      *            单元格样式
      * @throws IOException
      * @throws WriteException
-     * @throws Exception
      */
     public void addRows(List<?> infoList, CellType[] cellTypes, DisplayFormat... dFormat)
                                                                                          throws WriteException,
@@ -288,7 +287,6 @@ public class DownloadExcelUtil {
      * 
      * @throws IOException
      * @throws WriteException
-     * @throws Exception
      */
     public void reportExcel() throws WriteException, IOException {
         log.info("Use time:" + MathUtil.divide(System.currentTimeMillis() - startTime, 1000) + "s");
@@ -309,7 +307,6 @@ public class DownloadExcelUtil {
      *            结束行
      * @throws IOException
      * @throws WriteException
-     * @throws Exception
      */
     public void setMergeCells(int col, int row, int toCol, int toRow) throws WriteException,
                                                                      IOException {
@@ -378,7 +375,6 @@ public class DownloadExcelUtil {
     /**
      * 添加单元格
      * 
-     * @return
      * @throws IOException
      * @throws WriteException
      */

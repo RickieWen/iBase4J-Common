@@ -22,7 +22,7 @@ public final class IDCardUtil {
 	 * 
 	 * @param personIDCode 十五位身份证号码
 	 * @return String 十八位身份证号码
-	 * @throws 无效的身份证号
+	 * @throws Throwable 无效的身份证号
 	 */
 	public static final String fixPersonIDCodeWithCheck(String personIDCode) throws Throwable {
 		if (personIDCode == null || personIDCode.trim().length() != 15)
@@ -39,7 +39,6 @@ public final class IDCardUtil {
 	 * 
 	 * @param personIDCode 十五位身份证号码
 	 * @return 十八位身份证号码
-	 * @throws 身份证号参数不是15位
 	 */
 	public static final String fixPersonIDCodeWithoutCheck(String personIDCode) {
 		if (personIDCode == null || personIDCode.trim().length() != 15)
@@ -67,7 +66,7 @@ public final class IDCardUtil {
 	 * 
 	 * @param identity 身份证号
 	 * @return 出生日期
-	 * @throws 身份证号出生日期段有误
+	 * @throws Throwable 身份证号出生日期段有误
 	 */
 	public static final Timestamp getBirthdayFromPersonIDCode(String identity) throws Throwable {
 		String id = getFixedPersonIDCode(identity);
@@ -85,7 +84,7 @@ public final class IDCardUtil {
 	 * 
 	 * @param personIDCode 身份证号码
 	 * @return String 十八位身份证号码
-	 * @throws 无效的身份证号
+	 * @throws Throwable 无效的身份证号
 	 */
 	public static final String getFixedPersonIDCode(String personIDCode) throws Throwable {
 		if (personIDCode == null)
@@ -107,7 +106,7 @@ public final class IDCardUtil {
 	 * 
 	 * @param identity 身份证号
 	 * @return 性别代码
-	 * @throws Exception 无效的身份证号码
+	 * @throws Throwable 无效的身份证号码
 	 */
 	public static final Sex getGenderFromPersonIDCode(String identity) throws Throwable {
 		String id = getFixedPersonIDCode(identity);

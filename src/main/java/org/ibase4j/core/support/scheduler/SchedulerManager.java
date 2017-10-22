@@ -119,10 +119,8 @@ public class SchedulerManager implements InitializingBean {
 
     /**
      * 新增job
-     * 
-     * @param inputObject
-     * @param outputObject
-     * @throws Exception
+     * @param taskScheduled
+     * @return boolean
      */
     public boolean updateTask(TaskScheduled taskScheduled) {
     	String jobGroup = taskScheduled.getTaskGroup();
@@ -182,8 +180,6 @@ public class SchedulerManager implements InitializingBean {
 
     /**
      * 暂停所有触发器
-     * 
-     * @return
      */
     public void pauseAllTrigger() {
         try {
@@ -196,8 +192,6 @@ public class SchedulerManager implements InitializingBean {
 
     /**
      * 启动所有触发器
-     * 
-     * @return
      */
     public void startAllTrigger() {
         try {

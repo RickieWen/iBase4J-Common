@@ -543,9 +543,22 @@
 						</executions>
 					</plugin>
 					<!-- Javadoc -->
-					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-						<version>2.9.1</version> <executions> <execution> <phase>package</phase> 
-						<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<configuration>
+									<additionalparam>-Xdoclint:none</additionalparam>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<!-- GPG -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>

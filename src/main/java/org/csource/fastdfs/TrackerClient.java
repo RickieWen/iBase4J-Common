@@ -7,8 +7,8 @@ package org.csource.fastdfs;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.net.Socket;
+import java.util.Arrays;
 
 /**
 * Tracker client
@@ -45,6 +45,7 @@ public class TrackerClient {
     /**
     * get a connection to tracker server
     * @return tracker server Socket object, return null if fail
+     * @throws IOException if an error occurred
     */
     public TrackerServer getConnection() throws IOException {
         return this.tracker_group.getConnection();
@@ -54,6 +55,7 @@ public class TrackerClient {
     * query storage server to upload file
     * @param trackerServer the tracker server
     * @return storage server Socket object, return null if fail
+     * @throws IOException if an error occurred
     */
     public StorageServer getStoreStorage(TrackerServer trackerServer) throws IOException {
         final String groupName = null;
@@ -65,6 +67,7 @@ public class TrackerClient {
     * @param trackerServer the tracker server
     * @param groupName the group name to upload file to, can be empty
     * @return storage server object, return null if fail
+     * @throws IOException if an error occurred
     */
     public StorageServer getStoreStorage(TrackerServer trackerServer, String groupName) throws IOException {
         byte[] header;
@@ -159,6 +162,7 @@ public class TrackerClient {
     * @param trackerServer the tracker server
     * @param groupName the group name to upload file to, can be empty
     * @return storage servers, return null if fail
+     * @throws IOException if an error occurred
     */
     public StorageServer[] getStoreStorages(TrackerServer trackerServer, String groupName) throws IOException {
         byte[] header;
@@ -279,6 +283,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param filename filename on storage server
     * @return storage server Socket object, return null if fail
+     * @throws IOException if an error occurred
     */
     public StorageServer getFetchStorage(TrackerServer trackerServer, String groupName, String filename)
         throws IOException {
@@ -297,6 +302,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param filename filename on storage server
     * @return storage server Socket object, return null if fail
+     * @throws IOException if an error occurred
     */
     public StorageServer getUpdateStorage(TrackerServer trackerServer, String groupName, String filename)
         throws IOException {
@@ -315,6 +321,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param filename filename on storage server
     * @return storage servers, return null if fail
+     * @throws IOException if an error occurred
     */
     public ServerInfo[] getFetchStorages(TrackerServer trackerServer, String groupName, String filename)
         throws IOException {
@@ -330,6 +337,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param filename filename on storage server
     * @return storage server Socket object, return null if fail
+     * @throws IOException if an error occurred
     */
     protected ServerInfo[] getStorages(TrackerServer trackerServer, byte cmd, String groupName, String filename)
         throws IOException {
@@ -436,6 +444,7 @@ public class TrackerClient {
     * @param trackerServer the tracker server
     *	@param file_id the file id(including group name and filename)
     * @return storage server Socket object, return null if fail
+     * @throws IOException if an error occurred
     */
     public StorageServer getFetchStorage1(TrackerServer trackerServer, String file_id) throws IOException {
         String[] parts = new String[2];
@@ -452,6 +461,7 @@ public class TrackerClient {
     * @param trackerServer the tracker server
     *	@param file_id the file id(including group name and filename)
     * @return storage servers, return null if fail
+     * @throws IOException if an error occurred
     */
     public ServerInfo[] getFetchStorages1(TrackerServer trackerServer, String file_id) throws IOException {
         String[] parts = new String[2];
@@ -467,6 +477,7 @@ public class TrackerClient {
     * list groups
     * @param trackerServer the tracker server
     * @return group stat array, return null if fail
+     * @throws IOException if an error occurred
     */
     @SuppressWarnings("unused")
     public StructGroupStat[] listGroups(TrackerServer trackerServer) throws IOException {
@@ -535,6 +546,7 @@ public class TrackerClient {
     * @param trackerServer the tracker server
     *	@param groupName the group name of storage server
     * @return storage server stat array, return null if fail
+     * @throws IOException if an error occurred
     */
     public StructStorageStat[] listStorages(TrackerServer trackerServer, String groupName) throws IOException {
         final String storageIpAddr = null;
@@ -547,6 +559,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param storageIpAddr the storage server ip address, can be null or empty
     * @return storage server stat array, return null if fail
+     * @throws IOException if an error occurred
     */
     public StructStorageStat[] listStorages(TrackerServer trackerServer, String groupName, String storageIpAddr)
         throws IOException {
@@ -645,6 +658,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param storageIpAddr the storage server ip address
     * @return true for success, false for fail
+     * @throws IOException if an error occurred
     */
     private boolean deleteStorage(TrackerServer trackerServer, String groupName, String storageIpAddr)
         throws IOException {
@@ -695,6 +709,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param storageIpAddr the storage server ip address
     * @return true for success, false for fail
+     * @throws IOException if an error occurred
     */
     public boolean deleteStorage(String groupName, String storageIpAddr) throws IOException {
         return this.deleteStorage(ClientGlobal.g_tracker_group, groupName, storageIpAddr);
@@ -706,6 +721,7 @@ public class TrackerClient {
     *	@param groupName the group name of storage server
     * @param storageIpAddr the storage server ip address
     * @return true for success, false for fail
+     * @throws IOException if an error occurred
     */
     public boolean deleteStorage(TrackerGroup trackerGroup, String groupName, String storageIpAddr) throws IOException {
         int serverIndex;

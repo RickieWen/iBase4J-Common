@@ -77,8 +77,8 @@ public class Excel2007Reader extends DefaultHandler {
 	/**
 	 * 遍历工作簿中所有的电子表格
 	 * 
-	 * @param filename
-	 * @throws Exception
+	 * @param filename string
+	 * @throws Exception  if an error occurred
 	 */
 	public void process(String filename) throws Exception {
 		OPCPackage pkg = OPCPackage.open(filename);
@@ -99,8 +99,8 @@ public class Excel2007Reader extends DefaultHandler {
 	/**
 	 * 遍历工作簿中所有的电子表格
 	 * 
-	 * @param filename
-	 * @throws Exception
+	 * @param stream
+	 * @throws Exception if an error occurred
 	 */
 	public void process(InputStream stream) throws Exception {
 		OPCPackage pkg = OPCPackage.open(stream);

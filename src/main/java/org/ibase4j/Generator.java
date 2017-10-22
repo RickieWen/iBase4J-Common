@@ -21,9 +21,6 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 public class Generator {
     /**
      * 测试 run 执行 注意：不生成service接口 注意：不生成service接口 注意：不生成service接口
-     * <p>
-     * 配置方法查看 {@link ConfigGenerator}
-     * </p>
      */
     public static void main(String[] args) {
         AutoGenerator mpg = new AutoGenerator();

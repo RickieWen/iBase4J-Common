@@ -22,9 +22,11 @@ public class AlipayUtil {
     /**
      * 下单并获取支付签名
      * @param out_trade_no 商户订单号
-     * @param detail 交易详情
+     * @param subject 交易主题
+     * @param body 交易详情
      * @param amount 交易金额
      * @param ip 客户端IP
+     * @param timeout 订单失效时间
      * @param callBack 回调地址
      * @return 支付参数
      */

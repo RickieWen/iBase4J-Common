@@ -22,7 +22,12 @@ public class ProtoStructDecoder<T extends StructBase> {
 
     /**
     * decode byte buffer
-    */
+     * @param bs byte[]
+     * @param clazz class
+     * @param fieldsTotalSize int
+     * @return t type
+     * @throws Exception if an error occurred
+     */
     @SuppressWarnings("unchecked")
     public T[] decode(byte[] bs, Class<T> clazz, int fieldsTotalSize) throws Exception {
         if (bs.length % fieldsTotalSize != 0) {

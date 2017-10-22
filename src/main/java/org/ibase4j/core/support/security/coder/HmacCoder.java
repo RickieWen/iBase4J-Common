@@ -40,7 +40,6 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * 
 	 * @param data 待加密数据
 	 * @param key 密钥
-	 * @return byte[] 消息摘要
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacMD5(byte[] data, byte[] key) throws Exception {
@@ -74,7 +73,6 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * 
 	 * @param data 待加密数据
 	 * @param key 密钥
-	 * @return byte[] 消息摘要
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacSHA(byte[] data, byte[] key) throws Exception {
@@ -111,7 +109,6 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * 
 	 * @param data 待加密数据
 	 * @param key 密钥
-	 * @return byte[] 消息摘要
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacSHA256(byte[] data, byte[] key) throws Exception {
@@ -145,7 +142,6 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * 
 	 * @param data 待加密数据
 	 * @param key 密钥
-	 * @return byte[] 消息摘要
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacSHA384(byte[] data, byte[] key) throws Exception {
@@ -179,7 +175,6 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * 
 	 * @param data 待加密数据
 	 * @param key 密钥
-	 * @return byte[] 消息摘要
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacSHA512(byte[] data, byte[] key) throws Exception {
@@ -213,8 +208,7 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * HmacMD2消息摘要
 	 * 
 	 * @param data 待做消息摘要处理的数据
-	 * @param byte[] 密钥
-	 * @return byte[] 消息摘要
+	 * @param key 密钥
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacMD2(byte[] data, byte[] key) throws Exception {
@@ -232,8 +226,7 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * HmacMD2Hex消息摘要
 	 * 
 	 * @param data 待做消息摘要处理的数据
-	 * @param String 密钥
-	 * @return byte[] 消息摘要
+	 * @param key 密钥
 	 * @throws Exception
 	 */
 	public static String encodeHmacMD2Hex(byte[] data, byte[] key) throws Exception {
@@ -262,8 +255,7 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * HmacMD4消息摘要
 	 * 
 	 * @param data 待做消息摘要处理的数据
-	 * @param byte[] 密钥
-	 * @return byte[] 消息摘要
+	 * @param key 密钥
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacMD4(byte[] data, byte[] key) throws Exception {
@@ -281,8 +273,7 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * HmacMD4Hex消息摘要
 	 * 
 	 * @param data 待做消息摘要处理的数据
-	 * @param byte[] 密钥
-	 * @return String 消息摘要
+	 * @param key 密钥
 	 * @throws Exception
 	 */
 	public static String encodeHmacMD4Hex(byte[] data, byte[] key) throws Exception {
@@ -311,8 +302,7 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * HmacSHA224消息摘要
 	 * 
 	 * @param data 待做消息摘要处理的数据
-	 * @param byte[] 密钥
-	 * @return byte[] 消息摘要
+	 * @param key 密钥
 	 * @throws Exception
 	 */
 	public static byte[] encodeHmacSHA224(byte[] data, byte[] key) throws Exception {
@@ -330,8 +320,7 @@ public abstract class HmacCoder extends SecurityCoder {
 	 * HmacSHA224Hex消息摘要
 	 * 
 	 * @param data 待做消息摘要处理的数据
-	 * @param byte[] 密钥
-	 * @return String 消息摘要
+	 * @param key 密钥
 	 * @throws Exception
 	 */
 	public static String encodeHmacSHA224Hex(byte[] data, byte[] key) throws Exception {

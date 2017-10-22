@@ -24,7 +24,9 @@ public class IniFileReader {
 
     /**
     * @param conf_filename config filename
-    */
+     * @throws FileNotFoundException if an error occurred
+     * @throws IOException if an error occurred
+     */
     public IniFileReader(String conf_filename) throws FileNotFoundException, IOException {
         this.conf_filename = conf_filename;
         loadFromFile(conf_filename);

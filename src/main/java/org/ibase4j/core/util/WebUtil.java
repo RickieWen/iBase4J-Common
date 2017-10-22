@@ -38,9 +38,7 @@ public final class WebUtil {
 
     /**
      * 获取指定Cookie的值
-     * 
-     * @param cookies
-     *            cookie集合
+     * @param request
      * @param cookieName
      *            cookie名字
      * @param defaultValue
@@ -96,8 +94,7 @@ public final class WebUtil {
 
     /**
      * 将一些数据放到ShiroSession中,以便于其它地方使用
-     * 
-     * @see 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
+     * 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
      */
     public static final void setSession(Object key, Object value) {
         Subject currentUser = SecurityUtils.getSubject();
@@ -111,8 +108,7 @@ public final class WebUtil {
 
     /**
      * 将一些数据放到ShiroSession中,以便于其它地方使用
-     * 
-     * @see 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
+     * 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
      */
     public static final void setSession(HttpServletRequest request, String key, Object value) {
         HttpSession session = request.getSession();

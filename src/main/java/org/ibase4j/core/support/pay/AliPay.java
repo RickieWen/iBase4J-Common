@@ -74,8 +74,6 @@ public class AliPay {
 
 	/**
 	 * App 支付
-	 * https://doc.open.alipay.com/docs/doc.htm?treeId=54&articleId=106370&docType=1
-	 * 
 	 * @param model
 	 * @param notifyUrl
 	 * @return
@@ -95,9 +93,6 @@ public class AliPay {
 
 	/**
 	 * Wap支付
-	 * https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.dfHHR3&
-	 * treeId=203&articleId=105285&docType=1
-	 * 
 	 * @throws AlipayApiException
 	 * @throws IOException
 	 */
@@ -121,7 +116,6 @@ public class AliPay {
 
 	/**
 	 * 条形码支付、声波支付
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7629065.0.0.XVqALk&apiId=850&docType=4
 	 * 
 	 * @param notifyUrl
 	 * @throws AlipayApiException
@@ -141,7 +135,6 @@ public class AliPay {
 
 	/**
 	 * 扫码支付
-	 * https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.i0UVZn&treeId=193&articleId=105170&docType=1#s4
 	 * 
 	 * @param notifyUrl
 	 * @return
@@ -163,9 +156,8 @@ public class AliPay {
 
 	/**
 	 * 单笔转账到支付宝账户
-	 * https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.54Ty29&treeId=193&articleId=106236&docType=1
 	 * 
-	 * @param content
+	 * @param model
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -200,7 +192,7 @@ public class AliPay {
 	/**
 	 * 转账查询接口
 	 * 
-	 * @param content
+	 * @param model
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -222,9 +214,8 @@ public class AliPay {
 
 	/**
 	 * 交易查询接口
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7395905.0.0.8H2JzG&docType=4&apiId=757
 	 * 
-	 * @param bizContent
+	 * @param model bizContent
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -244,9 +235,8 @@ public class AliPay {
 
 	/**
 	 * 交易撤销接口
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7395905.0.0.XInh6e&docType=4&apiId=866
 	 * 
-	 * @param bizContent
+	 * @param model bizContent
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -267,7 +257,6 @@ public class AliPay {
 
 	/**
 	 * 关闭订单
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7629065.0.0.21yRUe&apiId=1058&docType=4
 	 * 
 	 * @param model
 	 * @return
@@ -290,7 +279,6 @@ public class AliPay {
 
 	/**
 	 * 统一收单交易创建接口
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7629065.0.0.21yRUe&apiId=1046&docType=4
 	 * 
 	 * @param model
 	 * @param notifyUrl
@@ -307,9 +295,8 @@ public class AliPay {
 
 	/**
 	 * 退款
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7395905.0.0.SAyEeI&docType=4&apiId=759
 	 * 
-	 * @param content
+	 * @param model content
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -327,7 +314,6 @@ public class AliPay {
 
 	/**
 	 * 退款查询
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7629065.0.0.KQeTSa&apiId=1049&docType=4
 	 * 
 	 * @param model
 	 * @return
@@ -348,7 +334,7 @@ public class AliPay {
 	/**
 	 * 查询对账单下载地址
 	 * 
-	 * @param bizContent
+	 * @param model bizContent
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -367,9 +353,8 @@ public class AliPay {
 
 	/**
 	 * 交易结算接口
-	 * https://doc.open.alipay.com/docs/api.htm?spm=a219a.7395905.0.0.nl0RS3&docType=4&apiId=1147
 	 * 
-	 * @param bizContent
+	 * @param model bizContent
 	 * @return
 	 * @throws AlipayApiException
 	 */
@@ -391,10 +376,10 @@ public class AliPay {
 	/**
 	 * 电脑网站支付(PC支付)
 	 * 
+	 * @param httpResponse
 	 * @param model
 	 * @param notifyUrl
 	 * @param returnUrl
-	 * @return
 	 * @throws AlipayApiException
 	 * @throws IOException
 	 */

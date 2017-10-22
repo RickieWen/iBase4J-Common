@@ -17,7 +17,8 @@ public interface UploadCallback {
     /**
     * send file content callback function, be called only once when the file uploaded
     * @param out output stream for writing file content
-    * @return 0 success, return none zero(errno) if fail
-    */
+    * @return 0 success, return none zero(errno) if fail 
+     * @throws IOException if an error occurred
+     */
     public int send(OutputStream out) throws IOException;
 }

@@ -436,7 +436,8 @@ public class FastDHTClient {
      * @param objInfo   object info, including namespace and object id
      * @param keyValues key value pair, key and value's type is String
      * @param failKeys  fail key, key 's type is String and value's type is Integer
-     * @return success set key count, < 0 for all keys fail
+     * @return success set key count, lg 0 for all keys fail
+     * @throws MyException if an error occurred
      */
     public int batchSet(ObjectInfo objInfo, Map keyValues, Map failKeys) throws MyException {
         return this.batchSet(objInfo, keyValues, failKeys, ProtoCommon.FDHT_EXPIRES_NEVER);
@@ -449,7 +450,8 @@ public class FastDHTClient {
      * @param keyValues key value pair, key and value's type is String
      * @param failKeys  fail key, key 's type is String and value's type is Integer
      * @param expires   expire timestamp, ProtoCommon.FDHT_EXPIRES_NEVER for never expired
-     * @return success set key count, < 0 for all keys fail
+     * @return success set key count, lg 0 for all keys fail
+     * @throws MyException if an error occurred
      */
     public int batchSet(ObjectInfo objInfo, Map keyValues, Map failKeys, int expires) throws MyException {
         ServerInfo server;
@@ -538,7 +540,8 @@ public class FastDHTClient {
      * @param objInfo  object info, including namespace and object id
      * @param keys     key array
      * @param failKeys fail key, key 's type is String and value's type is Integer
-     * @return success set key count, < 0 for all keys fail
+     * @return success set key count, lg 0 for all keys fail
+     * @throws MyException if an error occurred
      */
     @SuppressWarnings("unused")
     public int batchDelete(ObjectInfo objInfo, String[] keys, Map failKeys) throws MyException {
@@ -613,6 +616,7 @@ public class FastDHTClient {
      * @param keys     key array
      * @param failKeys fail key, key 's type is String and value's type is Integer
      * @return none null for success, null for all keys fail
+     * @throws MyException if an error occurred
      */
     public Hashtable batchGet(ObjectInfo objInfo, String[] keys, Map failKeys) throws MyException {
         return this.batchGet(objInfo, keys, failKeys, ProtoCommon.FDHT_EXPIRES_NONE);
@@ -626,6 +630,7 @@ public class FastDHTClient {
      * @param failKeys fail key, key 's type is String and value's type is Integer
      * @param expires  expire timestamp, ProtoCommon.FDHT_EXPIRES_NONE for not change the expired time
      * @return none null for success, null for all keys fail
+     * @throws MyException if an error occurred
      */
     @SuppressWarnings("unused")
     public Hashtable batchGet(ObjectInfo objInfo, String[] keys, Map failKeys, int expires) throws MyException {
@@ -749,6 +754,7 @@ public class FastDHTClient {
      *
      * @param server_index the server index
      * @return stat Hashtable for success, null for fail
+     * @throws MyException if an error occurred
      */
     @SuppressWarnings("unused")
     public Hashtable stat(int server_index) throws MyException {
@@ -814,6 +820,8 @@ public class FastDHTClient {
      *
      * @param objInfo object info, including namespace and object id
      * @return string array for success, null for fail
+     * @throws UnsupportedEncodingException if an error occurred
+     * @throws MyException if an error occurred
      */
     @SuppressWarnings("unused")
     public String[] getSubKeys(ObjectInfo objInfo) throws UnsupportedEncodingException, MyException {

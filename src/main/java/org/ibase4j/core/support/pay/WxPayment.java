@@ -243,7 +243,7 @@ public class WxPayment {
      * 
      * @param params
      *            参数
-     * @param paternerKey
+     * @param partnerKey
      *            支付密钥
      * @return sign
      */

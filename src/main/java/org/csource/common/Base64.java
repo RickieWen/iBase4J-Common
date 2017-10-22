@@ -130,7 +130,7 @@ public class Base64 {
      * exclusive of \n.  It is padded out with =.
      * @param b byte[]
      * @return String
-     * @throws IOException
+     * @throws IOException if an error occurred
      */
     public String encode(byte[] b) throws IOException {
         // Each group or partial group of 3 bytes becomes four chars
@@ -248,7 +248,7 @@ public class Base64 {
      * It must have an even multiple of 4 data characters (not counting \n),
      * padded out with = as needed.
      * @param s String
-     * @return byte[]
+     * @return byte[] byte
      */
     public byte[] decodeAuto(String s) {
         int nRemain = s.length() % 4;
@@ -264,7 +264,7 @@ public class Base64 {
      * It must have an even multiple of 4 data characters (not counting \n),
      * padded out with = as needed.
      * @param s String
-     * @return byte[]
+     * @return byte[] byte
      */
     public byte[] decode(String s) {
 

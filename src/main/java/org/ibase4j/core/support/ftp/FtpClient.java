@@ -59,7 +59,7 @@ public class FtpClient {
 	 * @param port 端口
 	 * @param username 用户名
 	 * @param password 密码
-	 * @throws FtpException
+	 * @throws FtpException e
 	 */
 	public FtpClient(String host, int port, String username, String password) throws FtpException {
 		init(host, port, username, password);
@@ -79,8 +79,7 @@ public class FtpClient {
 	 * @param server
 	 * @param user
 	 * @param password
-	 * @return
-	 * @throws FtpException
+	 * @throws FtpException e
 	 */
 	private void init(String host, int port, String username, String password) throws FtpException {
 		synchronized (LOCK) {
@@ -119,8 +118,7 @@ public class FtpClient {
 
 	/**
 	 * 关闭FTP客户端
-	 * 
-	 * @throws Exception
+	 * @throws FtpException e
 	 */
 	public void close() throws FtpException {
 		synchronized (LOCK) {
@@ -141,8 +139,8 @@ public class FtpClient {
 	 * 
 	 * @param remotePath 上传目录
 	 * @param localPath 本地目录
-	 * @return
-	 * @throws Exception
+	 * @return boolean
+	 * @throws FtpException e
 	 */
 	public boolean uploadFile(String remotePath, String localPath) throws FtpException {
 		synchronized (LOCK) {
@@ -162,8 +160,8 @@ public class FtpClient {
 	 * 
 	 * @param localeFile 本地文件/目录
 	 * @param remotePath 上传目录
-	 * @return
-	 * @throws Exception
+	 * @return boolean
+	 * @throws FtpException e
 	 */
 	public boolean uploadFiles(File localeFile, String remotePath) throws FtpException {
 		synchronized (LOCK) {
@@ -211,8 +209,8 @@ public class FtpClient {
 	 * 
 	 * @param remotePath 下载目录
 	 * @param localPath 本地目录
-	 * @return
-	 * @throws Exception
+	 * @return boolean
+	 * @throws FtpException e
 	 */
 	public boolean downLoadFile(String remotePath, String localPath) throws FtpException {
 		synchronized (LOCK) {
@@ -245,7 +243,7 @@ public class FtpClient {
 	 * 
 	 * @param ftpFile 下载文件/目录
 	 * @param localPath 本地目录
-	 * @return
+	 * @return boolean
 	 */
 	public boolean downLoadFile(FTPFile ftpFile, String localPath) {
 		// 当前处理文件本地路径

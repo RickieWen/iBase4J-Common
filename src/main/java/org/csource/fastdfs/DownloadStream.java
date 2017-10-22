@@ -6,7 +6,7 @@ import org.csource.fastdfs.DownloadCallback;
 
 /**
 * Download file by stream (download callback class)
-* @author  zhouzezhong & Happy Fish / YuQing
+* @author  zhouzezhong , Happy Fish,  YuQing
 * @version Version 1.11
 */
 public class DownloadStream implements DownloadCallback {

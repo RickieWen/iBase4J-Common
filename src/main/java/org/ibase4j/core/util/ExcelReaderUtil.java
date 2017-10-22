@@ -67,7 +67,7 @@ public final class ExcelReaderUtil {
 	}
 
 	/**
-	 * 获取Excel数据,返回List<String[]>
+	 * 获取Excel数据,返回List
 	 * 
 	 * @param sheetNumber
 	 *            读取工作表的下标(从1开始).可有可无,默认读取所有表单.
@@ -89,7 +89,7 @@ public final class ExcelReaderUtil {
 	}
 
 	/**
-	 * 获取Excel数据,返回List<String[]>
+	 * 获取Excel数据,返回List
 	 * 
 	 * @param sheetNumber
 	 *            读取工作表的下标(从1开始).可有可无,默认读取所有表单.
@@ -112,7 +112,7 @@ public final class ExcelReaderUtil {
 	}
 
 	/**
-	 * 获取Excel数据,返回List<String[]>;
+	 * 获取Excel数据,返回List
 	 * 
 	 * @param sheetNumber
 	 *            读取工作表的下标(从1开始).可有可无,默认读取所有表单.

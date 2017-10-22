@@ -45,7 +45,7 @@ public final class DataUtil {
 	/**
 	 * 十六进制字符串转十进制字节数组
 	 * 
-	 * @param b
+	 * @param hs
 	 * @return
 	 */
 	public static final byte[] hex2byte(String hs) {
@@ -73,8 +73,6 @@ public final class DataUtil {
 	 * @param cls
 	 *            用来定位的类
 	 * @return 相对路径所对应的绝对路径
-	 * @throws IOException
-	 *             因为本方法将查询文件系统，所以可能抛出IO异常
 	 */
 	public static final String getFullPathRelateClass(String relatedPath, Class<?> cls) {
 		String path = null;
@@ -98,7 +96,6 @@ public final class DataUtil {
 	 * 
 	 * @param cls
 	 * @return
-	 * @throws IOException
 	 */
 	public static final String getPathFromClass(Class<?> cls) {
 		String path = null;
@@ -156,7 +153,7 @@ public final class DataUtil {
 	}
 
 	/**
-	 * 判断对象是否为NotEmpty(!null或元素>0)<br>
+	 * 判断对象是否为NotEmpty(!null或有元素)<br>
 	 * 实用于对如下对象做判断:String Collection及其子类 Map及其子类
 	 * 
 	 * @param pObj

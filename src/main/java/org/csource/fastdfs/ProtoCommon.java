@@ -168,6 +168,7 @@ public class ProtoCommon {
     * @param pkg_len package body length
     * @param errno status code, should be (byte)0
     * @return packed byte buffer
+     * @throws UnsupportedEncodingException if an error occurred
     */
     public static byte[] packHeader(byte cmd, long pkg_len, byte errno) throws UnsupportedEncodingException {
         byte[] header;
@@ -189,6 +190,7 @@ public class ProtoCommon {
     * @param expect_cmd expect response command
     * @param expect_body_len expect response package body length
     * @return RecvHeaderInfo: errno and pkg body length
+     * @throws IOException if an error occurred
     */
     public static RecvHeaderInfo recvHeader(InputStream in, byte expect_cmd, long expect_body_len) throws IOException {
         byte[] header;
@@ -229,6 +231,7 @@ public class ProtoCommon {
     * @param expect_cmd expect response command
     * @param expect_body_len expect response package body length
     * @return RecvPackageInfo: errno and reponse body(byte buff)
+     * @throws IOException if an error occurred
     */
     public static RecvPackageInfo recvPackage(InputStream in, byte expect_cmd, long expect_body_len)
         throws IOException {
@@ -315,6 +318,7 @@ public class ProtoCommon {
     /**
     * send quit command to server and close socket
     * @param sock the Socket object
+     * @throws IOException if an error occurred
     */
     public static void closeSocket(Socket sock) throws IOException {
         byte[] header;
@@ -326,6 +330,8 @@ public class ProtoCommon {
     /**
     * send ACTIVE_TEST command to server, test if network is ok and the server is alive
     * @param sock the Socket object
+    * @return boolean
+     * @throws IOException if an error occurred
     */
     public static boolean activeTest(Socket sock) throws IOException {
         byte[] header;
@@ -438,7 +444,10 @@ public class ProtoCommon {
     * @param ts unix timestamp, unit: second
     * @param secret_key the secret key
     * @return token string
-    */
+     * @throws UnsupportedEncodingException if an error occurred
+     * @throws NoSuchAlgorithmException if an error occurred
+     * @throws MyException if an error occurred
+     */
     public static String getToken(String remote_filename, int ts, String secret_key)
         throws UnsupportedEncodingException, NoSuchAlgorithmException, MyException {
         byte[] bsFilename = remote_filename.getBytes(ClientGlobal.g_charset);
@@ -459,6 +468,7 @@ public class ProtoCommon {
     * @param prefix_name the prefix name to generate the slave filename
     * @param ext_name the extension name of slave filename, null for same as the master extension name
     * @return slave filename string
+     * @throws MyException if an error occurred
     */
     public static String genSlaveFilename(String master_filename, String prefix_name, String ext_name)
         throws MyException {

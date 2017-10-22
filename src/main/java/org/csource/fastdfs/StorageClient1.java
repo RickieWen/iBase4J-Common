@@ -53,7 +53,9 @@ public class StorageClient1 extends StorageClient {
     * @param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
-    */
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
+     */
     public String upload_file1(String local_filename, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
         String parts[] = this.upload_file(local_filename, file_ext_name, meta_list);
@@ -72,6 +74,8 @@ public class StorageClient1 extends StorageClient {
     * @param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String group_name, String local_filename, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -90,6 +94,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -109,6 +115,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String group_name, byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -129,6 +137,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String group_name, long file_size, UploadCallback callback, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -147,6 +157,8 @@ public class StorageClient1 extends StorageClient {
     * @param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_appender_file1(String local_filename, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -166,6 +178,8 @@ public class StorageClient1 extends StorageClient {
     * @param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_appender_file1(String group_name, String local_filename, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -184,6 +198,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_appender_file1(byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
         throws IOException, MyException {
@@ -203,6 +219,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_appender_file1(String group_name, byte[] file_buff, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -223,6 +241,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_appender_file1(String group_name, long file_size, UploadCallback callback,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -243,6 +263,8 @@ public class StorageClient1 extends StorageClient {
     * @param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String master_file_id, String prefix_name, String local_filename, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -269,6 +291,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String master_file_id, String prefix_name, byte[] file_buff, String file_ext_name,
         NameValuePair[] meta_list) throws IOException, MyException {
@@ -295,6 +319,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return  file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String master_file_id, String prefix_name, byte[] file_buff, int offset, int length,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -322,6 +348,8 @@ public class StorageClient1 extends StorageClient {
     *	@param meta_list meta info array
     * @return file id(including group name and filename) if success, <br>
     *         return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public String upload_file1(String master_file_id, String prefix_name, long file_size, UploadCallback callback,
         String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException {
@@ -344,6 +372,8 @@ public class StorageClient1 extends StorageClient {
     * @param appender_file_id the appender file id
     * @param local_filename local filename to append
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file1(String appender_file_id, String local_filename) throws IOException, MyException {
         String[] parts = new String[2];
@@ -360,6 +390,8 @@ public class StorageClient1 extends StorageClient {
     * @param appender_file_id the appender file id
     * @param file_buff file content/buff
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file1(String appender_file_id, byte[] file_buff) throws IOException, MyException {
         String[] parts = new String[2];
@@ -378,6 +410,8 @@ public class StorageClient1 extends StorageClient {
     * @param offset start offset of the buffer
     * @param length the length of the buffer to append
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file1(String appender_file_id, byte[] file_buff, int offset, int length)
         throws IOException, MyException {
@@ -396,6 +430,8 @@ public class StorageClient1 extends StorageClient {
     * @param file_size the file size
     * @param callback the write data callback object
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int append_file1(String appender_file_id, long file_size, UploadCallback callback)
         throws IOException, MyException {
@@ -414,6 +450,8 @@ public class StorageClient1 extends StorageClient {
     * @param file_offset the offset of appender file
     * @param local_filename local filename to append
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file1(String appender_file_id, long file_offset, String local_filename)
         throws IOException, MyException {
@@ -432,6 +470,8 @@ public class StorageClient1 extends StorageClient {
     * @param file_offset the offset of appender file
     * @param file_buff file content/buff
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file1(String appender_file_id, long file_offset, byte[] file_buff)
         throws IOException, MyException {
@@ -452,6 +492,8 @@ public class StorageClient1 extends StorageClient {
     * @param buffer_offset start offset of the buff
     * @param buffer_length the length of buff to modify
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file1(String appender_file_id, long file_offset, byte[] file_buff, int buffer_offset,
         int buffer_length) throws IOException, MyException {
@@ -471,6 +513,8 @@ public class StorageClient1 extends StorageClient {
     * @param modify_size the modify size
     * @param callback the write data callback object
     * @return 0 for success, != 0 for error (error no)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int modify_file1(String appender_file_id, long file_offset, long modify_size, UploadCallback callback)
         throws IOException, MyException {
@@ -487,6 +531,8 @@ public class StorageClient1 extends StorageClient {
     * delete file from storage server
     * @param file_id the file id(including group name and filename)
     * @return 0 for success, none zero for fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int delete_file1(String file_id) throws IOException, MyException {
         String[] parts = new String[2];
@@ -502,6 +548,8 @@ public class StorageClient1 extends StorageClient {
     * truncate appender file to size 0 from storage server
     * @param appender_file_id the appender file id
     * @return 0 for success, none zero for fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int truncate_file1(String appender_file_id) throws IOException, MyException {
         String[] parts = new String[2];
@@ -518,6 +566,8 @@ public class StorageClient1 extends StorageClient {
     * @param appender_file_id the appender file id
     * @param truncated_file_size truncated file size
     * @return 0 for success, none zero for fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int truncate_file1(String appender_file_id, long truncated_file_size) throws IOException, MyException {
         String[] parts = new String[2];
@@ -533,6 +583,8 @@ public class StorageClient1 extends StorageClient {
     * download file from storage server
     * @param file_id the file id(including group name and filename)
     * @return file content/buffer, return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public byte[] download_file1(String file_id) throws IOException, MyException {
         final long file_offset = 0;
@@ -547,6 +599,8 @@ public class StorageClient1 extends StorageClient {
     * @param file_offset the start offset of the file
     * @param download_bytes download bytes, 0 for remain bytes from offset
     * @return file content/buff, return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public byte[] download_file1(String file_id, long file_offset, long download_bytes)
         throws IOException, MyException {
@@ -564,6 +618,8 @@ public class StorageClient1 extends StorageClient {
     * @param file_id the file id(including group name and filename)
     * @param local_filename  the filename on local
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file1(String file_id, String local_filename) throws IOException, MyException {
         final long file_offset = 0;
@@ -579,6 +635,8 @@ public class StorageClient1 extends StorageClient {
     * @param download_bytes download bytes, 0 for remain bytes from offset
     * @param local_filename  the filename on local
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file1(String file_id, long file_offset, long download_bytes, String local_filename)
         throws IOException, MyException {
@@ -596,6 +654,8 @@ public class StorageClient1 extends StorageClient {
     * @param file_id the file id(including group name and filename)
     * @param callback the callback object, will call callback.recv() when data arrive
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file1(String file_id, DownloadCallback callback) throws IOException, MyException {
         final long file_offset = 0;
@@ -611,6 +671,8 @@ public class StorageClient1 extends StorageClient {
     * @param download_bytes download bytes, 0 for remain bytes from offset
     * @param callback the callback object, will call callback.recv() when data arrive
     * @return 0 success, return none zero errno if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int download_file1(String file_id, long file_offset, long download_bytes, DownloadCallback callback)
         throws IOException, MyException {
@@ -627,6 +689,8 @@ public class StorageClient1 extends StorageClient {
     * get all metadata items from storage server
     * @param file_id the file id(including group name and filename)
     * @return meta info array, return null if fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public NameValuePair[] get_metadata1(String file_id) throws IOException, MyException {
         String[] parts = new String[2];
@@ -648,6 +712,8 @@ public class StorageClient1 extends StorageClient {
     *            <ul><li> ProtoCommon.STORAGE_SET_METADATA_FLAG_MERGE: merge, insert when
     *				       the metadata item not exist, otherwise update it</li></ul>
     * @return 0 for success, !=0 fail (error code)
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public int set_metadata1(String file_id, NameValuePair[] meta_list, byte op_flag) throws IOException, MyException {
         String[] parts = new String[2];
@@ -663,6 +729,8 @@ public class StorageClient1 extends StorageClient {
     * get file info from storage server
     * @param file_id the file id(including group name and filename)
     * @return FileInfo object for success, return null for fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public FileInfo query_file_info1(String file_id) throws IOException, MyException {
         String[] parts = new String[2];
@@ -678,6 +746,8 @@ public class StorageClient1 extends StorageClient {
     * get file info decoded from filename
     * @param file_id the file id(including group name and filename)
     * @return FileInfo object for success, return null for fail
+     * @throws IOException if an error occurred
+     * @throws MyException if an error occurred
     */
     public FileInfo get_file_info1(String file_id) throws IOException, MyException {
         String[] parts = new String[2];
