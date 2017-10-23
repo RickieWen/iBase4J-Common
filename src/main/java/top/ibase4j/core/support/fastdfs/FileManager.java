@@ -6,18 +6,18 @@ import java.util.concurrent.Executors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.csource.common.NameValuePair;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.FileInfo;
+import org.csource.fastdfs.StorageClient;
+import org.csource.fastdfs.StorageServer;
+import org.csource.fastdfs.TrackerClient;
+import org.csource.fastdfs.TrackerServer;
+import org.csource.fastdht.FastDHTClient;
+import org.csource.fastdht.KeyInfo;
 
 import com.alibaba.fastjson.JSON;
 
-import top.csource.common.NameValuePair;
-import top.csource.fastdfs.ClientGlobal;
-import top.csource.fastdfs.FileInfo;
-import top.csource.fastdfs.StorageClient;
-import top.csource.fastdfs.StorageServer;
-import top.csource.fastdfs.TrackerClient;
-import top.csource.fastdfs.TrackerServer;
-import top.csource.fastdht.FastDHTClient;
-import top.csource.fastdht.KeyInfo;
 import top.ibase4j.core.util.PropertiesUtil;
 
 /**
@@ -38,7 +38,7 @@ public class FileManager implements Config {
 		try {
 			String path = FileManager.class.getResource("/").toString().replace("file:/", "");
 			ClientGlobal.init(path + "fdfs_client.conf");
-			top.csource.fastdht.ClientGlobal.init(path + "fdht_client.conf");
+			org.csource.fastdht.ClientGlobal.init(path + "fdht_client.conf");
 		} catch (Exception e) {
 			logger.error("", e);
 		}
