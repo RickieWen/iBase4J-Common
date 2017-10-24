@@ -26,7 +26,7 @@ import top.ibase4j.core.base.Parameter;
 public class DataSourceAspect {
     private final Logger logger = LogManager.getLogger();
 
-    @Pointcut("this(org.ibase4j.core.base.BaseProviderImpl)")
+    @Pointcut("this(top.ibase4j.core.base.BaseProviderImpl)")
     public void aspect() {
     }
 
