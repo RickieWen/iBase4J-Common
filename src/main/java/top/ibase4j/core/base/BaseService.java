@@ -56,7 +56,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     public static Page<Long> getPage(Map<String, Object> params) {
         Integer current = 1;
         Integer size = 10;
-        String orderBy = "id_";
+        String orderBy = "id_", sortAsc = null;
         if (DataUtil.isNotEmpty(params.get("pageNumber"))) {
             current = Integer.valueOf(params.get("pageNumber").toString());
         }
@@ -80,6 +80,10 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             orderBy = (String)params.get("orderBy");
             params.remove("orderBy");
         }
+        if (DataUtil.isNotEmpty(params.get("sortAsc"))) {
+            sortAsc = (String)params.get("sortAsc");
+            params.remove("sortAsc");
+        }
         Object filter = params.get("filter");
         if (filter != null) {
             params.clear();
@@ -88,11 +92,11 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         if (size == -1) {
             Page<Long> page = new Page<Long>();
             page.setOrderByField(orderBy);
-            page.setAsc(false);
+            page.setAsc("Y".equals(sortAsc));
             return page;
         }
         Page<Long> page = new Page<Long>(current, size, orderBy);
-        page.setAsc(false);
+        page.setAsc("Y".equals(sortAsc));
         return page;
     }
 
