@@ -57,17 +57,13 @@ public class TokenFilter implements Filter {
         if (isWhiteReq(request.getRequestURI())) {
             chain.doFilter(request, response);
         } else {
-            String token = request.getHeader("token");
+            String token = request.getHeader("UUID");
             if (StringUtils.isNotBlank(token)) {
                 try {
                     Token tokenInfo = TokenUtil.getTokenInfo(token);
                     if (tokenInfo != null) {
-                        Long now = System.currentTimeMillis();
-                        if (now - tokenInfo.getTime() < 1000 * 60 * 30) {
-                            String value = tokenInfo.getValue();
-                            TokenUtil.setTokenInfo(token, value);
-                            WebUtil.saveCurrentUser(request, value);
-                        }
+                        String value = tokenInfo.getValue();
+                        WebUtil.saveCurrentUser(request, value);
                     }
                 } catch (Exception e) {
                     logger.error("token检查发生异常:", e);
