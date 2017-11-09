@@ -11,7 +11,7 @@ import com.alipay.api.DefaultAlipayClient;
 
 
 @Configuration
-@PropertySource(value = "classpath*:config/alipay.properties")
+@PropertySource(value = "classpath:config/alipay.properties")
 public class AliPayConfig {
     @Value("#{alipay.privateKey}")
     private String privateKey;
