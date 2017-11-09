@@ -1,38 +1,41 @@
 package top.ibase4j.core.support.pay;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 
 @Configuration
+@ConditionalOnProperty("alipay")
 @PropertySource(value = "classpath:config/alipay.properties")
 public class AliPayConfig {
-    @Value("#{alipay.privateKey}")
+    @Autowired
+    public Environment env;
     private String privateKey;
-    @Value("#{alipay.alipayPulicKey}")
     private String alipayPublicKey;
-    @Value("#{alipay.appId}")
     private String appId;
-    @Value("#{alipay.serverUrl}")
     private String serviceUrl;
-    @Value("#{alipay.charset}")
     private String charset;
-    @Value("")
     private String signType;
-    @Value("")
     private String format;
 
     private AlipayClient alipayClient;
     private static AliPayConfig config;
 
     @Bean
-    public AliPayConfig New() {
+    public AliPayConfig aliPayConfigs() {
         config = new AliPayConfig();
+        config.setPrivateKey(env.getProperty("alipay.privateKey"));
+        config.setAlipayPublicKey(env.getProperty("alipay.alipayPulicKey"));
+        config.setAppId(env.getProperty("alipay.appId"));
+        config.setServiceUrl(env.getProperty("alipay.serverUrl"));
+        config.setCharset(env.getProperty("alipay.charset"));
         return config;
     }
 
