@@ -9,7 +9,6 @@ import org.springframework.context.annotation.PropertySource;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 
-
 @Configuration
 @PropertySource(value = "classpath:config/alipay.properties")
 public class AliPayConfig {
@@ -30,9 +29,6 @@ public class AliPayConfig {
 
     private AlipayClient alipayClient;
     private static AliPayConfig config;
-
-    private AliPayConfig() {
-    }
 
     @Bean
     public AliPayConfig New() {
