@@ -6,11 +6,12 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 @TableName("task_fire_log")
 @SuppressWarnings("serial")
 public class TaskFireLog implements Serializable {
-    @TableId("id_")
+    @TableId(value = "id_", type = IdType.AUTO)
     private Long id;
     private String groupName;
     private String taskName;
