@@ -56,18 +56,18 @@ public class Generator {
         //strategy.setInclude(new String[]{"t_accusation"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
-        strategy.setSuperEntityClass("org.ibase4j.core.base.BaseModel");
+        strategy.setSuperEntityClass("top.ibase4j.core.base.BaseModel");
         // 自定义实体，公共字段
         strategy.setSuperEntityColumns(
             new String[]{"id_", "enable_", "remark_", "create_by", "create_time", "update_by", "update_time"});
         // 自定义 mapper 父类
-        strategy.setSuperMapperClass("org.ibase4j.core.base.BaseMapper");
+        strategy.setSuperMapperClass("top.ibase4j.core.base.BaseMapper");
         // 自定义 service 父类
-        strategy.setSuperServiceClass("org.ibase4j.core.base.BaseService");
+        strategy.setSuperServiceClass("top.ibase4j.core.base.BaseService");
         // 自定义 service 实现类父类
-        strategy.setSuperServiceImplClass("org.ibase4j.core.base.BaseService");
+        strategy.setSuperServiceImplClass("top.ibase4j.core.base.BaseService");
         // 自定义 controller 父类
-        strategy.setSuperControllerClass("org.ibase4j.core.base.AbstractController");
+        strategy.setSuperControllerClass("top.ibase4j.core.base.AbstractController");
         // 【实体】是否生成字段常量（默认 false）
         // public static final String ID = "test_id";
         // strategy.setEntityColumnConstant(true);
@@ -78,7 +78,7 @@ public class Generator {
         mpg.setStrategy(strategy);
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("org.hbkms");
+        pc.setParent("org.ibase4j");
         pc.setEntity("model");
         pc.setMapper("mapper");
         pc.setXml("mapper.xml");
