@@ -64,7 +64,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
     public V get(K key) throws CacheException {
         logger.debug("根据key从Redis中获取对象 key [" + key + "]");
         @SuppressWarnings("unchecked")
-        V value = (V)CacheUtil.getCache().get(getKey(key));
+        V value = (V)CacheUtil.getCache().getFire(getKey(key));
         return value;
     }
 

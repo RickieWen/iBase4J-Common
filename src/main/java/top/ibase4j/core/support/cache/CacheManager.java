@@ -45,4 +45,10 @@ public interface CacheManager {
     void setrange(String key, long offset, String value);
 
     String getrange(String key, long startOffset, long endOffset);
+
+    Object get(String key, Integer expire);
+
+    Object getFire(String key);
+
+    Set<Object> getAll(String pattern, Integer expire);
 }

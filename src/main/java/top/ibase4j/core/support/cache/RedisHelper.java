@@ -40,6 +40,17 @@ public final class RedisHelper implements CacheManager {
 
     @Override
     public final Object get(final String key) {
+        return redisTemplate.boundValueOps(key).get();
+    }
+
+    @Override
+    public final Object get(final String key, Integer expire) {
+        expire(key, expire);
+        return redisTemplate.boundValueOps(key).get();
+    }
+
+    @Override
+    public final Object getFire(final String key) {
         expire(key, EXPIRE);
         return redisTemplate.boundValueOps(key).get();
     }
@@ -49,7 +60,17 @@ public final class RedisHelper implements CacheManager {
         Set<Object> values = InstanceUtil.newHashSet();
         Set<Serializable> keys = redisTemplate.keys(pattern);
         for (Serializable key : keys) {
-            expire(key.toString(), EXPIRE);
+            values.add(redisTemplate.opsForValue().get(key));
+        }
+        return values;
+    }
+
+    @Override
+    public final Set<Object> getAll(final String pattern, Integer expire) {
+        Set<Object> values = InstanceUtil.newHashSet();
+        Set<Serializable> keys = redisTemplate.keys(pattern);
+        for (Serializable key : keys) {
+            expire(key.toString(), expire);
             values.add(redisTemplate.opsForValue().get(key));
         }
         return values;
@@ -84,7 +105,6 @@ public final class RedisHelper implements CacheManager {
 
     @Override
     public final String type(final String key) {
-        expire(key, EXPIRE);
         return redisTemplate.type(key).getClass().getName();
     }
 
@@ -116,18 +136,15 @@ public final class RedisHelper implements CacheManager {
     @Override
     public final void setrange(final String key, final long offset, final String value) {
         redisTemplate.boundValueOps(key).set(value, offset);
-        expire(key, EXPIRE);
     }
 
     @Override
     public final String getrange(final String key, final long startOffset, final long endOffset) {
-        expire(key, EXPIRE);
         return redisTemplate.boundValueOps(key).get(startOffset, endOffset);
     }
 
     @Override
     public final Object getSet(final String key, final Serializable value) {
-        expire(key, EXPIRE);
         return redisTemplate.boundValueOps(key).getAndSet(value);
     }
 
@@ -140,8 +157,6 @@ public final class RedisHelper implements CacheManager {
             if (redisConnection == null) {
                 return redisTemplate.boundValueOps(key).setIfAbsent(value);
             }
-            logger.info(keySerializer);
-            logger.info(valueSerializer);
             return redisConnection.setNX(keySerializer.serialize(key), valueSerializer.serialize(value));
         } finally {
             RedisConnectionUtils.releaseConnection(redisConnection, factory);

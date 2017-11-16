@@ -346,7 +346,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
                         T org = null;
                         String key = getCacheKey(record.getId());
                         try {
-                            org = (T)CacheUtil.getCache().get(key);
+                            org = (T)CacheUtil.getCache().getFire(key);
                         } catch (Exception e) {
                             logger.error(Constants.Exception_Head, e);
                         }
@@ -517,7 +517,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         String key = getCacheKey(id);
         T record = null;
         try {
-            record = (T)CacheUtil.getCache().get(key);
+            record = (T)CacheUtil.getCache().getFire(key);
         } catch (Exception e) {
             logger.error(Constants.Exception_Head, e);
         }

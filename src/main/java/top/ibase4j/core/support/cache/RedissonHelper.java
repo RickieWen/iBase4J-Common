@@ -36,6 +36,17 @@ public class RedissonHelper implements CacheManager {
     @Override
     public final Object get(final String key) {
         RBucket<Object> temp = getRedisBucket(key);
+        return temp.get();
+    }
+
+    public Object get(String key, Integer expire) {
+        RBucket<Object> temp = getRedisBucket(key);
+        expire(temp, expire);
+        return temp.get();
+    }
+
+    public Object getFire(String key) {
+        RBucket<Object> temp = getRedisBucket(key);
         expire(temp, EXPIRE);
         return temp.get();
     }
@@ -122,6 +133,18 @@ public class RedissonHelper implements CacheManager {
         for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
             String key = iterator.next();
             set.add(getRedisBucket(key).get());
+        }
+        return set;
+    }
+
+    public Set<Object> getAll(String pattern, Integer expire) {
+        Set<Object> set = InstanceUtil.newHashSet();
+        Iterable<String> keys = redissonClient.getKeys().getKeysByPattern(pattern);
+        for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+            String key = iterator.next();
+            RBucket<Object> bucket = getRedisBucket(key);
+            expire(bucket, expire);
+            set.add(bucket.get());
         }
         return set;
     }
