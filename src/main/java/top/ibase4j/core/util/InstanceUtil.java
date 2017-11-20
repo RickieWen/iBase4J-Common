@@ -53,13 +53,20 @@ public final class InstanceUtil {
         T bean = null;
         try {
             bean = clazz.newInstance();
+            Class<?> cls = orig.getClass();
+            BeanInfo orgInfo = Introspector.getBeanInfo(cls);
+            PropertyDescriptor[] orgPty = orgInfo.getPropertyDescriptors();
+            Map<String, PropertyDescriptor> propertyMap = newHashMap();
+            for (PropertyDescriptor property : orgPty) {
+                propertyMap.put(property.getName(), property);
+            }
             BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor property : propertyDescriptors) {
                 String key = property.getName();
                 // 过滤class属性
-                if (!key.equals("class")) {
-                    Method getter = property.getReadMethod();
+                if (!key.equals("class") && propertyMap.containsKey(key)) {
+                    Method getter = propertyMap.get(key).getReadMethod();
                     Method setter = property.getWriteMethod();
                     try {
                         Object value = TypeParseUtil.convert(getter.invoke(orig), property.getPropertyType(), null);
