@@ -53,9 +53,24 @@ public final class InstanceUtil {
         T bean = null;
         try {
             bean = clazz.newInstance();
-            PropertyUtils.copyProperties(bean, orig);
+            BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (PropertyDescriptor property : propertyDescriptors) {
+                String key = property.getName();
+                // 过滤class属性
+                if (!key.equals("class")) {
+                    Method getter = property.getReadMethod();
+                    Method setter = property.getWriteMethod();
+                    try {
+                        Object value = TypeParseUtil.convert(getter.invoke(orig), property.getPropertyType(), null);
+                        setter.invoke(bean, value);
+                    } catch (Exception e) {
+                        logger.error("to Error " + e);
+                    }
+                }
+            }
         } catch (Exception e) {
-            logger.error("to", e);
+            logger.error("to Error " + e);
         }
         return bean;
     }
@@ -113,7 +128,7 @@ public final class InstanceUtil {
                 }
             }
         } catch (Exception e) {
-            System.out.println("transBean2Map Error " + e);
+            logger.error("transBean2Map Error " + e);
         }
         return map;
     }
