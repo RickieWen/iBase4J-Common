@@ -167,7 +167,7 @@ public final class InstanceUtil {
                         Method setter = property.getWriteMethod();
                         Object oldValue = getter.invoke(oldBean);
                         Object newValue = getter.invoke(newBean);
-                        if (newValue != null && !newValue.equals(oldValue)) {
+                        if (setter != null && newValue != null && !newValue.equals(oldValue)) {
                             setter.invoke(object, newValue);
                         }
                     }
