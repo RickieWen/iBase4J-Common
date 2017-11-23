@@ -105,8 +105,6 @@ public class XssFilter implements Filter {
 		// 读取文件
 		String path = XssFilter.class.getResource("/").getFile();
 		excludeUrls = readFile(path + "xssWhite.txt");
-		noticeUrls.add("notice!saveNotice");
-		noticeUrls.add("notice!updateNoticeById");
 	}
 
 	/**
