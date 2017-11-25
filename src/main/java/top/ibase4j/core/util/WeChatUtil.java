@@ -24,7 +24,7 @@ public class WeChatUtil {
     private static final Logger logger = LogManager.getLogger(WeChatUtil.class);
 
     /**
-     * 下单并获取支付签名
+     * APP下单并获取支付签名
      * @param out_trade_no 商户订单号
      * @param detail 交易详情
      * @param amount 交易金额
@@ -32,10 +32,27 @@ public class WeChatUtil {
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public static Map<String, String> getSign(String out_trade_no, String detail, BigDecimal amount, String ip,
-        String callBack) {
+    public static Map<String, String> getSign(String out_trade_no, String body, String detail, BigDecimal amount,
+        String scene_info, String ip, String callBack) {
+        return getSign("APP", out_trade_no, body, detail, amount, scene_info, ip, callBack);
+    }
+
+    /**
+     * 下单并获取支付签名
+     * @param trade_type 交易类型(APP/MWEB)
+     * @param out_trade_no 商户订单号
+     * @param body 商品描述
+     * @param detail 商品详细描述
+     * @param amount 交易金额
+     * @param ip 客户端IP
+     * @param callBack 回调地址
+     * @return 支付参数
+     */
+    public static Map<String, String> getSign(String trade_type, String out_trade_no, String body, String detail,
+        BigDecimal amount, String scene_info, String ip, String callBack) {
         return getSign(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"),
-            PropertiesUtil.getString("wx.partnerKey"), out_trade_no, detail, amount, ip, callBack);
+            PropertiesUtil.getString("wx.partnerKey"), trade_type, out_trade_no, body, detail, amount, scene_info, ip,
+            callBack);
     }
 
     /**
@@ -43,18 +60,21 @@ public class WeChatUtil {
      * @param mch_id 商户号
      * @param appId APPID
      * @param partnerKey 安全密钥
+     * @param trade_type 交易类型(APP/MWEB)
      * @param out_trade_no 商户订单号
-     * @param detail 交易详情
+     * @param body 商品描述
+     * @param detail 商品详细描述
      * @param amount 交易金额
      * @param ip 客户端IP
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public static Map<String, String> getSign(String mch_id, String appId, String partnerKey, String out_trade_no,
-        String detail, BigDecimal amount, String ip, String callBack) {
+    public static Map<String, String> getSign(String mch_id, String appId, String partnerKey, String trade_type,
+        String out_trade_no, String body, String detail, BigDecimal amount, String scene_info, String ip,
+        String callBack) {
         String total_fee = amount.multiply(new BigDecimal("100")).setScale(0).toString();
-        Map<String, String> params = WxPayment.buildUnifiedOrderParasMap(appId, null, mch_id, null, null, detail, null,
-            null, out_trade_no, total_fee, ip, callBack, "APP", partnerKey, null);
+        Map<String, String> params = WxPayment.buildUnifiedOrderParasMap(appId, null, mch_id, null, null, body, detail,
+            null, out_trade_no, total_fee, ip, callBack, trade_type, partnerKey, null, scene_info);
         String result = WxPay.pushOrder(params);
         Map<String, String> resultMap = WxPayment.xmlToMap(result);
         String return_code = resultMap.get("return_code");
