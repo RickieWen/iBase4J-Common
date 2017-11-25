@@ -81,14 +81,17 @@ public class WeChatUtil {
         if (WxPayment.codeIsOK(return_code)) {
             String result_code = resultMap.get("result_code");
             if (WxPayment.codeIsOK(result_code)) {
-                String prepay_id = resultMap.get("prepay_id");
                 String sign = resultMap.get("sign");
                 String mySign = WxPayment.createSign(resultMap, partnerKey);
                 if (mySign.equals(sign)) {
+                    String prepay_id = resultMap.get("prepay_id");
+                    String mweb_url = resultMap.get("mweb_url");
                     resultMap.clear();
                     resultMap.put("appid", appId);
                     resultMap.put("partnerid", mch_id);
                     resultMap.put("prepayid", prepay_id);
+                    resultMap.put("tradeType", trade_type);
+                    resultMap.put("mwebUrl", mweb_url);
                     resultMap.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
                     resultMap.put("noncestr", IdWorker.get32UUID());
                     sign = WxPayment.buildOrderPaySign(appId, mch_id, prepay_id, "Sign=WXPay",
