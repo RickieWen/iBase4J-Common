@@ -32,9 +32,9 @@ public class WeChatUtil {
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public static Map<String, String> getSign(String out_trade_no, String body, String detail, BigDecimal amount,
+    public static Map<String, String> pushOrder(String out_trade_no, String body, String detail, BigDecimal amount,
         String scene_info, String ip, String callBack) {
-        return getSign("APP", out_trade_no, body, detail, amount, scene_info, ip, callBack);
+        return pushOrder("APP", out_trade_no, body, detail, amount, scene_info, ip, callBack);
     }
 
     /**
@@ -48,9 +48,9 @@ public class WeChatUtil {
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public static Map<String, String> getSign(String trade_type, String out_trade_no, String body, String detail,
+    public static Map<String, String> pushOrder(String trade_type, String out_trade_no, String body, String detail,
         BigDecimal amount, String scene_info, String ip, String callBack) {
-        return getSign(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"),
+        return pushOrder(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"),
             PropertiesUtil.getString("wx.partnerKey"), trade_type, out_trade_no, body, detail, amount, scene_info, ip,
             callBack);
     }
@@ -69,7 +69,7 @@ public class WeChatUtil {
      * @param callBack 回调地址
      * @return 支付参数
      */
-    public static Map<String, String> getSign(String mch_id, String appId, String partnerKey, String trade_type,
+    public static Map<String, String> pushOrder(String mch_id, String appId, String partnerKey, String trade_type,
         String out_trade_no, String body, String detail, BigDecimal amount, String scene_info, String ip,
         String callBack) {
         String total_fee = amount.multiply(new BigDecimal("100")).setScale(0).toString();
