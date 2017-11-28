@@ -335,6 +335,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
                 record.setCreateTime(new Date());
                 mapper.insert(record);
                 try {
+                    record = mapper.selectById(record.getId());
                     CacheUtil.getCache().set(getCacheKey(record.getId()), record);
                 } catch (Exception e) {
                     logger.error(Constants.Exception_Head, e);
