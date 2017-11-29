@@ -4,11 +4,16 @@
 package top.ibase4j.core.util;
 
 import java.math.BigDecimal;
+import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.domain.AlipayTradeRefundModel;
+import com.alipay.api.internal.util.AlipayUtils;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
@@ -22,6 +27,8 @@ import top.ibase4j.core.support.pay.AliPayConfig;
  * @version 2017年10月21日 下午11:59:47
  */
 public class AlipayUtil {
+    private static final Logger logger = LogManager.getLogger(AlipayUtil.class);
+
     /**
      * 下单并获取支付签名
      * @param out_trade_no 商户订单号
@@ -52,7 +59,7 @@ public class AlipayUtil {
         try {
             // 这里和普通的接口调用不同，使用的是sdkExecute
             AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
-            System.out.println(response.getBody());// 就是orderString 可以直接给客户端请求，无需再做处理。
+            logger.info(response.getBody());// 就是orderString 可以直接给客户端请求，无需再做处理。
             if (!response.isSuccess()) {
                 throw new RuntimeException(response.getSubMsg());
             }
@@ -70,7 +77,7 @@ public class AlipayUtil {
      * @param refundReason 退款原因
      * @return 支付参数
      */
-    public static String refund(String outTradeNo, String tradeNo, BigDecimal refundAmount, String refundReason) {
+    public static Map<?, ?> refund(String outTradeNo, String tradeNo, BigDecimal refundAmount, String refundReason) {
         // 实例化客户端
         AlipayClient alipayClient = AliPayConfig.build().getAlipayClient();
         // 实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
@@ -85,11 +92,11 @@ public class AlipayUtil {
         try {
             // 这里和普通的接口调用不同，使用的是sdkExecute
             AlipayTradeRefundResponse response = alipayClient.execute(request);
-            System.out.println(response.getBody());
+            logger.info(response.getBody());
             if (!response.isSuccess()) {
                 throw new RuntimeException(response.getSubMsg());
             }
-            return response.getBody();
+            return AlipayUtils.parseJson(response.getBody());
         } catch (AlipayApiException e) {
             throw new RuntimeException(e);
         }

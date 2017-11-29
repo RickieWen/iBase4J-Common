@@ -17,7 +17,6 @@ import org.springframework.web.method.HandlerMethod;
 import com.alibaba.fastjson.JSON;
 
 import io.swagger.annotations.ApiOperation;
-import top.ibase4j.core.Constants;
 import top.ibase4j.core.base.BaseProvider;
 import top.ibase4j.core.base.Parameter;
 import top.ibase4j.core.util.DateUtil;
@@ -57,8 +56,8 @@ public class EventInterceptor extends BaseInterceptor {
         if (handler instanceof HandlerMethod) {
             try {
                 Object uid = WebUtil.getCurrentUser(request);
-                String userAgent = (String)request.getSession().getAttribute(Constants.USER_AGENT);
-                String clientIp = (String)request.getSession().getAttribute(Constants.USER_IP);
+                String userAgent = request.getHeader("USER-AGENT");
+                String clientIp = WebUtil.getHost(request);
                 if (!path.contains("/read/") && !path.contains("/get") && !path.contains("/unauthorized")
                     && !path.contains("/forbidden")) {
                     final SysEvent record = new SysEvent();
