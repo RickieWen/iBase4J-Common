@@ -16,71 +16,6 @@ import top.ibase4j.core.util.HashUtil;
 import top.ibase4j.core.util.XmlUtil;
 
 public class WxPayment {
-    /**
-     * 构建参数
-     * 
-     * @param appid
-     * @param sub_appid
-     * @param mch_id
-     * @param sub_mch_id
-     * @param device_info
-     * @param body
-     * @param detail
-     * @param attach
-     * @param out_trade_no
-     * @param total_fee
-     * @param spbill_create_ip
-     * @param auth_code
-     * @param paternerKey
-     * @return
-     */
-    public static Map<String, String> buildParasMap(String appid, String sub_appid, String mch_id, String sub_mch_id,
-        String device_info, String body, String detail, String attach, String out_trade_no, String total_fee,
-        String spbill_create_ip, String auth_code, String paternerKey) {
-        Map<String, String> queryParas = new HashMap<String, String>();
-        queryParas.put("appid", appid);
-        queryParas.put("sub_appid", sub_appid);
-        queryParas.put("mch_id", mch_id);
-        queryParas.put("sub_mch_id", sub_mch_id);
-        queryParas.put("device_info", device_info);
-        queryParas.put("nonce_str", String.valueOf(System.currentTimeMillis()));
-        queryParas.put("body", body);
-        queryParas.put("detail", detail);
-        queryParas.put("attach", attach);
-        queryParas.put("out_trade_no", out_trade_no);
-        queryParas.put("total_fee", total_fee);
-        queryParas.put("spbill_create_ip", spbill_create_ip);
-        queryParas.put("auth_code", auth_code);
-        String sign = WxPayment.createSign(queryParas, paternerKey);
-        queryParas.put("sign", sign);
-        return queryParas;
-    }
-
-    /**
-     * 封装查询请求参数 参考代码
-     * 
-     * @param appid
-     * @param sub_appid
-     * @param mch_id
-     * @param sub_mch_id
-     * @param transaction_id
-     * @param out_trade_no
-     * @param paternerKey
-     * @return
-     */
-    public static Map<String, String> buildParasMap(String appid, String sub_appid, String mch_id, String sub_mch_id,
-        String transaction_id, String out_trade_no, String paternerKey) {
-        Map<String, String> params = new HashMap<String, String>();
-
-        params.put("appid", appid);
-        params.put("sub_appid", sub_appid);
-        params.put("mch_id", mch_id);
-        params.put("sub_mch_id", sub_mch_id);
-        params.put("transaction_id", transaction_id);
-        params.put("out_trade_no", out_trade_no);
-
-        return buildSignAfterParasMap(params, paternerKey);
-    }
 
     /**
      * 构建统一下单参数
@@ -134,6 +69,32 @@ public class WxPayment {
     }
 
     /**
+     * 封装查询请求参数 参考代码
+     * 
+     * @param appid
+     * @param sub_appid
+     * @param mch_id
+     * @param sub_mch_id
+     * @param transaction_id
+     * @param out_trade_no
+     * @param paternerKey
+     * @return
+     */
+    public static Map<String, String> buildParasMap(String appid, String sub_appid, String mch_id, String sub_mch_id,
+        String transaction_id, String out_trade_no, String paternerKey) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("appid", appid);
+        params.put("sub_appid", sub_appid);
+        params.put("mch_id", mch_id);
+        params.put("sub_mch_id", sub_mch_id);
+        params.put("transaction_id", transaction_id);
+        params.put("out_trade_no", out_trade_no);
+
+        return buildSignAfterParasMap(params, paternerKey);
+    }
+
+    /**
      * 构建支付参数
      * 
      * @param appid
@@ -174,6 +135,43 @@ public class WxPayment {
 
         return buildSignAfterParasMap(params, paternerKey);
 
+    }
+
+    /**
+     * 构建退款参数
+     * @param appid
+     * @param mch_id
+     * @param sub_appid
+     * @param sub_mch_id
+     * @param transaction_id
+     * @param out_trade_no
+     * @param out_refund_no
+     * @param total_fee
+     * @param refund_fee
+     * @param refund_fee_type
+     * @param refund_account
+     * @param refund_desc
+     * @param paternerKey
+     * @return
+     */
+    public static Map<String, String> buildRefundParams(String appid, String mch_id, String sub_appid, String sub_mch_id,
+        String transaction_id, String out_trade_no, String out_refund_no, String total_fee, String refund_fee,
+        String refund_fee_type, String refund_account, String refund_desc, String paternerKey) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", appid);
+        params.put("mch_id", mch_id);
+        params.put("sub_appid", sub_appid);
+        params.put("sub_mch_id", sub_mch_id);
+        params.put("transaction_id", transaction_id);
+        params.put("out_trade_no", out_trade_no);
+        params.put("out_refund_no", out_refund_no);
+        params.put("total_fee", total_fee);
+        params.put("refund_fee", refund_fee);
+        params.put("refund_fee_type", refund_fee_type);
+        params.put("refund_account", refund_account);
+        params.put("refund_desc", refund_desc);
+
+        return buildSignAfterParasMap(params, paternerKey);
     }
 
     /**

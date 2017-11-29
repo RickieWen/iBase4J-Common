@@ -158,7 +158,11 @@ public final class WebUtil {
                 if (logger.isDebugEnabled()) {
                     logger.debug("request===>" + wholeStr);
                 }
-                return JSON.parseObject(wholeStr, Map.class);
+                try {
+                    return JSON.parseObject(wholeStr, Map.class);
+                } catch (Exception e) {
+                    return XmlUtil.parseXml2Map(wholeStr);
+                }
             }
         } catch (Exception e) {
             logger.error("", e);
@@ -224,7 +228,14 @@ public final class WebUtil {
         String ip = request.getHeader("X-Forwarded-For");
         if (ip != null && ip.indexOf(",") > 0) {
             // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-            ip = ip.substring(0, ip.indexOf(","));
+            String[] ips = ip.split(",");
+            for (int index = 0; index < ips.length; index++) {
+                String strIp = (String)ips[index];
+                if (!("unknown".equalsIgnoreCase(strIp))) {
+                    ip = strIp;
+                    break;
+                }
+            }
         }
         if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

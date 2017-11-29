@@ -4,6 +4,7 @@
 package top.ibase4j.core.util;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -168,6 +169,120 @@ public class WeChatUtil {
             logger.error("删除微信订单异常", e);
         }
         return null;
+    }
+
+    /**
+     * 查询订单状态
+     * @param out_trade_no 商户订单号
+     * @return
+     */
+    public static Map<String, Object> queryOrder(String out_trade_no) {
+        return queryOrder(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"),
+            PropertiesUtil.getString("wx.partnerKey"), out_trade_no);
+    }
+
+    /**
+     * 查询订单状态
+     * @param out_trade_no 商户订单号
+     * @return
+     */
+    public static Map<String, Object> queryOrder(String mch_id, String appId, String partnerKey, String out_trade_no) {
+        Map<String, Object> result = InstanceUtil.newHashMap();
+        Map<String, String> params = WxPayment.buildParasMap(appId, null, mch_id, null, null, out_trade_no, partnerKey);
+        Map<String, String> resultMap = WxPayment.xmlToMap(WxPay.orderQuery(params));
+        String return_code = resultMap.get("return_code");
+        if (WxPayment.codeIsOK(return_code)) {
+            String result_code = resultMap.get("result_code");
+            if (WxPayment.codeIsOK(result_code)) {
+                String trade_state = resultMap.get("trade_state");
+                if (WxPayment.codeIsOK(trade_state)) {
+                    Date date = DateUtil.stringToDate(resultMap.get("time_end"));
+                    result.put("time_end", date);
+                    result.put("transaction_id", resultMap.get("transaction_id"));
+                    result.put("trade_state", "1");
+                } else {
+                    result.put("trade_state_desc", resultMap.get("trade_state_desc"));
+                    result.put("trade_state", "2");
+                }
+            } else {
+                logger.warn(resultMap.get("err_code_des"));
+                result.put("trade_state_desc", resultMap.get("err_code_des"));
+                result.put("trade_state", "0");
+            }
+        } else {
+            logger.warn(resultMap.get("return_msg"));
+            result.put("trade_state_desc", resultMap.get("return_msg"));
+            result.put("trade_state", "0");
+        }
+        return result;
+    }
+
+    /**
+     * 退款
+     * @param transaction_id
+     * @param out_trade_no
+     * @param out_refund_no
+     * @param amount
+     * @param refund
+     * @param refund_desc
+     * @return
+     */
+    public static Map<String, String> refund(String transaction_id, String out_trade_no, String out_refund_no,
+        BigDecimal amount, BigDecimal refund, String refund_desc) {
+        return refund(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"), null, null,
+            PropertiesUtil.getString("wx.partnerKey"), transaction_id, out_trade_no, out_refund_no, amount, refund,
+            "CNY", null, refund_desc);
+    }
+
+    /**
+     * 退款
+     * @param mch_id 商户号
+     * @param appId APPID
+     * @param partnerKey 安全密钥
+     * @param transaction_id
+     * @param out_trade_no
+     * @param out_refund_no
+     * @param amount
+     * @param refund
+     * @param refund_fee_type
+     * @param refund_account
+     * @param refund_desc
+     * @return
+     */
+    public static Map<String, String> refund(String mch_id, String appid, String sub_mch_id, String sub_appid,
+        String paternerKey, String transaction_id, String out_trade_no, String out_refund_no, BigDecimal amount,
+        BigDecimal refund, String refund_fee_type, String refund_account, String refund_desc) {
+        String total_fee = amount.multiply(new BigDecimal("100")).setScale(0).toString();
+        String refund_fee = refund.multiply(new BigDecimal("100")).setScale(0).toString();
+        Map<String, String> params = WxPayment.buildRefundParams(appid, mch_id, null, null, transaction_id,
+            out_trade_no, out_refund_no, total_fee, refund_fee, refund_fee_type, refund_account, refund_desc,
+            paternerKey);
+        logger.debug("WeChart order parameter : " + JSON.toJSONString(params));
+        String result = WxPay.pushOrder(params);
+        logger.debug("WeChart order result : " + result);
+        Map<String, String> resultMap = WxPayment.xmlToMap(result);
+        String return_code = resultMap.get("return_code");
+        if (WxPayment.codeIsOK(return_code)) {
+            String result_code = resultMap.get("result_code");
+            if (WxPayment.codeIsOK(result_code)) {
+                String sign = resultMap.get("sign");
+                String mySign = WxPayment.createSign(resultMap, paternerKey);
+                if (mySign.equals(sign)) {
+                    String refund_id = resultMap.get("refund_id ");
+                    resultMap.clear();
+                    resultMap.put("out_refund_no", out_refund_no);
+                    resultMap.put("refund_id ", refund_id);
+                    resultMap.put("refund_fee ", refund_fee);
+                    return resultMap;
+                } else {
+                    throw new RuntimeException("微信返回数据异常.");
+                }
+            } else {
+                throw new RuntimeException(resultMap.get("err_code_des"));
+            }
+        } else {
+            throw new RuntimeException(resultMap.get("return_msg"));
+        }
     }
 
     /**

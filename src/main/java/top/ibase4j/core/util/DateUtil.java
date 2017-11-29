@@ -115,10 +115,12 @@ public final class DateUtil {
 			if (date.length() < 10) {
 				pattern = "yyyy" + separator + "M" + separator + "d";
 			}
+	        pattern += " HH:mm:ss.SSS";
 		} else if (date.length() < 8) {
 			pattern = "yyyyMd";
-		}
-		pattern += " HH:mm:ss.SSS";
+		} else {
+	        pattern += "HHmmss.SSS";
+        }
 		pattern = pattern.substring(0, Math.min(pattern.length(), date.length()));
 		try {
 			return new SimpleDateFormat(pattern).parse(date);
