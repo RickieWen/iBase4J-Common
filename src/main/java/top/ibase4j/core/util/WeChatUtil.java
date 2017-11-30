@@ -3,6 +3,7 @@
  */
 package top.ibase4j.core.util;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
@@ -229,9 +231,32 @@ public class WeChatUtil {
      */
     public static Map<String, String> refund(String transaction_id, String out_trade_no, String out_refund_no,
         BigDecimal amount, BigDecimal refund, String refund_desc) {
+        try {
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            String path = resolver.getResources(PropertiesUtil.getString("wx.certPath"))[0].getFile().getAbsolutePath();
+            return refund(path, PropertiesUtil.getString("wx.certPass"), transaction_id, out_trade_no, out_refund_no,
+                amount, refund, refund_desc);
+        } catch (IOException e) {
+            logger.error("", e);
+            throw new RuntimeException(ExceptionUtil.getStackTraceAsString(e));
+        }
+    }
+
+    /**
+     * 退款
+     * @param transaction_id
+     * @param out_trade_no
+     * @param out_refund_no
+     * @param amount
+     * @param refund
+     * @param refund_desc
+     * @return
+     */
+    public static Map<String, String> refund(String certPath, String certPass, String transaction_id,
+        String out_trade_no, String out_refund_no, BigDecimal amount, BigDecimal refund, String refund_desc) {
         return refund(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"), null, null,
-            PropertiesUtil.getString("wx.partnerKey"), transaction_id, out_trade_no, out_refund_no, amount, refund,
-            "CNY", null, refund_desc);
+            PropertiesUtil.getString("wx.partnerKey"), certPath, certPass, transaction_id, out_trade_no, out_refund_no,
+            amount, refund, "CNY", null, refund_desc);
     }
 
     /**
@@ -250,15 +275,16 @@ public class WeChatUtil {
      * @return
      */
     public static Map<String, String> refund(String mch_id, String appid, String sub_mch_id, String sub_appid,
-        String paternerKey, String transaction_id, String out_trade_no, String out_refund_no, BigDecimal amount,
-        BigDecimal refund, String refund_fee_type, String refund_account, String refund_desc) {
+        String paternerKey, String certPath, String certPass, String transaction_id, String out_trade_no,
+        String out_refund_no, BigDecimal amount, BigDecimal refund, String refund_fee_type, String refund_account,
+        String refund_desc) {
         String total_fee = amount.multiply(new BigDecimal("100")).setScale(0).toString();
         String refund_fee = refund.multiply(new BigDecimal("100")).setScale(0).toString();
         Map<String, String> params = WxPayment.buildRefundParams(appid, mch_id, null, null, transaction_id,
             out_trade_no, out_refund_no, total_fee, refund_fee, refund_fee_type, refund_account, refund_desc,
             paternerKey);
         logger.debug("WeChart order parameter : " + JSON.toJSONString(params));
-        String result = WxPay.pushOrder(params);
+        String result = WxPay.orderRefund(params, certPath, certPass);
         logger.debug("WeChart order result : " + result);
         Map<String, String> resultMap = WxPayment.xmlToMap(result);
         String return_code = resultMap.get("return_code");
