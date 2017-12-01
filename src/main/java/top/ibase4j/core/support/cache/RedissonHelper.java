@@ -11,6 +11,7 @@ import org.redisson.api.RBucket;
 import org.redisson.api.RType;
 import org.redisson.api.RedissonClient;
 
+import top.ibase4j.core.support.cache.redisson.Client;
 import top.ibase4j.core.util.CacheUtil;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
@@ -23,6 +24,11 @@ import top.ibase4j.core.util.PropertiesUtil;
 public class RedissonHelper implements CacheManager {
     private RedissonClient redissonClient;
     private final Integer EXPIRE = PropertiesUtil.getInt("redis.expiration");
+
+    public void setClient(Client Client) {
+        this.redissonClient = Client.getRedissonClient();
+        CacheUtil.setLockManager(this);
+    }
 
     public void setRedissonClient(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;

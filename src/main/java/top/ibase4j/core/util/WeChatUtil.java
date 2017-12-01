@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 
 import top.ibase4j.core.support.pay.WxPay;
 import top.ibase4j.core.support.pay.WxPayment;
+import top.ibase4j.core.support.pay.vo.RefundResult;
 
 /**
  * 微信
@@ -229,7 +230,7 @@ public class WeChatUtil {
      * @param refund_desc
      * @return
      */
-    public static Map<String, String> refund(String transaction_id, String out_trade_no, String out_refund_no,
+    public static RefundResult refund(String transaction_id, String out_trade_no, String out_refund_no,
         BigDecimal amount, BigDecimal refund, String refund_desc) {
         try {
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -237,8 +238,7 @@ public class WeChatUtil {
             return refund(path, PropertiesUtil.getString("wx.certPass"), transaction_id, out_trade_no, out_refund_no,
                 amount, refund, refund_desc);
         } catch (IOException e) {
-            logger.error("", e);
-            throw new RuntimeException(ExceptionUtil.getStackTraceAsString(e));
+            throw new RuntimeException(e);
         }
     }
 
@@ -252,7 +252,7 @@ public class WeChatUtil {
      * @param refund_desc
      * @return
      */
-    public static Map<String, String> refund(String certPath, String certPass, String transaction_id,
+    public static RefundResult refund(String certPath, String certPass, String transaction_id,
         String out_trade_no, String out_refund_no, BigDecimal amount, BigDecimal refund, String refund_desc) {
         return refund(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"), null, null,
             PropertiesUtil.getString("wx.partnerKey"), certPath, certPass, transaction_id, out_trade_no, out_refund_no,
@@ -274,7 +274,7 @@ public class WeChatUtil {
      * @param refund_desc
      * @return
      */
-    public static Map<String, String> refund(String mch_id, String appid, String sub_mch_id, String sub_appid,
+    public static RefundResult refund(String mch_id, String appid, String sub_mch_id, String sub_appid,
         String paternerKey, String certPath, String certPass, String transaction_id, String out_trade_no,
         String out_refund_no, BigDecimal amount, BigDecimal refund, String refund_fee_type, String refund_account,
         String refund_desc) {
@@ -294,12 +294,8 @@ public class WeChatUtil {
                 String sign = resultMap.get("sign");
                 String mySign = WxPayment.createSign(resultMap, paternerKey);
                 if (mySign.equals(sign)) {
-                    String refund_id = resultMap.get("refund_id ");
-                    resultMap.clear();
-                    resultMap.put("out_refund_no", out_refund_no);
-                    resultMap.put("refund_id ", refund_id);
-                    resultMap.put("refund_fee ", refund_fee);
-                    return resultMap;
+                    String refund_id = resultMap.get("refund_id");
+                    return new RefundResult(refund_id, out_refund_no, refund_fee, new Date());
                 } else {
                     throw new RuntimeException("微信返回数据异常.");
                 }

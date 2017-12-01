@@ -116,20 +116,6 @@ public class EventInterceptor extends BaseInterceptor {
         // 内存信息
         if (logger.isDebugEnabled()) {
             String message = "开始时间: {}; 结束时间: {}; 耗时: {}s; URI: {}; ";
-            // 最大内存: {}M; 已分配内存: {}M; 已分配内存中的剩余空间: {}M;
-            // 最大可用内存:
-            // {}M.
-            // long total =
-            // Runtime.getRuntime().totalMemory() /
-            // 1024 / 1024;
-            // long max =
-            // Runtime.getRuntime().maxMemory() /
-            // 1024 / 1024;
-            // long free =
-            // Runtime.getRuntime().freeMemory()
-            // /
-            // 1024 / 1024;
-            // , max, total, free, max - total + free
             logger.debug(message, DateUtil.format(startTime, "HH:mm:ss.SSS"), DateUtil.format(endTime, "HH:mm:ss.SSS"),
                 (endTime - startTime) / 1000.00, path);
         }

@@ -20,6 +20,7 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 
 import top.ibase4j.core.support.pay.AliPayConfig;
+import top.ibase4j.core.support.pay.vo.RefundResult;
 
 /**
  * 支付宝
@@ -77,7 +78,7 @@ public class AlipayUtil {
      * @param refundReason 退款原因
      * @return 支付参数
      */
-    public static Map<?, ?> refund(String outTradeNo, String tradeNo, BigDecimal refundAmount, String refundReason) {
+    public static RefundResult refund(String outTradeNo, String tradeNo, BigDecimal refundAmount, String refundReason) {
         // 实例化客户端
         AlipayClient alipayClient = AliPayConfig.build().getAlipayClient();
         // 实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
@@ -96,7 +97,10 @@ public class AlipayUtil {
             if (!response.isSuccess()) {
                 throw new RuntimeException(response.getSubMsg());
             }
-            return AlipayUtils.parseJson(response.getBody());
+            Map<?, ?> result = AlipayUtils.parseJson(response.getBody());
+            return new RefundResult((String)result.get("trade_no"), outTradeNo, refundAmount.toString(),
+                DateUtil.stringToDate(result.get("gmt_refund_pay").toString()),
+                "Y".equals(result.get("fund_change")) ? "1" : "2");
         } catch (AlipayApiException e) {
             throw new RuntimeException(e);
         }

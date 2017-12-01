@@ -128,6 +128,7 @@ public final class HttpUtil {
                 httpclient.close();
             }
         } catch (Exception e) {
+            logger.error("", e);
             throw new RuntimeException(e);
         }
     }

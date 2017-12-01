@@ -52,7 +52,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
      * @param params
      * @return
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked"})
     public static Page<Long> getPage(Map<String, Object> params) {
         Integer current = 1;
         Integer size = 10;
@@ -86,7 +86,6 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         }
         Object filter = params.get("filter");
         if (filter != null) {
-            params.clear();
             params.putAll(JSON.parseObject(filter.toString(), Map.class));
         }
         if (size == -1) {
