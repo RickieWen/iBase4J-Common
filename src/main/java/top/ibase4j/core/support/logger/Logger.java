@@ -2,6 +2,7 @@ package top.ibase4j.core.support.logger;
 
 import top.ibase4j.core.support.logger.strategy.LogManager;
 import top.ibase4j.core.util.DateUtil;
+import top.ibase4j.core.util.DateUtil.DATE_PATTERN;
 import top.ibase4j.core.util.ExceptionUtil;
 
 /**
@@ -138,7 +139,7 @@ public class Logger {
     public void writeLog(String logFileName, int level, String logMsg, Throwable throwable) {
         if (logMsg != null && Constant.CFG_LOG_LEVEL.indexOf("" + level) >= 0) {
             StringBuffer sb = new StringBuffer(logMsg.length() + 100);
-            sb.append(DateUtil.getDateTime());
+            sb.append(DateUtil.getDateTime(DATE_PATTERN.YYYY_MM_DD_HH_MM_SS_SSS));
             sb.append(" [");
             sb.append(Constant.LOG_DESC_MAP.get(String.valueOf(level)));
             sb.append("] [");

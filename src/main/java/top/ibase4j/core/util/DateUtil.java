@@ -23,6 +23,7 @@ public final class DateUtil {
         String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
         String YYYYMMDDHHMMSSSSS = "yyyyMMddHHmmssSSS";
         String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+        String YYYY_MM_DD_HH_MM_SS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
     }
 
 	/**
