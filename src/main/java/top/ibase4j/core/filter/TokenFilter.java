@@ -19,13 +19,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 
 import top.ibase4j.core.support.HttpCode;
 import top.ibase4j.core.support.Token;
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.DataUtil;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
@@ -37,7 +36,7 @@ import top.ibase4j.core.util.WebUtil;
  * @since 2017年3月19日 上午10:21:59
  */
 public class TokenFilter implements Filter {
-    private static final Logger logger = LogManager.getLogger(TokenFilter.class);
+    private Logger logger = Logger.getInstance();
 
     // 白名单
     private List<String> whiteUrls;

@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
@@ -24,6 +22,7 @@ import org.springframework.web.util.WebUtils;
 import com.alibaba.fastjson.JSON;
 
 import top.ibase4j.core.Constants;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * Web层辅助类
@@ -35,7 +34,7 @@ public final class WebUtil {
     private WebUtil() {
     }
 
-    private static Logger logger = LogManager.getLogger();
+    private static Logger logger = Logger.getInstance();
 
     /**
      * 获取指定Cookie的值
@@ -74,7 +73,7 @@ public final class WebUtil {
                     return (Long)session.getAttribute(Constants.CURRENT_USER);
                 }
             } catch (InvalidSessionException e) {
-                logger.error(e);
+                logger.error("", e);
             }
         }
         return null;
@@ -88,7 +87,7 @@ public final class WebUtil {
                 return session.getAttribute(Constants.CURRENT_USER);
             }
         } catch (InvalidSessionException e) {
-            logger.error(e);
+            logger.error("", e);
         }
         return null;
     }
@@ -155,9 +154,7 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("request===>" + wholeStr);
-                }
+                logger.debug("request===>" + wholeStr);
                 try {
                     return JSON.parseObject(wholeStr, Map.class);
                 } catch (Exception e) {
@@ -167,9 +164,7 @@ public final class WebUtil {
         } catch (Exception e) {
             logger.error("", e);
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
-        }
+        logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
         return getParameterMap(request);
     }
 
@@ -181,17 +176,13 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("request===>" + wholeStr);
-                }
+                logger.debug("request===>" + wholeStr);
                 return InstanceUtil.parse(wholeStr, cls);
             }
         } catch (Exception e) {
             logger.error("", e);
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
-        }
+        logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
         return Request2ModelUtil.covert(cls, request);
     }
 
@@ -204,9 +195,7 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("request===>" + wholeStr);
-                }
+                logger.debug("request===>" + wholeStr);
                 List list = JSON.parseObject(wholeStr, List.class);
                 List<T> resultList = InstanceUtil.newArrayList();
                 for (Object map : list) {
@@ -217,9 +206,7 @@ public final class WebUtil {
         } catch (Exception e) {
             logger.error("", e);
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
-        }
+        logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
         return Request2ListUtil.covert(cls, request);
     }
 

@@ -20,8 +20,6 @@ import org.apache.commons.fileupload.RequestContext;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -29,6 +27,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import top.ibase4j.core.support.fastdfs.FileManager;
 import top.ibase4j.core.support.fastdfs.FileModel;
 import top.ibase4j.core.support.ftp.SftpClient;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 上传辅助类 与Spring.multipartResolver冲突
@@ -39,7 +38,7 @@ public final class UploadUtil {
 	private UploadUtil() {
 	}
 
-	private static final Logger logger = LogManager.getLogger();
+	private static final Logger logger = Logger.getInstance();
 
 	/** 上传文件缓存大小限制 */
 	private static int fileSizeThreshold = 1024 * 1024 * 1;

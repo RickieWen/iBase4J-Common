@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.NamedThreadLocal;
@@ -31,8 +29,6 @@ import top.ibase4j.model.SysEvent;
  * @version 2016年6月14日 下午6:18:46
  */
 public class EventInterceptor extends BaseInterceptor {
-    protected static Logger logger = LogManager.getLogger();
-
     private final ThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("ThreadLocal StartTime");
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -114,11 +110,9 @@ public class EventInterceptor extends BaseInterceptor {
             }
         }
         // 内存信息
-        if (logger.isDebugEnabled()) {
-            String message = "开始时间: {}; 结束时间: {}; 耗时: {}s; URI: {}; ";
-            logger.debug(message, DateUtil.format(startTime, "HH:mm:ss.SSS"), DateUtil.format(endTime, "HH:mm:ss.SSS"),
-                (endTime - startTime) / 1000.00, path);
-        }
+        String message = "开始时间: {}; 结束时间: {}; 耗时: {}s; URI: {}; ";
+        logger.debug(message, DateUtil.format(startTime, "HH:mm:ss.SSS"), DateUtil.format(endTime, "HH:mm:ss.SSS"),
+            String.valueOf((endTime - startTime) / 1000.00), path);
         super.afterCompletion(request, response, handler, ex);
     }
 }

@@ -9,8 +9,6 @@ import java.util.concurrent.Executors;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +22,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 
 import top.ibase4j.core.Constants;
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.CacheUtil;
 import top.ibase4j.core.util.DataUtil;
 import top.ibase4j.core.util.ExceptionUtil;
@@ -37,7 +36,7 @@ import top.ibase4j.core.util.PropertiesUtil;
  * @version 2016年5月20日 下午3:19:19
  */
 public abstract class BaseService<T extends BaseModel> implements ApplicationContextAware {
-    protected Logger logger = LogManager.getLogger(getClass());
+    protected Logger logger = Logger.getInstance();
     @Autowired
     protected BaseMapper<T> mapper;
 

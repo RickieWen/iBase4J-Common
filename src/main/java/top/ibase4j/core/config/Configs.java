@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
@@ -18,6 +16,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
 import top.ibase4j.core.util.SecurityUtil;
@@ -28,7 +27,7 @@ import top.ibase4j.core.util.SecurityUtil;
  */
 @Configuration
 public class Configs implements EnvironmentPostProcessor, Ordered {
-    private static Logger logger = LogManager.getLogger();
+    protected Logger logger = Logger.getInstance();
     private static final byte[] KEY = {9, -1, 0, 5, 39, 8, 6, 19};
 
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

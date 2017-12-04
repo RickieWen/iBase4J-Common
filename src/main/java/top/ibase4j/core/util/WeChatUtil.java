@@ -9,13 +9,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.support.pay.WxPay;
 import top.ibase4j.core.support.pay.WxPayment;
 import top.ibase4j.core.support.pay.vo.RefundResult;
@@ -26,7 +25,7 @@ import top.ibase4j.core.support.pay.vo.RefundResult;
  * @version 2017年10月21日 下午10:52:22
  */
 public class WeChatUtil {
-    private static final Logger logger = LogManager.getLogger(WeChatUtil.class);
+    private static final Logger logger = Logger.getInstance();
 
     /**
      * APP下单并获取支付签名
@@ -166,7 +165,7 @@ public class WeChatUtil {
             params = WxPayment.buildSignAfterParasMap(params, partnerKey);
             String result = WxPay.closeOrder(params);
             Map<String, String> resultMap = WxPayment.xmlToMap(result);
-            logger.info(resultMap);
+            logger.info(JSON.toJSONString(resultMap));
             return resultMap;
         } catch (Exception e) {
             logger.error("删除微信订单异常", e);
@@ -252,8 +251,8 @@ public class WeChatUtil {
      * @param refund_desc
      * @return
      */
-    public static RefundResult refund(String certPath, String certPass, String transaction_id,
-        String out_trade_no, String out_refund_no, BigDecimal amount, BigDecimal refund, String refund_desc) {
+    public static RefundResult refund(String certPath, String certPass, String transaction_id, String out_trade_no,
+        String out_refund_no, BigDecimal amount, BigDecimal refund, String refund_desc) {
         return refund(PropertiesUtil.getString("wx.mch_id"), PropertiesUtil.getString("wx.appId"), null, null,
             PropertiesUtil.getString("wx.partnerKey"), certPath, certPass, transaction_id, out_trade_no, out_refund_no,
             amount, refund, "CNY", null, refund_desc);

@@ -47,7 +47,7 @@ public class Generator {
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("buzhidao");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/ibase_biz?characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/hbkms_biz?characterEncoding=utf8");
         mpg.setDataSource(dsc);
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -78,7 +78,7 @@ public class Generator {
         mpg.setStrategy(strategy);
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("org.ibase4j");
+        pc.setParent("org.hbkms");
         pc.setEntity("model");
         pc.setMapper("mapper");
         pc.setXml("mapper.xml");

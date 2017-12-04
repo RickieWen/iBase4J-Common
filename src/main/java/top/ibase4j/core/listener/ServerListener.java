@@ -1,12 +1,12 @@
 package top.ibase4j.core.listener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 
+import top.ibase4j.core.support.logger.Logger;
+
 public class ServerListener implements ApplicationListener<ApplicationReadyEvent> {
-    protected final Logger logger = LogManager.getLogger(this.getClass());
+    protected final Logger logger = Logger.getInstance();
 
     public void onApplicationEvent(ApplicationReadyEvent event) {
         logger.info("=================================");

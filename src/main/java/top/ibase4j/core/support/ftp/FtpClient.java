@@ -14,10 +14,9 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import top.ibase4j.core.exception.FtpException;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * FTP上传下载
@@ -26,7 +25,7 @@ import top.ibase4j.core.exception.FtpException;
  * @version 2016年5月20日 下午3:19:19
  */
 public class FtpClient {
-	private Logger logger = LogManager.getLogger(getClass());
+	private Logger logger = Logger.getInstance();
 	private static final byte[] LOCK = { 0 };
 	private static FTPClient ftpClient = null;
 	private Properties properties = null;

@@ -5,12 +5,11 @@ package top.ibase4j.core.support.cache.jedis;
 
 import java.lang.reflect.Field;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import redis.clients.jedis.JedisPoolConfig;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * redis连接工厂
@@ -18,7 +17,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @version 2017年12月1日 下午4:00:30
  */
 public class ConnectionFactory extends JedisConnectionFactory {
-    private Logger logger = LogManager.getLogger();
+    private Logger logger = Logger.getInstance();
     private RedisClusterConfiguration clusterConfig;
 
     public ConnectionFactory(RedisClusterConfiguration clusterConfig, JedisPoolConfig poolConfig) {

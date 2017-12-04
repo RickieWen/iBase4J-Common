@@ -3,10 +3,10 @@ package top.ibase4j.core.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 拦截器基类
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @version 2016年5月20日 下午3:16:31
  */
 public class BaseInterceptor extends HandlerInterceptorAdapter {
-    protected final Logger logger = LogManager.getLogger();
+    protected static final Logger logger = Logger.getInstance();
     private BaseInterceptor[] nextInterceptor;
 
     public void setNextInterceptor(BaseInterceptor... nextInterceptor) {

@@ -1,7 +1,5 @@
 package top.ibase4j.core.base;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -9,11 +7,12 @@ import org.springframework.context.ApplicationContextAware;
 import com.alibaba.fastjson.JSON;
 
 import top.ibase4j.core.Constants;
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.ExceptionUtil;
 import top.ibase4j.core.util.InstanceUtil;
 
 public abstract class BaseProviderImpl implements ApplicationContextAware, BaseProvider {
-    protected static Logger logger = LogManager.getLogger();
+    protected Logger logger = Logger.getInstance();
     private ApplicationContext applicationContext;
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

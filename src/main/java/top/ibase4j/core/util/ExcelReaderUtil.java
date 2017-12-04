@@ -6,18 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import top.ibase4j.core.support.excel.Excel2003Reader;
 import top.ibase4j.core.support.excel.Excel2007Reader;
 import top.ibase4j.core.support.excel.IRowReader;
+import top.ibase4j.core.support.logger.Logger;
 
 public final class ExcelReaderUtil {
 	private ExcelReaderUtil() {
 	}
 
-	private static final Logger logger = LogManager.getLogger(ExcelReaderUtil.class);
+	private static final Logger logger = Logger.getInstance();
 
 	// excel2003扩展名
 	public static final String EXCEL03_EXTENSION = ".xls";

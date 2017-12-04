@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 序列化辅助类
@@ -19,7 +18,8 @@ import org.apache.logging.log4j.Logger;
 public final class SerializeUtil {
     private SerializeUtil() {
     }
-    private static final Logger logger = LogManager.getLogger();
+
+    private static final Logger logger = Logger.getInstance();
 
     /**
      * 序列化
@@ -42,14 +42,14 @@ public final class SerializeUtil {
                     oos.close();
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error("", e);
             }
             try {
                 if (baos != null) {
                     baos.close();
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error("", e);
             }
         }
     }
@@ -87,14 +87,14 @@ public final class SerializeUtil {
                     ois.close();
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error("", e);
             }
             try {
                 if (bais != null) {
                     bais.close();
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error("", e);
             }
         }
     }

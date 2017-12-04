@@ -12,8 +12,7 @@
 	http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-lazy-init="false">
 	<!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 -->
-	<dubbo:application name="${rpc.registry.name}"
-		logger="slf4j" />
+	<dubbo:application name="${rpc.registry.name}" logger="slf4j" />
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry address="${rpc.registry.address}" check="false"
 		timeout="${rpc.connect.timeout}" file="${rpc.cache.dir}/dubbo-${rpc.registry.name}.cache" />

@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +29,7 @@ import top.ibase4j.core.exception.BaseException;
 import top.ibase4j.core.exception.IllegalParameterException;
 import top.ibase4j.core.support.DateFormat;
 import top.ibase4j.core.support.HttpCode;
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.WebUtil;
 
@@ -41,7 +40,7 @@ import top.ibase4j.core.util.WebUtil;
  * @version 2016年5月20日 下午3:47:58
  */
 public abstract class BaseController {
-    protected final Logger logger = LogManager.getLogger(this.getClass());
+    protected Logger logger = Logger.getInstance();
 
     /** 获取当前用户Id */
     protected Long getCurrUser() {

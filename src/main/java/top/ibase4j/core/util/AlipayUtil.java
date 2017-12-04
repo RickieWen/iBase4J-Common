@@ -97,7 +97,8 @@ public class AlipayUtil {
             if (!response.isSuccess()) {
                 throw new RuntimeException(response.getSubMsg());
             }
-            Map<?, ?> result = AlipayUtils.parseJson(response.getBody());
+            Map<?, ?> body = AlipayUtils.parseJson(response.getBody());
+            Map<?, ?> result = AlipayUtils.parseJson(body.get("alipay_trade_refund_response").toString());
             return new RefundResult((String)result.get("trade_no"), outTradeNo, refundAmount.toString(),
                 DateUtil.stringToDate(result.get("gmt_refund_pay").toString()),
                 "Y".equals(result.get("fund_change")) ? "1" : "2");

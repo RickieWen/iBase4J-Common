@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 非法字符过滤器（防SQL注入，防XSS漏洞）
@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
  * @version 2017年12月1日 下午2:57:31
  */
 public class XssFilter implements Filter {
-    private static final Logger logger = LogManager.getLogger(XssFilter.class);
+    private Logger logger = Logger.getInstance();
 
     /**
      * 排除部分URL不做过滤
@@ -199,7 +199,7 @@ public class XssFilter implements Filter {
      *            被检查的字符串
      * @return ture-字符串中存在非法字符，false-不存在非法字符
      */
-    public static boolean checkSQLInject(String str, String url) {
+    private boolean checkSQLInject(String str, String url) {
         if (StringUtils.isEmpty(str)) {
             return false;// 如果传入空串则认为不存在非法字符
         }

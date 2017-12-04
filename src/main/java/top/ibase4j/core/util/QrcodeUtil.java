@@ -8,9 +8,6 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Binarizer;
 import com.google.zxing.BinaryBitmap;
@@ -25,6 +22,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 
+import top.ibase4j.core.support.logger.Logger;
+
 /**
  * 二维码工具类
  * 
@@ -32,7 +31,7 @@ import com.google.zxing.common.HybridBinarizer;
  * @since 2017年2月21日 下午1:30:29
  */
 public class QrcodeUtil {
-    private static Logger logger = LogManager.getLogger(QrcodeUtil.class);
+    private static Logger logger = Logger.getInstance();
 
     public static String createQrcode(String dir, String _text) {
         String qrcodeFilePath = "";
@@ -51,7 +50,7 @@ public class QrcodeUtil {
             MatrixToImageWriter.writeToPath(bitMatrix, qrcodeFormat, qrcodeFile.toPath());
             qrcodeFilePath = qrcodeFile.getAbsolutePath();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
         return qrcodeFilePath;
     }
@@ -71,7 +70,7 @@ public class QrcodeUtil {
             Result result = new MultiFormatReader().decode(bitmap, hintTypeObjectHashMap);
             retStr = result.getText();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
         return retStr;
     }

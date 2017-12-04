@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.FileInfo;
@@ -18,6 +16,7 @@ import org.csource.fastdht.KeyInfo;
 
 import com.alibaba.fastjson.JSON;
 
+import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.PropertiesUtil;
 
 /**
@@ -26,7 +25,7 @@ import top.ibase4j.core.util.PropertiesUtil;
  */
 @SuppressWarnings("serial")
 public class FileManager implements Config {
-    private static Logger logger = LogManager.getLogger();
+    private static Logger logger = Logger.getInstance();
 	private TrackerServer trackerServer;
 	private StorageServer storageServer;
 	private StorageClient storageClient;

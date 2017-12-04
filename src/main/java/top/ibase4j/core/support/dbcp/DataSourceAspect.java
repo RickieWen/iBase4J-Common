@@ -3,8 +3,6 @@
  */
 package top.ibase4j.core.support.dbcp;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,6 +12,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 
 import top.ibase4j.core.base.Parameter;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 
@@ -24,7 +23,7 @@ import top.ibase4j.core.base.Parameter;
 @Component
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class DataSourceAspect {
-    private final Logger logger = LogManager.getLogger();
+    private final Logger logger = Logger.getInstance();
 
     @Pointcut("this(top.ibase4j.core.base.BaseProviderImpl)")
     public void aspect() {
@@ -48,7 +47,7 @@ public class DataSourceAspect {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
             HandleDataSource.putDataSource("write");
         }
     }

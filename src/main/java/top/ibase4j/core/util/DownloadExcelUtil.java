@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import jxl.Cell;
 import jxl.CellType;
@@ -33,6 +31,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 下载EXCEL文件
@@ -42,21 +41,21 @@ import jxl.write.biff.RowsExceededException;
  */
 @SuppressWarnings("deprecation")
 public class DownloadExcelUtil {
-    private static final Log   log        = LogFactory.getLog(DownloadExcelUtil.class);
+    private static final Logger logger = Logger.getInstance();
 
-    private Integer            icol       = 0;                                       // 记录列
-    private Integer            irow       = -1;                                      // 记录行
-    private OutputStream       os;                                                   // 获得输出流
-    private WritableWorkbook   wbook;                                                // 创建excel文件
-    private WritableSheet      wsheet;                                               // 工作表
-    private WritableCellFormat wcfFC;                                                // 单元格样式
-    private WritableFont       wfont;                                                // 字体样式
+    private Integer icol = 0; // 记录列
+    private Integer irow = -1; // 记录行
+    private OutputStream os; // 获得输出流
+    private WritableWorkbook wbook; // 创建excel文件
+    private WritableSheet wsheet; // 工作表
+    private WritableCellFormat wcfFC; // 单元格样式
+    private WritableFont wfont; // 字体样式
 
-    private Integer            trow       = -1;
-    private Integer            titleCols  = 0;
-    private long               startTime;
-    private int                sheetIndex = 0;
-    private String             sheetName;
+    private Integer trow = -1;
+    private Integer titleCols = 0;
+    private long startTime;
+    private int sheetIndex = 0;
+    private String sheetName;
 
     /**
      * 设置文件名和工作表名(Excel)
@@ -69,14 +68,13 @@ public class DownloadExcelUtil {
      *            工作表名
      * @throws IOException
      */
-    public DownloadExcelUtil(HttpServletResponse response, String fileName, String sheetName)
-                                                                                           throws IOException {
+    public DownloadExcelUtil(HttpServletResponse response, String fileName, String sheetName) throws IOException {
         startTime = System.currentTimeMillis();
         if (fileName.indexOf(".xls") < 0) {
             fileName += ".xls";
         }
         if (response != null && response instanceof HttpServletResponse) {
-            log.warn("Write Excel To Memory.Please wait...");
+            logger.warn("Write Excel To Memory.Please wait...");
             response.reset();
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setHeader("Content-Disposition",
@@ -86,7 +84,7 @@ public class DownloadExcelUtil {
             os.flush();
             wbook = Workbook.createWorkbook(os); // 创建excel文件
         } else {
-            log.warn("Write Excel To Disk.Please wait...");
+            logger.warn("Write Excel To Disk.Please wait...");
             wbook = Workbook.createWorkbook(new File(fileName)); // 创建excel文件
         }
         this.sheetName = sheetName;
@@ -150,7 +148,7 @@ public class DownloadExcelUtil {
                 wsheet.addCell(new Label(i, irow, listTitle[i], wcfFC));
             }
             trow = irow;
-            log.info("title use time:" + (System.currentTimeMillis() - start));
+            logger.info("title use time:" + (System.currentTimeMillis() - start));
         } catch (Exception e) {
             this.close();
         }
@@ -164,31 +162,26 @@ public class DownloadExcelUtil {
      * @throws IOException
      * @throws WriteException
      */
-    public void addRow(Object[] strings, BorderLineStyle borderLineStyle, Alignment alignment,
-                       String bold) throws WriteException, IOException {
+    public void addRow(Object[] strings, BorderLineStyle borderLineStyle, Alignment alignment, String bold)
+        throws WriteException, IOException {
         try {
             irow++;
             bold = StringUtils.isEmpty(bold) ? "" : bold;
             for (int i = 0; i < strings.length; i++) {
                 if ("bold".equals(bold.toLowerCase()))
-                    wfont = new WritableFont(WritableFont.createFont("宋体"), 10, WritableFont.BOLD,
-                        false);
-                else
-                    wfont = new WritableFont(WritableFont.createFont("宋体"), 10,
-                        WritableFont.NO_BOLD, false);
+                    wfont = new WritableFont(WritableFont.createFont("宋体"), 10, WritableFont.BOLD, false);
+                else wfont = new WritableFont(WritableFont.createFont("宋体"), 10, WritableFont.NO_BOLD, false);
                 wcfFC = new WritableCellFormat(wfont);
                 wcfFC.setAlignment(alignment);// 对齐方式
                 wcfFC.setVerticalAlignment(VerticalAlignment.CENTRE);// 对齐方式
                 if (borderLineStyle == BorderLineStyle.THIN && i == strings.length - 1) {
                     wcfFC.setBorder(Border.ALL, borderLineStyle);
                     wcfFC.setBorder(Border.RIGHT, BorderLineStyle.MEDIUM);
-                } else
-                    wcfFC.setBorder(Border.ALL, borderLineStyle);
-                wsheet.addCell(new Label(i, irow, strings[i] == null ? "" : strings[i].toString(),
-                    wcfFC));
+                } else wcfFC.setBorder(Border.ALL, borderLineStyle);
+                wsheet.addCell(new Label(i, irow, strings[i] == null ? "" : strings[i].toString(), wcfFC));
             }
         } catch (Exception e) {
-            log.error(e);
+            logger.error("", e);
             this.close();
         }
     }
@@ -202,8 +195,7 @@ public class DownloadExcelUtil {
      * @throws WriteException
      */
     public void addRow(Object[] strings, CellType[] cellTypes, DisplayFormat... dFormat)
-                                                                                        throws WriteException,
-                                                                                        IOException {
+        throws WriteException, IOException {
         try {
             irow++;
             DisplayFormat format = null;
@@ -215,11 +207,11 @@ public class DownloadExcelUtil {
                         format = dFormat[0];
                     }
                 }
-                addCell(i, irow, strings[i] == null ? "" : strings[i].toString(), cellTypes[i],
-                    format, false, i + 1 == strings.length);
+                addCell(i, irow, strings[i] == null ? "" : strings[i].toString(), cellTypes[i], format, false,
+                    i + 1 == strings.length);
             }
         } catch (Exception e) {
-            log.error(e);
+            logger.error("", e);
             this.close();
         }
     }
@@ -235,8 +227,7 @@ public class DownloadExcelUtil {
      * @throws WriteException
      */
     public void addRows(List<?> infoList, CellType[] cellTypes, DisplayFormat... dFormat)
-                                                                                         throws WriteException,
-                                                                                         IOException {
+        throws WriteException, IOException {
         if (infoList != null && !infoList.isEmpty()) {
             // 内容
             CellType cellType = CellType.EMPTY;
@@ -247,7 +238,7 @@ public class DownloadExcelUtil {
                     this.addSheet(sheetName);
                 }
                 irow++;
-                Object[] rowInfo = (Object[]) infoList.get(0);
+                Object[] rowInfo = (Object[])infoList.get(0);
                 if (rowInfo.length > titleCols) {
                     titleCols = rowInfo.length;
                 }
@@ -265,18 +256,15 @@ public class DownloadExcelUtil {
                             format = dFormat[0];
                         }
                     }
-                    this.addCell(j, irow, rowInfo[j], cellType, format, 1 == infoList.size(),
-                        j == rowInfo.length - 1);// 添加单元格并判断是否为最后一列最后一行
+                    this.addCell(j, irow, rowInfo[j], cellType, format, 1 == infoList.size(), j == rowInfo.length - 1);// 添加单元格并判断是否为最后一列最后一行
                 }
                 infoList.remove(0);
             }
             try {
-                if (os != null)
-                    os.flush();
-                if (trow >= 0)
-                    wsheet.mergeCells(icol, trow, titleCols + icol - 1, trow);// 设置报表标题
+                if (os != null) os.flush();
+                if (trow >= 0) wsheet.mergeCells(icol, trow, titleCols + icol - 1, trow);// 设置报表标题
             } catch (Exception e) {
-                log.error(e);
+                logger.error("", e);
                 this.close();
             }
         }
@@ -289,9 +277,9 @@ public class DownloadExcelUtil {
      * @throws WriteException
      */
     public void reportExcel() throws WriteException, IOException {
-        log.info("Use time:" + MathUtil.divide(System.currentTimeMillis() - startTime, 1000) + "s");
+        logger.info("Use time:" + MathUtil.divide(System.currentTimeMillis() - startTime, 1000) + "s");
         this.flush();
-        log.info("ReportExcel Successful!!!");
+        logger.info("ReportExcel Successful!!!");
     }
 
     /**
@@ -308,8 +296,7 @@ public class DownloadExcelUtil {
      * @throws IOException
      * @throws WriteException
      */
-    public void setMergeCells(int col, int row, int toCol, int toRow) throws WriteException,
-                                                                     IOException {
+    public void setMergeCells(int col, int row, int toCol, int toRow) throws WriteException, IOException {
         try {
             wsheet.mergeCells(col, row, toCol, toRow);
         } catch (Exception e) {
@@ -378,23 +365,22 @@ public class DownloadExcelUtil {
      * @throws IOException
      * @throws WriteException
      */
-    public void addCell(Integer col, Integer row, Object o, CellType type, DisplayFormat format,
-                        Boolean isLastRow, Boolean isLastCols) throws WriteException, IOException {
-        WritableFont wfont = new WritableFont(WritableFont.createFont("宋体"), 10,
-            WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
+    public void addCell(Integer col, Integer row, Object o, CellType type, DisplayFormat format, Boolean isLastRow,
+        Boolean isLastCols) throws WriteException, IOException {
+        WritableFont wfont = new WritableFont(WritableFont.createFont("宋体"), 10, WritableFont.NO_BOLD, false,
+            UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
         try {
             if (o instanceof ArrayList<?>) {
                 Label Label = new Label(col, row, "", wcfFC);
                 WritableCellFeatures wcf = new WritableCellFeatures();
-                if (!((List<?>) o).isEmpty())
-                    wcf.setDataValidationList((List<?>) o);
+                if (!((List<?>)o).isEmpty()) wcf.setDataValidationList((List<?>)o);
                 Label.setCellFeatures(wcf);
                 wsheet.addCell(Label);
             } else {
                 // 字体样式
                 if (type == CellType.LABEL) {
-                    wfont = new WritableFont(WritableFont.createFont("宋体"), 10, WritableFont.BOLD,
-                        false, UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
+                    wfont = new WritableFont(WritableFont.createFont("宋体"), 10, WritableFont.BOLD, false,
+                        UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
                     wcfFC = new WritableCellFormat(wfont);
                     wcfFC.setAlignment(Alignment.CENTRE);// 对齐方式
                 } else if (type == CellType.STRING_FORMULA) {
@@ -423,11 +409,9 @@ public class DownloadExcelUtil {
                 } else if (StringUtils.isEmpty(String.valueOf(o))) {
                     wsheet.addCell(new Label(col, row, o.toString(), wcfFC));
                 } else if (type == CellType.NUMBER) {
-                    wsheet.addCell(new jxl.write.Number(col, row,
-                        Double.valueOf(String.valueOf(o)), wcfFC));
+                    wsheet.addCell(new jxl.write.Number(col, row, Double.valueOf(String.valueOf(o)), wcfFC));
                 } else if (type == CellType.DATE || type == CellType.DATE_FORMULA) {
-                    wsheet.addCell(new jxl.write.DateTime(col, row, DateUtil.stringToDate(o
-                        .toString()), wcfFC));
+                    wsheet.addCell(new jxl.write.DateTime(col, row, DateUtil.stringToDate(o.toString()), wcfFC));
                 } else {
                     wsheet.addCell(new Label(col, row, o.toString(), wcfFC));
                 }
@@ -448,7 +432,7 @@ public class DownloadExcelUtil {
     private void setRowView() throws WriteException, IOException {
         try {
             for (int i = 0; i < wsheet.getRows(); i++) {
-                wsheet.setRowView(i, (int) (wsheet.getRowView(i).getDimension() * 1.3));
+                wsheet.setRowView(i, (int)(wsheet.getRowView(i).getDimension() * 1.3));
             }
         } catch (Exception e) {
             this.close();
@@ -471,15 +455,13 @@ public class DownloadExcelUtil {
                 // 过滤合并单元格
                 Range[] range = wsheet.getMergedCells();
                 for (int k = 0; k < range.length; k++) {
-                    if (range[k].getTopLeft().getRow() == i
-                        && range[k].getTopLeft().getColumn() == j
-                        && range[k].getBottomRight().getColumn() != j)
-                        continue lablea;
+                    if (range[k].getTopLeft().getRow() == i && range[k].getTopLeft().getColumn() == j
+                        && range[k].getBottomRight().getColumn() != j) continue lablea;
                 }
                 cell = wsheet.getCell(j, i);
                 value = cell.getContents();
                 if (cell.getType() == CellType.DATE) {// 日期
-                    infoWidth = (int) Math.round(value.length() * 0.5);
+                    infoWidth = (int)Math.round(value.length() * 0.5);
                 } else if (cell.getType() == CellType.NUMBER) {// 数字
                     int p = 0;
                     for (int k = 0; k < value.split("\\.")[0].length(); k++) {
@@ -487,17 +469,16 @@ public class DownloadExcelUtil {
                             p++;
                         }
                     }
-                    infoWidth = (int) Math.round(value.length() * 2 + p * 0.2);
+                    infoWidth = (int)Math.round(value.length() * 2 + p * 0.2);
                 } else if (pattern.matcher(value).matches()) {// 数字
-                    infoWidth = (int) Math.round(value.length() * 1.2);
+                    infoWidth = (int)Math.round(value.length() * 1.2);
                 } else if (cell.getCellFormat() != null
-                           && cell.getCellFormat().getFont().getBoldWeight() == BoldStyle.BOLD
-                               .getValue()) {// 粗体
-                    infoWidth = (int) Math.round(value.getBytes().length * 1.13);
+                    && cell.getCellFormat().getFont().getBoldWeight() == BoldStyle.BOLD.getValue()) {// 粗体
+                    infoWidth = (int)Math.round(value.getBytes().length * 1.13);
                 } else if (value.getBytes().length != value.length()) {
-                    infoWidth = (int) Math.round(value.length() * 1.9);
+                    infoWidth = (int)Math.round(value.length() * 1.9);
                 } else {
-                    infoWidth = (int) Math.round(value.length() * 1.05);
+                    infoWidth = (int)Math.round(value.length() * 1.05);
                 }
                 cellWidth = wsheet.getColumnView(j).getDimension();
                 if (cellWidth < infoWidth) {
