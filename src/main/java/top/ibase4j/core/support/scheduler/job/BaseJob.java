@@ -3,6 +3,8 @@
  */
 package top.ibase4j.core.support.scheduler.job;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -11,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 
 import top.ibase4j.core.base.BaseProvider;
 import top.ibase4j.core.base.Parameter;
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.support.scheduler.TaskScheduled.TaskType;
 import top.ibase4j.core.util.CacheUtil;
 
@@ -22,7 +23,7 @@ import top.ibase4j.core.util.CacheUtil;
  * @version 2016年12月29日 上午11:52:32
  */
 public class BaseJob implements Job {
-    private final Logger logger = Logger.getInstance();
+    private final Logger logger = LogManager.getLogger();
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
         long start = System.currentTimeMillis();

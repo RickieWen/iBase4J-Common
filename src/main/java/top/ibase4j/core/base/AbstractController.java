@@ -7,12 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
 import com.baomidou.mybatisplus.plugins.Page;
 
-import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 控制器基类
@@ -21,7 +22,7 @@ import top.ibase4j.core.support.logger.Logger;
  * @version 2016年5月20日 下午3:47:58
  */
 public abstract class AbstractController<T extends BaseProvider> extends BaseController {
-    protected Logger logger = Logger.getInstance();
+    protected Logger logger = LogManager.getLogger();
     @Autowired
     protected T provider;
 

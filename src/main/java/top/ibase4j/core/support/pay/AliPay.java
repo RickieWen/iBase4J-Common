@@ -8,6 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.AlipayDataDataserviceBillDownloadurlQueryModel;
@@ -53,10 +56,8 @@ import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 
-import top.ibase4j.core.support.logger.Logger;
-
 public class AliPay {
-    static Logger logger = Logger.getInstance();
+    static Logger logger = LogManager.getLogger();
 
     /**
      * App支付

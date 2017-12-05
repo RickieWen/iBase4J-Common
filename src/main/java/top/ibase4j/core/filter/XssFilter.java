@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-
-import top.ibase4j.core.support.logger.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 非法字符过滤器（防SQL注入，防XSS漏洞）
@@ -29,7 +29,7 @@ import top.ibase4j.core.support.logger.Logger;
  * @version 2017年12月1日 下午2:57:31
  */
 public class XssFilter implements Filter {
-    private Logger logger = Logger.getInstance();
+    private Logger logger = LogManager.getLogger();
 
     /**
      * 排除部分URL不做过滤

@@ -3,11 +3,13 @@ package top.ibase4j.core.support.pay;
 import java.util.HashMap;
 import java.util.Map;
 
-import top.ibase4j.core.support.logger.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import top.ibase4j.core.util.HttpUtil;
 
 public class WxPay {
-    static Logger logger = Logger.getInstance();
+    static Logger logger = LogManager.getLogger();
     // 统一下单接口
     private static final String UNIFIEDORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     // 订单查询

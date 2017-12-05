@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
@@ -21,7 +23,6 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.InitializingBean;
 
 import top.ibase4j.core.exception.BusinessException;
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.support.scheduler.TaskScheduled.JobType;
 import top.ibase4j.core.support.scheduler.TaskScheduled.TaskType;
 import top.ibase4j.core.support.scheduler.job.BaseJob;
@@ -35,7 +36,7 @@ import top.ibase4j.core.util.DataUtil;
  * @version 2016年5月27日 上午10:28:26
  */
 public class SchedulerManager implements InitializingBean {
-    private Logger logger = Logger.getInstance();
+    private Logger logger = LogManager.getLogger();
 
     private Scheduler scheduler;
 

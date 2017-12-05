@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import top.ibase4j.core.support.logger.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 序列化辅助类
@@ -19,7 +20,7 @@ public final class SerializeUtil {
     private SerializeUtil() {
     }
 
-    private static final Logger logger = Logger.getInstance();
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * 序列化

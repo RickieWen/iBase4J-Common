@@ -20,15 +20,16 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import top.ibase4j.core.support.logger.Logger;
 
 public final class HttpUtil {
-    private static final Logger logger = Logger.getInstance();
+    private static final Logger logger = LogManager.getLogger();
 
     private static final MediaType CONTENT_TYPE_FORM = MediaType
         .parse("application/x-www-form-urlencoded;charset=UTF-8");

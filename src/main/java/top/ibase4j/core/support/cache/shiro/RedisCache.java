@@ -11,11 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
 
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.CacheUtil;
 
 /**
@@ -24,7 +25,7 @@ import top.ibase4j.core.util.CacheUtil;
  * @version 2017年3月24日 下午8:54:08
  */
 public class RedisCache<K, V> implements Cache<K, V> {
-    private final Logger logger = Logger.getInstance();
+    private final Logger logger = LogManager.getLogger();
 
     /**
      * The Redis key prefix for the sessions 

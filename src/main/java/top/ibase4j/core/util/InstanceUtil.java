@@ -27,13 +27,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.esotericsoftware.reflectasm.MethodAccess;
 
 import top.ibase4j.core.exception.DataParseException;
 import top.ibase4j.core.exception.InstanceException;
-import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 实例辅助类
@@ -42,7 +43,7 @@ import top.ibase4j.core.support.logger.Logger;
  * @since 2012-07-18
  */
 public final class InstanceUtil {
-    protected static Logger logger = Logger.getInstance();
+    protected static Logger logger = LogManager.getLogger();
 
     private InstanceUtil() {
     }

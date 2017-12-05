@@ -6,10 +6,11 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import top.ibase4j.core.support.logger.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class NativeUtil {
-	private static Logger logger = Logger.getInstance();
+	private static Logger logger = LogManager.getLogger();
 
 	private NativeUtil() {
 	}

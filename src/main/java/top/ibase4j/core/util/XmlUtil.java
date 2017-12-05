@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -13,8 +15,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.tree.DefaultElement;
-
-import top.ibase4j.core.support.logger.Logger;
 
 /**
  * XML处理器<br>
@@ -24,7 +24,7 @@ import top.ibase4j.core.support.logger.Logger;
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class XmlUtil {
-    private static Logger logger = Logger.getInstance();
+    private static Logger logger = LogManager.getLogger();
 
     private XmlUtil() {
     }

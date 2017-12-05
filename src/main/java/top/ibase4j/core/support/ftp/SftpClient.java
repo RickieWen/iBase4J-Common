@@ -2,6 +2,9 @@ package top.ibase4j.core.support.ftp;
 
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -9,7 +12,6 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
 import top.ibase4j.core.exception.FtpException;
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.PropertiesUtil;
 
 /**
@@ -19,7 +21,7 @@ import top.ibase4j.core.util.PropertiesUtil;
  * @version 2016年5月20日 下午3:19:19
  */
 public class SftpClient {
-    private Logger logger = Logger.getInstance();
+    private Logger logger = LogManager.getLogger();
     private Session session = null;
     private ChannelSftp channel = null;
 

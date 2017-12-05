@@ -4,11 +4,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import top.ibase4j.core.Constants;
-import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 会话监听器
@@ -18,7 +19,7 @@ import top.ibase4j.core.support.logger.Logger;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class SessionListener implements HttpSessionListener {
-	private Logger logger = Logger.getInstance();
+	private Logger logger = LogManager.getLogger();
 
 	@Autowired
 	RedisTemplate redisTemplate;

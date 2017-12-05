@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
@@ -22,7 +24,6 @@ import org.springframework.web.util.WebUtils;
 import com.alibaba.fastjson.JSON;
 
 import top.ibase4j.core.Constants;
-import top.ibase4j.core.support.logger.Logger;
 
 /**
  * Web层辅助类
@@ -34,7 +35,7 @@ public final class WebUtil {
     private WebUtil() {
     }
 
-    private static Logger logger = Logger.getInstance();
+    private static Logger logger = LogManager.getLogger();
 
     /**
      * 获取指定Cookie的值

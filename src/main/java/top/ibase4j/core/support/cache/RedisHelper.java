@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.RedisConnectionUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.CacheUtil;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
@@ -23,7 +22,6 @@ import top.ibase4j.core.util.PropertiesUtil;
  * @version 2016年4月2日 下午4:17:22
  */
 public final class RedisHelper implements CacheManager {
-    protected static Logger logger = Logger.getInstance();
     private RedisSerializer<String> keySerializer;
     private RedisSerializer<Object> valueSerializer;
     private RedisTemplate<Serializable, Serializable> redisTemplate;

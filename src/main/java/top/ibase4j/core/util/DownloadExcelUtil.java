@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import jxl.Cell;
 import jxl.CellType;
@@ -31,7 +33,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-import top.ibase4j.core.support.logger.Logger;
 
 /**
  * 下载EXCEL文件
@@ -41,7 +42,7 @@ import top.ibase4j.core.support.logger.Logger;
  */
 @SuppressWarnings("deprecation")
 public class DownloadExcelUtil {
-    private static final Logger logger = Logger.getInstance();
+    private static final Logger logger = LogManager.getLogger();
 
     private Integer icol = 0; // 记录列
     private Integer irow = -1; // 记录行

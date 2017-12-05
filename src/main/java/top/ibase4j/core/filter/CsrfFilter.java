@@ -19,11 +19,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import top.ibase4j.core.support.logger.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import top.ibase4j.core.util.WebUtil;
 
 public class CsrfFilter implements Filter {
-    private Logger logger = Logger.getInstance();
+    private Logger logger = LogManager.getLogger();
 
 	// 白名单
 	private List<String> whiteUrls;

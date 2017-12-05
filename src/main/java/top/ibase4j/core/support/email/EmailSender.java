@@ -19,8 +19,10 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import top.ibase4j.core.config.Resources;
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.util.PropertiesUtil;
 
 /**
@@ -30,7 +32,7 @@ import top.ibase4j.core.util.PropertiesUtil;
  * @version $Id: MailEntrance.java, v 0.1 2014年12月4日 下午8:34:48 ShenHuaJie Exp $
  */
 public final class EmailSender {
-	private final Logger logger = Logger.getInstance();
+	private final Logger logger = LogManager.getLogger();
 
 	private MimeMessage mimeMsg; // MIME邮件对象
 	private Session session; // 邮件会话对象

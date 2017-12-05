@@ -9,7 +9,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import top.ibase4j.core.support.logger.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author ShenHuaJie
@@ -19,7 +20,7 @@ public final class Request2ModelUtil {
 	private Request2ModelUtil() {
 	}
 
-	private static final Logger logger = Logger.getInstance();
+	private static final Logger logger = LogManager.getLogger();
 
 	public static final <K> K covert(Class<K> T, HttpServletRequest request) {
 		try {

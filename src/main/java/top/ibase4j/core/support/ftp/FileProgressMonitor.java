@@ -2,9 +2,10 @@ package top.ibase4j.core.support.ftp;
 
 import java.text.DecimalFormat;
 
-import com.jcraft.jsch.SftpProgressMonitor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import top.ibase4j.core.support.logger.Logger;
+import com.jcraft.jsch.SftpProgressMonitor;
 
 /**
  * 监控
@@ -13,7 +14,7 @@ import top.ibase4j.core.support.logger.Logger;
  * @version 2016年5月20日 下午3:19:19
  */
 public class FileProgressMonitor implements SftpProgressMonitor {
-    private final Logger logger = Logger.getInstance();
+    private final Logger logger = LogManager.getLogger();
     private long transfered; // 记录已传输的数据总大小
     private long fileSize; // 记录文件总大小
     private int minInterval = 100; // 打印日志时间间隔

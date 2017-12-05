@@ -9,12 +9,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 
-import top.ibase4j.core.support.logger.Logger;
 import top.ibase4j.core.support.pay.WxPay;
 import top.ibase4j.core.support.pay.WxPayment;
 import top.ibase4j.core.support.pay.vo.RefundResult;
@@ -25,7 +26,7 @@ import top.ibase4j.core.support.pay.vo.RefundResult;
  * @version 2017年10月21日 下午10:52:22
  */
 public class WeChatUtil {
-    private static final Logger logger = Logger.getInstance();
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * APP下单并获取支付签名
