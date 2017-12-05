@@ -35,21 +35,23 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
         if (url.endsWith("/unauthorized") || url.endsWith("/forbidden")) {
             return super.preHandle(request, response, handler);
         }
-        String ip = WebUtil.getHost(request);
-        String preRequest = (String)CacheUtil.getCache().getFire(Constants.PREREQUEST + ip);
-        Long preRequestTime = (Long)CacheUtil.getCache().getFire(Constants.PREREQUEST_TIME + ip);
+        Object userId = WebUtil.getCurrentUser(request);
+        String user = userId != null ? userId.toString() : WebUtil.getHost(request);
+        String preRequest = (String)CacheUtil.getCache().getFire(Constants.PREREQUEST + user);
+        Long preRequestTime = (Long)CacheUtil.getCache().getFire(Constants.PREREQUEST_TIME + user);
         if (preRequestTime != null && preRequest != null) { // 过滤频繁操作
             if ((url.equals(preRequest) || allRequest)
                 && System.currentTimeMillis() - preRequestTime < minRequestIntervalTime) {
                 Integer maliciousRequestTimes = (Integer)CacheUtil.getCache()
-                    .getFire(Constants.MALICIOUS_REQUEST_TIMES + ip);
+                    .getFire(Constants.MALICIOUS_REQUEST_TIMES + user);
                 if (maliciousRequestTimes == null) {
                     maliciousRequestTimes = 1;
                 } else {
                     maliciousRequestTimes++;
                 }
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + ip, maliciousRequestTimes);
+                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes);
                 if (maliciousRequestTimes > maxMaliciousTimes) {
+                    CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
                     logger.warn("To intercept a malicious request : {}", url);
                     ModelMap modelMap = new ModelMap();
                     modelMap.put("code", HttpCode.MULTI_STATUS.value().toString());
@@ -61,11 +63,11 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
                     return false;
                 }
             } else {
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + ip, 0);
+                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
             }
         }
-        CacheUtil.getCache().set(Constants.PREREQUEST + ip, url);
-        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + ip, System.currentTimeMillis());
+        CacheUtil.getCache().set(Constants.PREREQUEST + user, url);
+        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis());
         return super.preHandle(request, response, handler);
     }
 
