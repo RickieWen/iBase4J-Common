@@ -38,6 +38,7 @@ public class EventInterceptor extends BaseInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
         throws Exception {
+        logger.info("URI [" + request.getServletPath() + "] request start...");
         // 开始时间（该数据只有当前请求的线程可见）
         startTimeThreadLocal.set(System.currentTimeMillis());
         return super.preHandle(request, response, handler);
@@ -99,9 +100,9 @@ public class EventInterceptor extends BaseInterceptor {
                         }
                     });
                 } else if (path.contains("/unauthorized")) {
-                    logger.warn("用户[{}]没有登录", clientIp + "@" + userAgent);
+                    logger.warn("The user [{}] no login", clientIp + "@" + userAgent);
                 } else if (path.contains("/forbidden")) {
-                    logger.warn("用户[{}]没有权限", WebUtil.getCurrentUser() + "@" + clientIp + "@" + userAgent);
+                    logger.warn("The user [{}] no promission", WebUtil.getCurrentUser() + "@" + clientIp + "@" + userAgent);
                 } else {
                     logger.info(uid + "@" + path + "@" + clientIp + userAgent);
                 }
@@ -110,7 +111,7 @@ public class EventInterceptor extends BaseInterceptor {
             }
         }
         // 内存信息
-        String message = "开始时间: {}; 结束时间: {}; 耗时: {}s; URI: {}; ";
+        String message = "Starttime: {}; Endtime: {}; Used time: {}s; URI: {}; ";
         logger.debug(message, DateUtil.format(startTime, "HH:mm:ss.SSS"), DateUtil.format(endTime, "HH:mm:ss.SSS"),
             String.valueOf((endTime - startTime) / 1000.00), path);
         super.afterCompletion(request, response, handler, ex);
