@@ -45,9 +45,7 @@ public class QrcodeUtil {
             BitMatrix bitMatrix = new MultiFormatWriter().encode(_text, BarcodeFormat.QR_CODE, qrcodeWidth,
                 qrcodeHeight, hints);
 
-            BufferedImage image = new BufferedImage(qrcodeWidth, qrcodeHeight, BufferedImage.TYPE_INT_RGB);
             File qrcodeFile = new File(dir + "/" + UUID.randomUUID().toString() + "." + qrcodeFormat);
-            ImageIO.write(image, qrcodeFormat, qrcodeFile);
             MatrixToImageWriter.writeToPath(bitMatrix, qrcodeFormat, qrcodeFile.toPath());
             qrcodeFilePath = qrcodeFile.getAbsolutePath();
         } catch (Exception e) {

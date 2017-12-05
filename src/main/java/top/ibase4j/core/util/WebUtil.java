@@ -155,7 +155,7 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
-                logger.debug("request===>" + wholeStr);
+                logger.info("request===>" + wholeStr);
                 try {
                     return JSON.parseObject(wholeStr, Map.class);
                 } catch (Exception e) {
@@ -165,7 +165,7 @@ public final class WebUtil {
         } catch (Exception e) {
             logger.error("", e);
         }
-        logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
+        logger.info("request===>" + JSON.toJSONString(request.getParameterMap()));
         return getParameterMap(request);
     }
 
@@ -177,13 +177,13 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
-                logger.debug("request===>" + wholeStr);
+                logger.info("request===>" + wholeStr);
                 return InstanceUtil.parse(wholeStr, cls);
             }
         } catch (Exception e) {
             logger.error("", e);
         }
-        logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
+        logger.info("request===>" + JSON.toJSONString(request.getParameterMap()));
         return Request2ModelUtil.covert(cls, request);
     }
 
@@ -196,18 +196,19 @@ public final class WebUtil {
                 wholeStr += str;
             }
             if (StringUtils.isNotBlank(wholeStr)) {
-                logger.debug("request===>" + wholeStr);
+                logger.info("request===>" + wholeStr);
                 List list = JSON.parseObject(wholeStr, List.class);
                 List<T> resultList = InstanceUtil.newArrayList();
                 for (Object map : list) {
                     T t = (T)InstanceUtil.transMap2Bean((Map)map, cls);
                     resultList.add(t);
                 }
+                return resultList;
             }
         } catch (Exception e) {
             logger.error("", e);
         }
-        logger.debug("request===>" + JSON.toJSONString(request.getParameterMap()));
+        logger.info("request===>" + JSON.toJSONString(request.getParameterMap()));
         return Request2ListUtil.covert(cls, request);
     }
 
@@ -215,6 +216,7 @@ public final class WebUtil {
     public static final String getHost(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (ip != null && ip.indexOf(",") > 0) {
+            logger.info(ip);
             // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
             String[] ips = ip.split(",");
             for (int index = 0; index < ips.length; index++) {
@@ -263,7 +265,7 @@ public final class WebUtil {
                 logger.error(Constants.Exception_Head, e);
             }
         }
-        logger.debug("getRemoteAddr ip: " + ip);
+        logger.info("getRemoteAddr ip: " + ip);
         return ip;
     }
 }

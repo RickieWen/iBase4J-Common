@@ -84,9 +84,9 @@ public class WeChatUtil {
         String total_fee = amount.multiply(new BigDecimal("100")).setScale(0).toString();
         Map<String, String> params = WxPayment.buildUnifiedOrderParasMap(appId, null, mch_id, null, null, body, detail,
             null, out_trade_no, total_fee, ip, callBack, trade_type, partnerKey, null, scene_info);
-        logger.debug("WeChart order parameter : " + JSON.toJSONString(params));
+        logger.info("WeChart order parameter : " + JSON.toJSONString(params));
         String result = WxPay.pushOrder(params);
-        logger.debug("WeChart order result : " + result);
+        logger.info("WeChart order result : " + result);
         Map<String, String> resultMap = WxPayment.xmlToMap(result);
         String return_code = resultMap.get("return_code");
         if (WxPayment.codeIsOK(return_code)) {
@@ -283,9 +283,9 @@ public class WeChatUtil {
         Map<String, String> params = WxPayment.buildRefundParams(appid, mch_id, null, null, transaction_id,
             out_trade_no, out_refund_no, total_fee, refund_fee, refund_fee_type, refund_account, refund_desc,
             paternerKey);
-        logger.debug("WeChart order parameter : " + JSON.toJSONString(params));
+        logger.info("WeChart order parameter : " + JSON.toJSONString(params));
         String result = WxPay.orderRefund(params, certPath, certPass);
-        logger.debug("WeChart order result : " + result);
+        logger.info("WeChart order result : " + result);
         Map<String, String> resultMap = WxPayment.xmlToMap(result);
         String return_code = resultMap.get("return_code");
         if (WxPayment.codeIsOK(return_code)) {
