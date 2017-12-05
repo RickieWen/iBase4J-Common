@@ -41,7 +41,7 @@ public class Logger {
      */
     public void debug(String logMsg, String... param) {
         logMsg = format(logMsg, param);
-        writeLog(Constant.CFG_LOG_NAME + "-debug", Constant.DEBUG, logMsg, null);
+        writeLog(Constant.CFG_LOG_NAME, Constant.DEBUG, logMsg, null);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Logger {
      * @param logMsg 日志内容
      */
     public void debug(String logMsg, Throwable e) {
-        writeLog(Constant.CFG_LOG_NAME + "-debug", Constant.DEBUG, logMsg, e);
+        writeLog(Constant.CFG_LOG_NAME, Constant.DEBUG, logMsg, e);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Logger {
      */
     public void info(String logMsg, String... param) {
         logMsg = format(logMsg, param);
-        writeLog(Constant.CFG_LOG_NAME + "-info", Constant.INFO, logMsg, null);
+        writeLog(Constant.CFG_LOG_NAME, Constant.INFO, logMsg, null);
     }
 
     /**
@@ -66,7 +66,7 @@ public class Logger {
      * @param logMsg 日志内容
      */
     public void info(String logMsg, Throwable e) {
-        writeLog(Constant.CFG_LOG_NAME + "-info", Constant.INFO, logMsg, e);
+        writeLog(Constant.CFG_LOG_NAME, Constant.INFO, logMsg, e);
     }
 
     /**
@@ -75,7 +75,7 @@ public class Logger {
      */
     public void warn(String logMsg, String... param) {
         logMsg = format(logMsg, param);
-        writeLog(Constant.CFG_LOG_NAME + "-warn", Constant.WARN, logMsg, null);
+        writeLog(Constant.CFG_LOG_NAME, Constant.WARN, logMsg, null);
     }
 
     /**
@@ -83,7 +83,7 @@ public class Logger {
      * @param logMsg 日志内容
      */
     public void warn(String logMsg, Throwable e) {
-        writeLog(Constant.CFG_LOG_NAME + "-warn", Constant.WARN, logMsg, e);
+        writeLog(Constant.CFG_LOG_NAME, Constant.WARN, logMsg, e);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Logger {
      */
     public void error(String logMsg, String... param) {
         logMsg = format(logMsg, param);
-        writeLog(Constant.CFG_LOG_NAME + "-error", Constant.ERROR, logMsg, null);
+        writeLog(Constant.CFG_LOG_NAME, Constant.ERROR, logMsg, null);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Logger {
      * @param logMsg 日志内容
      */
     public void error(String logMsg, Throwable e) {
-        writeLog(Constant.CFG_LOG_NAME + "-error", Constant.ERROR, logMsg, e);
+        writeLog(Constant.CFG_LOG_NAME, Constant.ERROR, logMsg, e);
     }
 
     /**
@@ -126,8 +126,7 @@ public class Logger {
      * @param logMsg 日志内容
      */
     public void writeLog(int level, String logMsg) {
-        writeLog(Constant.CFG_LOG_NAME + "-" + Constant.LOG_DESC_MAP.get(String.valueOf(level)).toLowerCase(), level,
-            logMsg, null);
+        writeLog(Constant.CFG_LOG_NAME, level, logMsg, null);
     }
 
     /**
