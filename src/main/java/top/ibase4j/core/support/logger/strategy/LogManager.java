@@ -165,9 +165,13 @@ public class LogManager extends Thread {
             && lfi.currLogSize >= LogManager.SINGLE_LOG_FILE_SIZE) {
             File oldFile = new File(lfi.fullLogFileName);
             if (oldFile.exists()) {
-                String newFileName = Constant.CFG_LOG_PATH + "/" + lfi.lastPCDate + "/" + lfi.logFileName + "_"
-                    + DateUtil.getDateTime(DATE_PATTERN.YYYYMMDD) + "_" + DateUtil.getDateTime(DATE_PATTERN.HHMMSS)
-                    + ".log";
+                String sDir = Constant.CFG_LOG_PATH + "/" + lfi.lastPCDate;
+                File file = new File(sDir);
+                if (!file.exists()) {
+                    file.mkdir();
+                }
+                String newFileName = sDir + "/" + lfi.logFileName + "_" + DateUtil.getDateTime(DATE_PATTERN.YYYYMMDD)
+                    + "_" + DateUtil.getDateTime(DATE_PATTERN.HHMMSS) + ".log";
                 File newFile = new File(newFileName);
                 boolean flag = oldFile.renameTo(newFile);
                 System.out.println("日志已自动备份为 [" + newFile.getName() + "] " + (flag ? "成功!" : "失败!"));
@@ -177,15 +181,10 @@ public class LogManager extends Thread {
         }
         // 创建文件
         if (lfi.fullLogFileName == null || lfi.fullLogFileName.length() <= 0 || !lfi.lastPCDate.equals(currPCDate)) {
-            String sDir = Constant.CFG_LOG_PATH + "/" + currPCDate;
-            File file = new File(sDir);
-            if (!file.exists()) {
-                file.mkdir();
-            }
-            lfi.fullLogFileName = sDir + "/" + lfi.logFileName + ".log";
+            lfi.fullLogFileName = Constant.CFG_LOG_PATH + "/" + lfi.logFileName + ".log";
             lfi.lastPCDate = currPCDate;
 
-            file = new File(lfi.fullLogFileName);
+            File file = new File(lfi.fullLogFileName);
             if (file.exists()) {
                 lfi.currLogSize = file.length();
             } else {
