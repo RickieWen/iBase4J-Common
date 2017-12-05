@@ -7,7 +7,6 @@
 	</properties>
 	<appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY" />
 			<PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level [%C{1}:%L] - %msg%n" />
 		</Console>
 		<RollingFile name="RollingFile"
@@ -18,8 +17,7 @@
                 <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
 			<Filters>
-				<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL" />
-				<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY" />
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
 			</Filters>
             <DefaultRolloverStrategy>
                 <!-- 删除指定目录下7天之前的日志-->
