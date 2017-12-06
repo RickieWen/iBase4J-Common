@@ -27,12 +27,12 @@ public class RedissonHelper implements CacheManager {
 
     public void setClient(Client Client) {
         this.redissonClient = Client.getRedissonClient();
-        CacheUtil.setCacheManager(this);
+        CacheUtil.setLockManager(this);
     }
 
     public void setRedissonClient(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
-        CacheUtil.setCacheManager(this);
+        CacheUtil.setLockManager(this);
     }
 
     private RBucket<Object> getRedisBucket(String key) {

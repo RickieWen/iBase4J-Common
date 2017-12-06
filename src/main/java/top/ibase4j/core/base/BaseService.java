@@ -6,10 +6,13 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DuplicateKeyException;
@@ -21,6 +24,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 
 import top.ibase4j.core.Constants;
+import top.ibase4j.core.util.CacheUtil;
 import top.ibase4j.core.util.DataUtil;
 import top.ibase4j.core.util.ExceptionUtil;
 import top.ibase4j.core.util.InstanceUtil;
@@ -107,6 +111,11 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             record.setUpdateTime(new Date());
             record.setUpdateBy(userId);
             mapper.updateById(record);
+            try {
+                CacheUtil.getCache().set(getCacheKey(id), record);
+            } catch (Exception e) {
+                logger.error(Constants.Exception_Head, e);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -121,6 +130,11 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             mapper.deleteById(id);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
+        }
+        try {
+            CacheUtil.getCache().del(getCacheKey(id));
+        } catch (Exception e) {
+            logger.error(Constants.Exception_Head, e);
         }
     }
 
@@ -311,6 +325,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
      * @param record
      * @return
      */
+    @SuppressWarnings("unchecked")
     @Transactional
     public T update(T record) {
         try {
@@ -318,12 +333,42 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             if (record.getId() == null) {
                 record.setCreateTime(new Date());
                 mapper.insert(record);
+                try {
+                    record = mapper.selectById(record.getId());
+                    CacheUtil.getCache().set(getCacheKey(record.getId()), record);
+                } catch (Exception e) {
+                    logger.error(Constants.Exception_Head, e);
+                }
             } else {
-                T org = mapper.selectById(record.getId());
-                T update = InstanceUtil.getDiff(org, record);
-                update.setId(record.getId());
-                mapper.updateById(update);
-                record = mapper.selectById(record.getId());
+                String lockKey = getLockKey("U" + record.getId());
+                if (CacheUtil.tryLock(lockKey)) {
+                    try {
+                        T org = null;
+                        String key = getCacheKey(record.getId());
+                        try {
+                            org = (T)CacheUtil.getCache().getFire(key);
+                        } catch (Exception e) {
+                            logger.error(Constants.Exception_Head, e);
+                        }
+                        if (org == null) {
+                            org = mapper.selectById(record.getId());
+                        }
+
+                        T update = InstanceUtil.getDiff(org, record);
+                        update.setId(record.getId());
+                        mapper.updateById(update);
+                        record = mapper.selectById(record.getId());
+                        try {
+                            CacheUtil.getCache().set(key, record);
+                        } catch (Exception e) {
+                            logger.error(Constants.Exception_Head, e);
+                        }
+                    } finally {
+                        CacheUtil.unlock(lockKey);
+                    }
+                } else {
+                    throw new RuntimeException("数据不一致!请刷新页面重新编辑!");
+                }
             }
         } catch (DuplicateKeyException e) {
             logger.error(Constants.Exception_Head, e);
@@ -333,6 +378,26 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             throw new RuntimeException(ExceptionUtil.getStackTraceAsString(e));
         }
         return record;
+    }
+
+    /**
+     * 获取缓存键值
+     * @param id
+     * @return
+     */
+    protected String getCacheKey(Object id) {
+        String cacheName = getCacheKey();
+        return new StringBuilder(Constants.CACHE_NAMESPACE).append(cacheName).append(":").append(id).toString();
+    }
+
+    /**
+     * 获取缓存键值
+     * @param id
+     * @return
+     */
+    protected String getLockKey(Object id) {
+        String cacheName = getCacheKey();
+        return new StringBuilder(Constants.CACHE_NAMESPACE).append(cacheName).append(":LOCK:").append(id).toString();
     }
 
     /**
@@ -355,6 +420,24 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         } catch (InterruptedException e) {
             logger.error("", e);
         }
+    }
+
+    /**
+     * @return
+     */
+    private String getCacheKey() {
+        Class<?> cls = getClass();
+        String cacheName = Constants.cacheKeyMap.get(cls);
+        if (StringUtils.isBlank(cacheName)) {
+            CacheConfig cacheConfig = cls.getAnnotation(CacheConfig.class);
+            if (cacheConfig != null && ArrayUtils.isNotEmpty(cacheConfig.cacheNames())) {
+                cacheName = cacheConfig.cacheNames()[0];
+            } else {
+                cacheName = getClass().getName();
+            }
+            Constants.cacheKeyMap.put(cls, cacheName);
+        }
+        return cacheName;
     }
 
     /** 根据Id查询(默认类型T) */
@@ -429,7 +512,37 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         return new Page<K>();
     }
 
+    @SuppressWarnings("unchecked")
     private T queryById(Long id, int times) {
-        return mapper.selectById(id);
+        String key = getCacheKey(id);
+        T record = null;
+        try {
+            record = (T)CacheUtil.getCache().getFire(key);
+        } catch (Exception e) {
+            logger.error(Constants.Exception_Head, e);
+        }
+        if (record == null) {
+            String lockKey = getLockKey(id);
+            if (CacheUtil.tryLock(lockKey)) {
+                try {
+                    record = mapper.selectById(id);
+                    try {
+                        CacheUtil.getCache().set(key, record);
+                    } catch (Exception e) {
+                        logger.error(Constants.Exception_Head, e);
+                    }
+                } finally {
+                    CacheUtil.unlock(lockKey);
+                }
+            } else {
+                if (times > 3) {
+                    return mapper.selectById(id);
+                }
+                logger.debug(getClass().getSimpleName() + ":" + id + " retry queryById.");
+                sleep(20);
+                return queryById(id, times + 1);
+            }
+        }
+        return record;
     }
 }
