@@ -16,8 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
-
-import top.ibase4j.core.util.CacheUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 
@@ -27,6 +26,7 @@ import top.ibase4j.core.util.CacheUtil;
 public class RedisCache<K, V> implements Cache<K, V> {
     private final Logger logger = LogManager.getLogger();
 
+    private RedisTemplate<Serializable, Serializable> redisTemplate;
     /**
      * The Redis key prefix for the sessions 
      */
@@ -50,6 +50,10 @@ public class RedisCache<K, V> implements Cache<K, V> {
         this.keyPrefix = keyPrefix;
     }
 
+    public void setRedisTemplate(RedisTemplate<Serializable, Serializable> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
     /**
      * Constructs a cache instance with the specified
      * Redis manager and using a custom key prefix.
@@ -64,14 +68,14 @@ public class RedisCache<K, V> implements Cache<K, V> {
     public V get(K key) throws CacheException {
         logger.debug("根据key从Redis中获取对象 key [" + key + "]");
         @SuppressWarnings("unchecked")
-        V value = (V)CacheUtil.getCache().getFire(getKey(key));
+        V value = (V)redisTemplate.boundValueOps(getKey(key)).get();
         return value;
     }
 
     @Override
     public V put(K key, V value) throws CacheException {
         logger.debug("根据key从存储 key [" + key + "]");
-        CacheUtil.getCache().set(getKey(key), (Serializable)value);
+        redisTemplate.boundValueOps(getKey(key)).set((Serializable)value);
         return value;
     }
 
@@ -79,25 +83,25 @@ public class RedisCache<K, V> implements Cache<K, V> {
     public V remove(K key) throws CacheException {
         logger.debug("从redis中删除 key [" + key + "]");
         V previous = get(key);
-        CacheUtil.getCache().del(getKey(key));
+        redisTemplate.delete(getKey(key));
         return previous;
     }
 
     @Override
     public void clear() throws CacheException {
         logger.debug("从redis中删除所有元素");
-        CacheUtil.getCache().delAll(this.keyPrefix + "*");
+        redisTemplate.delete(redisTemplate.keys(this.keyPrefix + "*"));
     }
 
     @Override
     public int size() {
-        return CacheUtil.getCache().getAll(this.keyPrefix + "*").size();
+        return redisTemplate.keys(this.keyPrefix + "*").size();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Set<K> keys() {
-        Set<Object> keys = CacheUtil.getCache().getAll(this.keyPrefix + "*");
+        Set<Serializable> keys = redisTemplate.keys(this.keyPrefix + "*");
         if (CollectionUtils.isEmpty(keys)) {
             return Collections.emptySet();
         } else {
@@ -111,7 +115,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public Collection<V> values() {
-        Set<Object> keys = CacheUtil.getCache().getAll(this.keyPrefix + "*");
+        Set<Serializable> keys = redisTemplate.keys(this.keyPrefix + "*");
         if (!CollectionUtils.isEmpty(keys)) {
             List<V> values = new ArrayList<V>(keys.size());
             for (Object key : keys) {

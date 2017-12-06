@@ -16,7 +16,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import redis.clients.jedis.JedisPoolConfig;
-import top.ibase4j.core.support.cache.RedisHelper;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
 
@@ -65,14 +64,6 @@ public class JedisConfig {
         redisTemplate.setHashKeySerializer(keySerializer);
         redisTemplate.setHashValueSerializer(valueSerializer);
         return redisTemplate;
-    }
-
-    @Bean
-    @Qualifier("redisTemplate")
-    public RedisHelper redisHelper(RedisTemplate<Serializable, Serializable> redisTemplate) {
-        RedisHelper redisHelper = new RedisHelper();
-        redisHelper.setRedisTemplate(redisTemplate);
-        return redisHelper;
     }
 
     @Bean

@@ -3,7 +3,7 @@
 <mapper namespace="${package.Mapper}.${table.mapperName}">
 #if(${enableCache})
 	<!-- 开启二级缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<cache type="top.ibase4j.core.support.cache.MybatisRedisCache"/>
 #end
 
 #if(${baseResultMap})
