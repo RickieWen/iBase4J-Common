@@ -9,11 +9,11 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.domain.AlipayTradeRefundModel;
-import com.alipay.api.internal.util.AlipayUtils;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
@@ -97,8 +97,8 @@ public class AlipayUtil {
             if (!response.isSuccess()) {
                 throw new RuntimeException(response.getSubMsg());
             }
-            Map<?, ?> body = AlipayUtils.parseJson(response.getBody());
-            Map<?, ?> result = AlipayUtils.parseJson(body.get("alipay_trade_refund_response").toString());
+            Map<?, ?> body = JSON.parseObject(response.getBody(), Map.class);
+            Map<?, ?> result = JSON.parseObject(body.get("alipay_trade_refund_response").toString());
             return new RefundResult((String)result.get("trade_no"), outTradeNo, refundAmount.toString(),
                 DateUtil.stringToDate((String)result.get("gmt_refund_pay")),
                 "Y".equals(result.get("fund_change")) ? "1" : "2");
