@@ -3,7 +3,6 @@
  */
 package top.ibase4j.core.support.cache.shiro;
 
-import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -12,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import top.ibase4j.core.Constants;
 
@@ -28,8 +25,6 @@ public class RedisCacheManager implements CacheManager {
     // fast lookup by name map
     @SuppressWarnings("rawtypes")
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
-    @Autowired
-    private RedisTemplate<Serializable, Serializable> redisTemplate;
     /**
      * The Redis key prefix for caches 
      */
@@ -64,7 +59,6 @@ public class RedisCacheManager implements CacheManager {
         if (c == null) {
             // create a new cache instance
             RedisCache cache = new RedisCache<K, V>(keyPrefix);
-            cache.setRedisTemplate(redisTemplate);
             // add it to the cache collection
             caches.put(name, cache);
         }
