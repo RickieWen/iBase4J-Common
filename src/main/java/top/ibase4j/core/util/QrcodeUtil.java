@@ -34,24 +34,24 @@ import com.google.zxing.common.HybridBinarizer;
 public class QrcodeUtil {
     private static Logger logger = LogManager.getLogger();
 
-    public static String createQrcode(String dir, String _text) {
-        String qrcodeFilePath = "";
+    public static String createQrcode(String dir, String content) {
+        return createQrcode(dir, content, 300, 300);
+    }
+
+    public static String createQrcode(String dir, String content, int width, int height) {
         try {
-            int qrcodeWidth = 300;
-            int qrcodeHeight = 300;
             String qrcodeFormat = "png";
             HashMap<EncodeHintType, String> hints = new HashMap<EncodeHintType, String>();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(_text, BarcodeFormat.QR_CODE, qrcodeWidth,
-                qrcodeHeight, hints);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
 
-            File qrcodeFile = new File(dir + "/" + UUID.randomUUID().toString() + "." + qrcodeFormat);
-            MatrixToImageWriter.writeToPath(bitMatrix, qrcodeFormat, qrcodeFile.toPath());
-            qrcodeFilePath = qrcodeFile.getAbsolutePath();
+            File file = new File(dir, UUID.randomUUID().toString() + "." + qrcodeFormat);
+            MatrixToImageWriter.writeToPath(bitMatrix, qrcodeFormat, file.toPath());
+            return file.getAbsolutePath();
         } catch (Exception e) {
             logger.error("", e);
         }
-        return qrcodeFilePath;
+        return "";
     }
 
     public static String decodeQr(String filePath) {
