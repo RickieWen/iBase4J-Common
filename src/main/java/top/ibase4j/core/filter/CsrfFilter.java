@@ -1,12 +1,7 @@
 package top.ibase4j.core.filter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import top.ibase4j.core.util.FileUtil;
 import top.ibase4j.core.util.WebUtil;
 
 public class CsrfFilter implements Filter {
@@ -35,7 +31,7 @@ public class CsrfFilter implements Filter {
 	public void init(FilterConfig filterConfig) {
 		// 读取文件
 		String path = CsrfFilter.class.getResource("/").getFile();
-		whiteUrls = readFile(path + "csrfWhite.txt");
+		whiteUrls = FileUtil.readFile(path + "csrfWhite.txt");
 		_size = null == whiteUrls ? 0 : whiteUrls.size();
 	}
 
@@ -94,42 +90,5 @@ public class CsrfFilter implements Filter {
 	}
 
 	public void destroy() {
-	}
-
-	private List<String> readFile(String fileName) {
-		List<String> list = new ArrayList<String>();
-		BufferedReader reader = null;
-		FileInputStream fis = null;
-		try {
-			File f = new File(fileName);
-			if (f.isFile() && f.exists()) {
-				fis = new FileInputStream(f);
-				reader = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					if (!"".equals(line)) {
-						list.add(line);
-					}
-				}
-			}
-		} catch (Exception e) {
-			logger.error("readFile", e);
-		} finally {
-			try {
-				if (reader != null) {
-					reader.close();
-				}
-			} catch (IOException e) {
-				logger.error("InputStream关闭异常", e);
-			}
-			try {
-				if (fis != null) {
-					fis.close();
-				}
-			} catch (IOException e) {
-				logger.error("FileInputStream关闭异常", e);
-			}
-		}
-		return list;
 	}
 }

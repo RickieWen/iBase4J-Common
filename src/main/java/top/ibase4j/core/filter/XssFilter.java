@@ -1,10 +1,6 @@
 package top.ibase4j.core.filter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import top.ibase4j.core.util.FileUtil;
 
 /**
  * 非法字符过滤器（防SQL注入，防XSS漏洞）
@@ -102,50 +100,7 @@ public class XssFilter implements Filter {
     public void init(FilterConfig filterconfig1) throws ServletException {
         // 读取文件
         String path = XssFilter.class.getResource("/").getFile();
-        excludeUrls = readFile(path + "xssWhite.txt");
-    }
-
-    /**
-     * 读取白名单
-     * 
-     * @param fileName
-     * @return
-     */
-    private List<String> readFile(String fileName) {
-        List<String> list = new ArrayList<String>();
-        BufferedReader reader = null;
-        FileInputStream fis = null;
-        try {
-            File f = new File(fileName);
-            if (f.isFile() && f.exists()) {
-                fis = new FileInputStream(f);
-                reader = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (!"".equals(line)) {
-                        list.add(line);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.error("readFile", e);
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                logger.error("InputStream关闭异常", e);
-            }
-            try {
-                if (fis != null) {
-                    fis.close();
-                }
-            } catch (IOException e) {
-                logger.error("FileInputStream关闭异常", e);
-            }
-        }
-        return list;
+        excludeUrls = FileUtil.readFile(path + "xssWhite.txt");
     }
 
     private String xssEncode(String s) {
