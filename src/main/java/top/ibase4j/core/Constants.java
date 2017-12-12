@@ -68,8 +68,16 @@ public interface Constants {
     /** 短信验证码类型 */
     public interface MSGCHKTYPE {
         /** 注册 */
-        public static final String REGISTER = CACHE_NAMESPACE + "REGISTER";
+        public static final String REGISTER = CACHE_NAMESPACE + "REGISTER:";
         /** 登录 */
-        public static final String LOGIN = CACHE_NAMESPACE + "LOGIN";
+        public static final String LOGIN = CACHE_NAMESPACE + "LOGIN:";
+        /** 修改密码验证码 */
+        public static final String CHGPWD = CACHE_NAMESPACE + "CHGPWD:";
+        /** 身份验证验证码 */
+        public static final String VLDID = CACHE_NAMESPACE + "VLDID:";
+        /** 信息变更验证码 */
+        public static final String CHGINFO = CACHE_NAMESPACE + "CHGINFO:";
+        /** 活动确认验证码 */
+        public static final String AVTCMF = CACHE_NAMESPACE + "AVTCMF:";
     }
 }
