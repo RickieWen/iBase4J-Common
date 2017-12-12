@@ -34,7 +34,7 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
     public MaliciousRequestInterceptor() {
         // 读取文件
         String path = MaliciousRequestInterceptor.class.getResource("/").getFile();
-        whiteUrls = FileUtil.readFile(path + "mrqWhite.txt");
+        whiteUrls = FileUtil.readFile(path + "white/mrqWhite.txt");
         _size = null == whiteUrls ? 0 : whiteUrls.size();
     }
 

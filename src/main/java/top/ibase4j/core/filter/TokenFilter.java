@@ -43,7 +43,7 @@ public class TokenFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         // 读取文件
         String path = CsrfFilter.class.getResource("/").getFile();
-        whiteUrls = FileUtil.readFile(path + "tokenWhite.txt");
+        whiteUrls = FileUtil.readFile(path + "white/tokenWhite.txt");
         _size = null == whiteUrls ? 0 : whiteUrls.size();
     }
 

@@ -31,7 +31,7 @@ public class CsrfFilter implements Filter {
 	public void init(FilterConfig filterConfig) {
 		// 读取文件
 		String path = CsrfFilter.class.getResource("/").getFile();
-		whiteUrls = FileUtil.readFile(path + "csrfWhite.txt");
+		whiteUrls = FileUtil.readFile(path + "white/csrfWhite.txt");
 		_size = null == whiteUrls ? 0 : whiteUrls.size();
 	}
 

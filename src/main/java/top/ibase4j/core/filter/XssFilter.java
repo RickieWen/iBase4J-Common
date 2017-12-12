@@ -39,6 +39,12 @@ public class XssFilter implements Filter {
      */
     private List<String> noticeUrls = new ArrayList<String>();
 
+    public void init(FilterConfig filterconfig1) throws ServletException {
+        // 读取文件
+        String path = XssFilter.class.getResource("/").getFile();
+        excludeUrls = FileUtil.readFile(path + "white/xssWhite.txt");
+    }
+
     public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
         throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest)arg0;
@@ -95,12 +101,6 @@ public class XssFilter implements Filter {
     }
 
     public void destroy() {
-    }
-
-    public void init(FilterConfig filterconfig1) throws ServletException {
-        // 读取文件
-        String path = XssFilter.class.getResource("/").getFile();
-        excludeUrls = FileUtil.readFile(path + "xssWhite.txt");
     }
 
     private String xssEncode(String s) {
