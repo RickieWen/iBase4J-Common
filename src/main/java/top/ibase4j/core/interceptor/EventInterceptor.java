@@ -15,10 +15,8 @@ import org.springframework.web.method.HandlerMethod;
 import com.alibaba.fastjson.JSON;
 
 import io.swagger.annotations.ApiOperation;
-import top.ibase4j.core.Constants;
 import top.ibase4j.core.base.BaseProvider;
 import top.ibase4j.core.base.Parameter;
-import top.ibase4j.core.util.DataUtil;
 import top.ibase4j.core.util.DateUtil;
 import top.ibase4j.core.util.ExceptionUtil;
 import top.ibase4j.core.util.WebUtil;
@@ -56,10 +54,7 @@ public class EventInterceptor extends BaseInterceptor {
             try {
                 Object uid = WebUtil.getCurrentUser(request);
                 String userAgent = request.getHeader("USER-AGENT");
-                String clientIp = (String)request.getSession().getAttribute(Constants.USER_IP);
-                if (DataUtil.isEmpty(clientIp)) {
-                    clientIp = WebUtil.getHost(request);
-                }
+                String clientIp = WebUtil.getHost(request);
                 if (!path.contains("/read/") && !path.contains("/get") && !path.contains("/unauthorized")
                     && !path.contains("/forbidden")) {
                     final SysEvent record = new SysEvent();
@@ -107,8 +102,7 @@ public class EventInterceptor extends BaseInterceptor {
                 } else if (path.contains("/unauthorized")) {
                     logger.warn("The user [{}] no login", clientIp + "@" + userAgent);
                 } else if (path.contains("/forbidden")) {
-                    logger.warn("The user [{}] no promission",
-                        WebUtil.getCurrentUser() + "@" + clientIp + "@" + userAgent);
+                    logger.warn("The user [{}] no promission", WebUtil.getCurrentUser() + "@" + clientIp + "@" + userAgent);
                 } else {
                     logger.info(uid + "@" + path + "@" + clientIp + userAgent);
                 }
