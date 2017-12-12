@@ -24,8 +24,8 @@ import top.ibase4j.core.util.WebUtil;
 public class MaliciousRequestInterceptor extends BaseInterceptor {
     private boolean allRequest = false; // 拦截所有请求,否则拦截相同请求
     private boolean containsParamter = true; // 包含参数
-    private Long minRequestIntervalTime = 500L; // 允许的最小请求间隔
-    private Integer maxMaliciousTimes = 0; // 允许的最大恶意请求次数
+    private int minRequestIntervalTime = 500; // 允许的最小请求间隔
+    private int maxMaliciousTimes = 0; // 允许的最大恶意请求次数
 
     // 白名单
     private List<String> whiteUrls;
@@ -53,7 +53,7 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
             url += JSON.toJSONString(WebUtil.getParameterMap(request));
         }
         Object userId = WebUtil.getCurrentUser(request);
-        String user = userId != null ? userId.toString() : WebUtil.getHost(request);
+        String user = userId != null ? userId.toString() : WebUtil.getHost(request) + request.getHeader("USER-AGENT");
         String preRequest = (String)CacheUtil.getCache().getFire(Constants.PREREQUEST + user);
         Long preRequestTime = (Long)CacheUtil.getCache().getFire(Constants.PREREQUEST_TIME + user);
         if (preRequestTime != null && preRequest != null) { // 过滤频繁操作
@@ -66,9 +66,10 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
                 } else {
                     maliciousRequestTimes++;
                 }
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes);
+                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes,
+                    minRequestIntervalTime * 2);
                 if (maliciousRequestTimes > maxMaliciousTimes) {
-                    CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
+                    CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0, minRequestIntervalTime * 2);
                     logger.warn("To intercept a malicious request : {}", url);
                     ModelMap modelMap = new ModelMap();
                     modelMap.put("code", HttpCode.MULTI_STATUS.value().toString());
@@ -80,11 +81,12 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
                     return false;
                 }
             } else {
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
+                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0, minRequestIntervalTime * 2);
             }
         }
-        CacheUtil.getCache().set(Constants.PREREQUEST + user, url);
-        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis());
+        CacheUtil.getCache().set(Constants.PREREQUEST + user, url, minRequestIntervalTime * 2);
+        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis(),
+            minRequestIntervalTime * 2);
         return super.preHandle(request, response, handler);
     }
 
@@ -110,11 +112,11 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
         this.containsParamter = containsParamter;
     }
 
-    public void setMinRequestIntervalTime(Long minRequestIntervalTime) {
+    public void setMinRequestIntervalTime(int minRequestIntervalTime) {
         this.minRequestIntervalTime = minRequestIntervalTime;
     }
 
-    public void setMaxMaliciousTimes(Integer maxMaliciousTimes) {
+    public void setMaxMaliciousTimes(int maxMaliciousTimes) {
         this.maxMaliciousTimes = maxMaliciousTimes;
     }
 }
