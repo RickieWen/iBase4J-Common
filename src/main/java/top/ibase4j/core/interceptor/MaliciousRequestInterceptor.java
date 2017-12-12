@@ -56,6 +56,7 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
         String user = userId != null ? userId.toString() : WebUtil.getHost(request) + request.getHeader("USER-AGENT");
         String preRequest = (String)CacheUtil.getCache().getFire(Constants.PREREQUEST + user);
         Long preRequestTime = (Long)CacheUtil.getCache().getFire(Constants.PREREQUEST_TIME + user);
+        int seconds = minRequestIntervalTime / 500;
         if (preRequestTime != null && preRequest != null) { // 过滤频繁操作
             if ((url.equals(preRequest) || allRequest)
                 && System.currentTimeMillis() - preRequestTime < minRequestIntervalTime) {
@@ -66,10 +67,9 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
                 } else {
                     maliciousRequestTimes++;
                 }
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes,
-                    minRequestIntervalTime * 2);
+                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes, seconds);
                 if (maliciousRequestTimes > maxMaliciousTimes) {
-                    CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0, minRequestIntervalTime * 2);
+                    CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0, seconds);
                     logger.warn("To intercept a malicious request : {}", url);
                     ModelMap modelMap = new ModelMap();
                     modelMap.put("code", HttpCode.MULTI_STATUS.value().toString());
@@ -81,12 +81,11 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
                     return false;
                 }
             } else {
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0, minRequestIntervalTime * 2);
+                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0, seconds);
             }
         }
-        CacheUtil.getCache().set(Constants.PREREQUEST + user, url, minRequestIntervalTime * 2);
-        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis(),
-            minRequestIntervalTime * 2);
+        CacheUtil.getCache().set(Constants.PREREQUEST + user, url, seconds);
+        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis(), seconds);
         return super.preHandle(request, response, handler);
     }
 
