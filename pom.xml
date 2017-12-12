@@ -16,6 +16,11 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+	<scm>
+		<connection>scm:git:git://gitee.com:iBase4J/iBase4J-Common.git</connection>
+		<developerConnection>scm:git:ssh://gitee.com:iBase4J/iBase4J-Common.git</developerConnection>
+		<url>https://gitee.com/iBase4J/iBase4J-Common/tree/master</url>
+	</scm>
 
 	<properties>
 		<module.name>${project.artifactId}</module.name>
