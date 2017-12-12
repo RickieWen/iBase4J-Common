@@ -29,13 +29,11 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
 
     // 白名单
     private List<String> whiteUrls;
-    private int _size = 0;
 
     public MaliciousRequestInterceptor() {
         // 读取文件
         String path = MaliciousRequestInterceptor.class.getResource("/").getFile();
         whiteUrls = FileUtil.readFile(path + "white/mrqWhite.txt");
-        _size = null == whiteUrls ? 0 : whiteUrls.size();
     }
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -91,13 +89,9 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
 
     /* 判断是否是白名单 */
     private boolean isWhiteReq(String requestUrl) {
-        if (_size == 0) {
-            return true;
-        } else {
-            for (String urlTemp : whiteUrls) {
-                if (requestUrl.indexOf(urlTemp.toLowerCase()) > -1) {
-                    return true;
-                }
+        for (String urlTemp : whiteUrls) {
+            if (requestUrl.indexOf(urlTemp.toLowerCase()) > -1) {
+                return true;
             }
         }
         return false;
