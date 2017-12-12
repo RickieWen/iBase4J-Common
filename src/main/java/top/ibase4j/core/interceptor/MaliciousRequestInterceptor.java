@@ -20,66 +20,67 @@ import top.ibase4j.core.util.WebUtil;
  * @version 2016年5月20日 下午3:16:57
  */
 public class MaliciousRequestInterceptor extends BaseInterceptor {
-    private Boolean allRequest = false; // 拦截所有请求,否则拦截相同请求
-    private Long minRequestIntervalTime = 500L; // 允许的最小请求间隔
-    private Integer maxMaliciousTimes = 0; // 允许的最大恶意请求次数
+	private Boolean allRequest = false; // 拦截所有请求,否则拦截相同请求
+	private Long minRequestIntervalTime = 500L; // 允许的最小请求间隔
+	private Integer maxMaliciousTimes = 0; // 允许的最大恶意请求次数
 
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-        throws Exception {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,OPTIONS,DELETE");
-        response.setHeader("Access-Control-Allow-Headers",
-            "x-requested-with,Access-Control-Allow-Origin,EX-SysAuthToken,EX-JSESSIONID");
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,OPTIONS,DELETE");
+		response.setHeader("Access-Control-Allow-Headers",
+				"x-requested-with,Access-Control-Allow-Origin,EX-SysAuthToken,EX-JSESSIONID");
 
-        String url = request.getServletPath();
-        if (url.endsWith("/unauthorized") || url.endsWith("/forbidden")) {
-            return super.preHandle(request, response, handler);
-        }
-        Object userId = WebUtil.getCurrentUser(request);
-        String user = userId != null ? userId.toString() : WebUtil.getHost(request);
-        String preRequest = (String)CacheUtil.getCache().getFire(Constants.PREREQUEST + user);
-        Long preRequestTime = (Long)CacheUtil.getCache().getFire(Constants.PREREQUEST_TIME + user);
-        if (preRequestTime != null && preRequest != null) { // 过滤频繁操作
-            if ((url.equals(preRequest) || allRequest)
-                && System.currentTimeMillis() - preRequestTime < minRequestIntervalTime) {
-                Integer maliciousRequestTimes = (Integer)CacheUtil.getCache()
-                    .getFire(Constants.MALICIOUS_REQUEST_TIMES + user);
-                if (maliciousRequestTimes == null) {
-                    maliciousRequestTimes = 1;
-                } else {
-                    maliciousRequestTimes++;
-                }
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes);
-                if (maliciousRequestTimes > maxMaliciousTimes) {
-                    CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
-                    logger.warn("To intercept a malicious request : {}", url);
-                    ModelMap modelMap = new ModelMap();
-                    modelMap.put("code", HttpCode.MULTI_STATUS.value().toString());
-                    modelMap.put("msg", HttpCode.MULTI_STATUS.msg());
-                    modelMap.put("timestamp", System.currentTimeMillis());
-                    logger.info("RESPONSE : " + JSON.toJSON(modelMap));
-                    byte[] bytes = JSON.toJSONBytes(modelMap, SerializerFeature.DisableCircularReferenceDetect);
-                    response.getOutputStream().write(bytes);
-                    return false;
-                }
-            } else {
-                CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
-            }
-        }
-        CacheUtil.getCache().set(Constants.PREREQUEST + user, url);
-        CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis());
-        return super.preHandle(request, response, handler);
-    }
+		String url = request.getServletPath();
+		if (url.endsWith("/unauthorized") || url.endsWith("/forbidden")) {
+			return super.preHandle(request, response, handler);
+		}
+		url += JSON.toJSONString(WebUtil.getParameterMap(request));
+		Object userId = WebUtil.getCurrentUser(request);
+		String user = userId != null ? userId.toString() : WebUtil.getHost(request);
+		String preRequest = (String) CacheUtil.getCache().getFire(Constants.PREREQUEST + user);
+		Long preRequestTime = (Long) CacheUtil.getCache().getFire(Constants.PREREQUEST_TIME + user);
+		if (preRequestTime != null && preRequest != null) { // 过滤频繁操作
+			if ((url.equals(preRequest) || allRequest)
+					&& System.currentTimeMillis() - preRequestTime < minRequestIntervalTime) {
+				Integer maliciousRequestTimes = (Integer) CacheUtil.getCache()
+						.getFire(Constants.MALICIOUS_REQUEST_TIMES + user);
+				if (maliciousRequestTimes == null) {
+					maliciousRequestTimes = 1;
+				} else {
+					maliciousRequestTimes++;
+				}
+				CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, maliciousRequestTimes);
+				if (maliciousRequestTimes > maxMaliciousTimes) {
+					CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
+					logger.warn("To intercept a malicious request : {}", url);
+					ModelMap modelMap = new ModelMap();
+					modelMap.put("code", HttpCode.MULTI_STATUS.value().toString());
+					modelMap.put("msg", HttpCode.MULTI_STATUS.msg());
+					modelMap.put("timestamp", System.currentTimeMillis());
+					logger.info("RESPONSE : " + JSON.toJSON(modelMap));
+					byte[] bytes = JSON.toJSONBytes(modelMap, SerializerFeature.DisableCircularReferenceDetect);
+					response.getOutputStream().write(bytes);
+					return false;
+				}
+			} else {
+				CacheUtil.getCache().set(Constants.MALICIOUS_REQUEST_TIMES + user, 0);
+			}
+		}
+		CacheUtil.getCache().set(Constants.PREREQUEST + user, url);
+		CacheUtil.getCache().set(Constants.PREREQUEST_TIME + user, System.currentTimeMillis());
+		return super.preHandle(request, response, handler);
+	}
 
-    public void setAllRequest(Boolean allRequest) {
-        this.allRequest = allRequest;
-    }
+	public void setAllRequest(Boolean allRequest) {
+		this.allRequest = allRequest;
+	}
 
-    public void setMinRequestIntervalTime(Long minRequestIntervalTime) {
-        this.minRequestIntervalTime = minRequestIntervalTime;
-    }
+	public void setMinRequestIntervalTime(Long minRequestIntervalTime) {
+		this.minRequestIntervalTime = minRequestIntervalTime;
+	}
 
-    public void setMaxMaliciousTimes(Integer maxMaliciousTimes) {
-        this.maxMaliciousTimes = maxMaliciousTimes;
-    }
+	public void setMaxMaliciousTimes(Integer maxMaliciousTimes) {
+		this.maxMaliciousTimes = maxMaliciousTimes;
+	}
 }
