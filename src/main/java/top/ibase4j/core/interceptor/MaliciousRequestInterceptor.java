@@ -102,8 +102,12 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
         return false;
     }
 
-    public void setAllRequest(Boolean allRequest) {
+    public void setAllRequest(boolean allRequest) {
         this.allRequest = allRequest;
+    }
+
+    public void setContainsParamter(boolean containsParamter) {
+        this.containsParamter = containsParamter;
     }
 
     public void setMinRequestIntervalTime(Long minRequestIntervalTime) {
