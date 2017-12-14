@@ -29,6 +29,7 @@ import top.ibase4j.core.util.TokenUtil;
 import top.ibase4j.core.util.WebUtil;
 
 /**
+ * APP登录TOKEN过滤器
  * @author ShenHuaJie
  * @since 2017年3月19日 上午10:21:59
  */
@@ -50,40 +51,39 @@ public class TokenFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
+        boolean filter = DataUtil.isEmpty(PropertiesUtil.getString("token.filter.test"));
+        String token = request.getHeader("UUID");
+        if (StringUtils.isNotBlank(token)) {
+            try {
+                Token tokenInfo = TokenUtil.getTokenInfo(token);
+                if (tokenInfo != null) {
+                    String value = tokenInfo.getValue();
+                    WebUtil.saveCurrentUser(request, value);
+                } else if (filter) {
+                    WebUtil.saveCurrentUser(request, null);
+                }
+            } catch (Exception e) {
+                logger.error("token检查发生异常:", e);
+            }
+        } else if (filter) {
+            WebUtil.saveCurrentUser(request, null);
+        }
         if (isWhiteReq(request.getRequestURI())) {
             chain.doFilter(request, response);
+        } else if (DataUtil.isEmpty(WebUtil.getCurrentUser(request)) && filter) {
+            response.setContentType("text/html; charset=UTF-8");
+            Map<String, Object> modelMap = InstanceUtil.newLinkedHashMap();
+            modelMap.put("code", HttpCode.UNAUTHORIZED.value().toString());
+            modelMap.put("msg", HttpCode.UNAUTHORIZED.msg());
+            modelMap.put("timestamp", System.currentTimeMillis());
+            String result = JSON.toJSONString(modelMap);
+            logger.warn(request.getRequestURI() + " ====> " + result);
+            PrintWriter out = response.getWriter();
+            out.println(result);
+            out.flush();
+            out.close();
         } else {
-            boolean filter = DataUtil.isEmpty(PropertiesUtil.getString("token.filter.test"));
-            String token = request.getHeader("UUID");
-            if (StringUtils.isNotBlank(token)) {
-                try {
-                    Token tokenInfo = TokenUtil.getTokenInfo(token);
-                    if (tokenInfo != null) {
-                        String value = tokenInfo.getValue();
-                        WebUtil.saveCurrentUser(request, value);
-                    } else if (filter) {
-                        WebUtil.saveCurrentUser(request, null);
-                    }
-                } catch (Exception e) {
-                    logger.error("token检查发生异常:", e);
-                }
-            } else if (filter) {
-                WebUtil.saveCurrentUser(request, null);
-            }
-            // 响应
-            if (DataUtil.isEmpty(WebUtil.getCurrentUser(request)) && filter) {
-                response.setContentType("text/html; charset=UTF-8");
-                Map<String, Object> modelMap = InstanceUtil.newLinkedHashMap();
-                modelMap.put("code", HttpCode.UNAUTHORIZED.value().toString());
-                modelMap.put("msg", HttpCode.UNAUTHORIZED.msg());
-                modelMap.put("timestamp", System.currentTimeMillis());
-                PrintWriter out = response.getWriter();
-                out.println(JSON.toJSONString(modelMap));
-                out.flush();
-                out.close();
-            } else {
-                chain.doFilter(request, response);
-            }
+            chain.doFilter(request, response);
         }
     }
 
@@ -96,7 +96,7 @@ public class TokenFilter implements Filter {
             return false;
         } else {
             for (String urlTemp : whiteUrls) {
-                if (requestUrl.indexOf(urlTemp.toLowerCase()) > -1) {
+                if (requestUrl.toLowerCase().indexOf(urlTemp.toLowerCase()) > -1) {
                     return true;
                 }
             }
