@@ -46,7 +46,7 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
             "x-requested-with,Access-Control-Allow-Origin,EX-SysAuthToken,EX-JSESSIONID");
 
         String url = request.getServletPath();
-        if (url.endsWith("/unauthorized") || url.endsWith("/forbidden") || isWhiteReq(url)) {
+        if (url.endsWith("/unauthorized") || url.endsWith("/forbidden") || isWhiteReq(url.toLowerCase())) {
             return super.preHandle(request, response, handler);
         }
         if (containsParamter) {

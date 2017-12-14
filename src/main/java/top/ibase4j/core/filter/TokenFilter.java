@@ -68,7 +68,8 @@ public class TokenFilter implements Filter {
         } else if (filter) {
             WebUtil.saveCurrentUser(request, null);
         }
-        if (isWhiteReq(request.getRequestURI())) {
+        String url = request.getRequestURI();
+        if (isWhiteReq(url.toLowerCase())) {
             chain.doFilter(request, response);
         } else if (DataUtil.isEmpty(WebUtil.getCurrentUser(request)) && filter) {
             response.setContentType("text/html; charset=UTF-8");
@@ -77,7 +78,7 @@ public class TokenFilter implements Filter {
             modelMap.put("msg", HttpCode.UNAUTHORIZED.msg());
             modelMap.put("timestamp", System.currentTimeMillis());
             String result = JSON.toJSONString(modelMap);
-            logger.warn(request.getRequestURI() + " ====> " + result);
+            logger.warn(url + " ====> " + result);
             PrintWriter out = response.getWriter();
             out.println(result);
             out.flush();
@@ -96,7 +97,7 @@ public class TokenFilter implements Filter {
             return false;
         } else {
             for (String urlTemp : whiteUrls) {
-                if (requestUrl.toLowerCase().indexOf(urlTemp.toLowerCase()) > -1) {
+                if (requestUrl.indexOf(urlTemp.toLowerCase()) > -1) {
                     return true;
                 }
             }
