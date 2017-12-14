@@ -53,6 +53,7 @@ public class TokenFilter implements Filter {
         if (isWhiteReq(request.getRequestURI())) {
             chain.doFilter(request, response);
         } else {
+            boolean filter = DataUtil.isEmpty(PropertiesUtil.getString("token.filter.test"));
             String token = request.getHeader("UUID");
             if (StringUtils.isNotBlank(token)) {
                 try {
@@ -60,14 +61,17 @@ public class TokenFilter implements Filter {
                     if (tokenInfo != null) {
                         String value = tokenInfo.getValue();
                         WebUtil.saveCurrentUser(request, value);
+                    } else if (filter) {
+                        WebUtil.saveCurrentUser(request, null);
                     }
                 } catch (Exception e) {
                     logger.error("token检查发生异常:", e);
                 }
+            } else if (filter) {
+                WebUtil.saveCurrentUser(request, null);
             }
             // 响应
-            if (DataUtil.isEmpty(WebUtil.getCurrentUser(request))
-                && DataUtil.isEmpty(PropertiesUtil.getString("token.filter.test"))) {
+            if (DataUtil.isEmpty(WebUtil.getCurrentUser(request)) && filter) {
                 response.setContentType("text/html; charset=UTF-8");
                 Map<String, Object> modelMap = InstanceUtil.newLinkedHashMap();
                 modelMap.put("code", HttpCode.UNAUTHORIZED.value().toString());
@@ -89,7 +93,7 @@ public class TokenFilter implements Filter {
     /* 判断是否是白名单 */
     private boolean isWhiteReq(String requestUrl) {
         if (_size == 0) {
-            return true;
+            return false;
         } else {
             for (String urlTemp : whiteUrls) {
                 if (requestUrl.indexOf(urlTemp.toLowerCase()) > -1) {
@@ -97,7 +101,6 @@ public class TokenFilter implements Filter {
                 }
             }
         }
-
         return false;
     }
 }
