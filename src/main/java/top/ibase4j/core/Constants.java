@@ -30,20 +30,22 @@ public interface Constants {
     static final String USER_AGENT = "USER-AGENT";
     /** 客户端信息 */
     static final String USER_IP = "USER_IP";
+    /** 登录地址 */
+    static final String LOGIN_URL = "/login.html";
     /** 缓存命名空间 */
     static final String CACHE_NAMESPACE = "iBase4J:";
+    /** 缓存命名空间 */
+    static final String SYSTEM_CACHE_NAMESPACE = "SYSTEM:iBase4J:";
     /** 上次请求地址 */
     static final String PREREQUEST = CACHE_NAMESPACE + "PREREQUEST";
     /** 上次请求时间 */
     static final String PREREQUEST_TIME = CACHE_NAMESPACE + "PREREQUEST_TIME";
-    /** 登录地址 */
-    static final String LOGIN_URL = "/login.html";
     /** 非法请求次数 */
     static final String MALICIOUS_REQUEST_TIMES = CACHE_NAMESPACE + "MALICIOUS_REQUEST_TIMES";
     /** 在线用户数量 */
-    static final String ALLUSER_NUMBER = "SYSTEM:" + CACHE_NAMESPACE + "ALLUSER_NUMBER";
+    static final String ALLUSER_NUMBER = SYSTEM_CACHE_NAMESPACE + "ALLUSER_NUMBER";
     /** TOKEN */
-    static final String TOKEN_KEY = CACHE_NAMESPACE + "TOKEN_KEY";
+    static final String TOKEN_KEY = SYSTEM_CACHE_NAMESPACE + "TOKEN_KEY";
 
     /** 日志表状态 */
     interface JOBSTATE {
