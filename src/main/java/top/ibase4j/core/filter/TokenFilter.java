@@ -29,16 +29,15 @@ import top.ibase4j.core.util.TokenUtil;
 import top.ibase4j.core.util.WebUtil;
 
 /**
- * APP登录TOKEN过滤器
+ * APP登录TOKEN过滤器, expire有效期(秒),默认永远有效
  * @author ShenHuaJie
  * @since 2017年3月19日 上午10:21:59
  */
 public class TokenFilter implements Filter {
     private Logger logger = LogManager.getLogger();
-
+    private String expire;
     // 白名单
     private List<String> whiteUrls;
-
     private int _size = 0;
 
     public void init(FilterConfig config) throws ServletException {
@@ -46,6 +45,7 @@ public class TokenFilter implements Filter {
         String path = CsrfFilter.class.getResource("/").getFile();
         whiteUrls = FileUtil.readFile(path + "white/tokenWhite.txt");
         _size = null == whiteUrls ? 0 : whiteUrls.size();
+        expire = config.getInitParameter("expire");
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain)
@@ -58,8 +58,12 @@ public class TokenFilter implements Filter {
             try {
                 Token tokenInfo = TokenUtil.getTokenInfo(token);
                 if (tokenInfo != null) {
-                    String value = tokenInfo.getValue();
-                    WebUtil.saveCurrentUser(request, value);
+                    WebUtil.saveCurrentUser(request, tokenInfo.getValue());
+                    if (DataUtil.isNotEmpty(expire)) {
+                        if (System.currentTimeMillis() - tokenInfo.getTime() > Long.valueOf(expire) * 1000) {
+                            WebUtil.saveCurrentUser(request, null);
+                        }
+                    }
                 } else if (filter) {
                     WebUtil.saveCurrentUser(request, null);
                 }
