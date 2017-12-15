@@ -27,7 +27,7 @@ public class LocaleInterceptor extends BaseInterceptor {
                 locale = new Locale(language);
                 session.setAttribute("LOCALE", locale);
             } else {
-                locale = request.getLocale();
+                locale = Locale.SIMPLIFIED_CHINESE;
             }
         }
         LocaleContextHolder.setLocale(locale);

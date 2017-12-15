@@ -53,6 +53,7 @@ public class TokenFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         boolean filter = DataUtil.isEmpty(PropertiesUtil.getString("token.filter.test"));
         String token = request.getHeader("UUID");
+        logger.info("UUID==>" + token);
         if (StringUtils.isNotBlank(token)) {
             try {
                 Token tokenInfo = TokenUtil.getTokenInfo(token);

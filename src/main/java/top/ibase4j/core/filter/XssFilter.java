@@ -95,7 +95,7 @@ public class XssFilter implements Filter {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        out.println("{\"httpCode\":\"-9998\",\"msg\":\"" + warning + "\", \"fieldName\": \"" + paramNm + "\"}");
+        out.println("{\"code\":\"-9998\",\"msg\":\"" + warning + "\", \"fieldName\": \"" + paramNm + "\"}");
         out.flush();
         out.close();
     }
