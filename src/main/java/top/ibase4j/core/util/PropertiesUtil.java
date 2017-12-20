@@ -58,8 +58,12 @@ public final class PropertiesUtil extends PropertyPlaceholderConfigurer {
      * @param key
      * @return
      */
-    public static int getInt(String key) {
-        return Integer.parseInt(ctxPropertiesMap.get(key));
+    public static Integer getInt(String key) {
+        String value = ctxPropertiesMap.get(key);
+        if (value == null || "".equals(value.trim())) {
+            return null;
+        }
+        return Integer.parseInt(value);
     }
 
     /**
