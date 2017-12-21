@@ -46,7 +46,9 @@ public interface Constants {
     static final String ALLUSER_NUMBER = SYSTEM_CACHE_NAMESPACE + "ALLUSER_NUMBER";
     /** TOKEN */
     static final String TOKEN_KEY = SYSTEM_CACHE_NAMESPACE + "TOKEN_KEY";
-
+    /***/
+    static final String DB_KEY = "90139119";
+    
     /** 日志表状态 */
     interface JOBSTATE {
         /**

@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+import top.ibase4j.core.Constants;
 import top.ibase4j.core.util.PropertiesUtil;
 import top.ibase4j.core.util.SecurityUtil;
 
@@ -18,7 +19,6 @@ import top.ibase4j.core.util.SecurityUtil;
  * @version 2017年12月1日 上午10:48:48
  */
 public class PropertyPlaceholder extends PropertyPlaceholderConfigurer {
-    private static final byte[] KEY = {9, -1, 0, 5, 39, 8, 6, 19};
     private List<String> decryptProperties;
 
     @Override
@@ -28,7 +28,7 @@ public class PropertyPlaceholder extends PropertyPlaceholderConfigurer {
             String keyStr = key.toString();
             String value = props.getProperty(keyStr);
             if (decryptProperties != null && decryptProperties.contains(keyStr)) {
-                value = SecurityUtil.decryptDes(value, KEY);
+                value = SecurityUtil.decryptDes(value, props.getProperty("db.key", Constants.DB_KEY).getBytes());
                 props.setProperty(keyStr, value);
             }
             PropertiesUtil.getProperties().put(keyStr, value);
@@ -41,5 +41,11 @@ public class PropertyPlaceholder extends PropertyPlaceholderConfigurer {
      */
     public void setDecryptProperties(List<String> decryptProperties) {
         this.decryptProperties = decryptProperties;
+    }
+
+    public static void main(String[] args) {
+        String encrypt = SecurityUtil.encryptDes("buzhidao", Constants.DB_KEY.getBytes());
+        System.out.println(encrypt);
+        System.out.println(SecurityUtil.decryptDes(encrypt, Constants.DB_KEY.getBytes()));
     }
 }

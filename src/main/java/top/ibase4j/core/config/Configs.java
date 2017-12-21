@@ -18,6 +18,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import top.ibase4j.core.Constants;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
 import top.ibase4j.core.util.SecurityUtil;
@@ -29,7 +30,6 @@ import top.ibase4j.core.util.SecurityUtil;
 @Configuration
 public class Configs implements EnvironmentPostProcessor, Ordered {
     protected Logger logger = LogManager.getLogger();
-    private static final String KEY = "90139119";
 
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         // 此处可以http方式 到配置服务器拉取一堆公共配置+本项目个性配置的json串,拼到Properties里
@@ -42,7 +42,7 @@ public class Configs implements EnvironmentPostProcessor, Ordered {
                 String keyStr = key.toString();
                 String value = props.getProperty(keyStr);
                 if ("druid.writer.password,druid.reader.password".contains(keyStr)) {
-                    value = SecurityUtil.decryptDes(value, props.getProperty("druid.key", KEY).getBytes());
+                    value = SecurityUtil.decryptDes(value, props.getProperty("druid.key", Constants.DB_KEY).getBytes());
                     props.setProperty(keyStr, value);
                 }
                 PropertiesUtil.getProperties().put(keyStr, value);
@@ -78,8 +78,8 @@ public class Configs implements EnvironmentPostProcessor, Ordered {
     }
 
     public static void main(String[] args) {
-        String encrypt = SecurityUtil.encryptDes("buzhidao", KEY.getBytes());
+        String encrypt = SecurityUtil.encryptDes("buzhidao", Constants.DB_KEY.getBytes());
         System.out.println(encrypt);
-        System.out.println(SecurityUtil.decryptDes(encrypt, KEY.getBytes()));
+        System.out.println(SecurityUtil.decryptDes(encrypt, Constants.DB_KEY.getBytes()));
     }
 }
