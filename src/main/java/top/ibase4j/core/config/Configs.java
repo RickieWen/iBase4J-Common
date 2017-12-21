@@ -29,7 +29,7 @@ import top.ibase4j.core.util.SecurityUtil;
 @Configuration
 public class Configs implements EnvironmentPostProcessor, Ordered {
     protected Logger logger = LogManager.getLogger();
-    private static final byte[] KEY = {9, -1, 0, 5, 39, 8, 6, 19};
+    private static final String KEY = "90139119";
 
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         // 此处可以http方式 到配置服务器拉取一堆公共配置+本项目个性配置的json串,拼到Properties里
@@ -42,7 +42,7 @@ public class Configs implements EnvironmentPostProcessor, Ordered {
                 String keyStr = key.toString();
                 String value = props.getProperty(keyStr);
                 if ("druid.writer.password,druid.reader.password".contains(keyStr)) {
-                    value = SecurityUtil.decryptDes(value, KEY);
+                    value = SecurityUtil.decryptDes(value, props.getProperty("druid.key", KEY).getBytes());
                     props.setProperty(keyStr, value);
                 }
                 PropertiesUtil.getProperties().put(keyStr, value);
@@ -78,8 +78,8 @@ public class Configs implements EnvironmentPostProcessor, Ordered {
     }
 
     public static void main(String[] args) {
-        String encrypt = SecurityUtil.encryptDes("buzhidao", KEY);
+        String encrypt = SecurityUtil.encryptDes("buzhidao", KEY.getBytes());
         System.out.println(encrypt);
-        System.out.println(SecurityUtil.decryptDes(encrypt, KEY));
+        System.out.println(SecurityUtil.decryptDes(encrypt, KEY.getBytes()));
     }
 }

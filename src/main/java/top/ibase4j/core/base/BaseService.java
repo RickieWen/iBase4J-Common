@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 
 import top.ibase4j.core.Constants;
+import top.ibase4j.core.exception.BusinessException;
 import top.ibase4j.core.util.CacheUtil;
 import top.ibase4j.core.util.DataUtil;
 import top.ibase4j.core.util.ExceptionUtil;
@@ -372,7 +373,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             }
         } catch (DuplicateKeyException e) {
             logger.error(Constants.Exception_Head, e);
-            throw new RuntimeException("已经存在相同的配置.");
+            throw new BusinessException("已经存在相同的记录.");
         } catch (Exception e) {
             logger.error(Constants.Exception_Head, e);
             throw new RuntimeException(ExceptionUtil.getStackTraceAsString(e));
