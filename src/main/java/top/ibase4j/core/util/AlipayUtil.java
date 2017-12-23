@@ -113,13 +113,15 @@ public class AlipayUtil {
 
     /**
      * 退款
-     * @param outTradeNo 商户订单号
-     * @param tradeNo 支付宝订单号
+     * @param outTradeNo 订单支付时传入的商户订单号,不能和 trade_no同时为空。
+     * @param tradeNo 支付宝交易号，和商户订单号不能同时为空
+     * @param outRequestNo 标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传。
      * @param refundAmount 退款金额
      * @param refundReason 退款原因
      * @return 支付参数
      */
-    public static RefundResult refund(String outTradeNo, String tradeNo, BigDecimal refundAmount, String refundReason) {
+    public static RefundResult refund(String outTradeNo, String tradeNo, String outRequestNo, BigDecimal refundAmount,
+        String refundReason) {
         // 实例化客户端
         AlipayClient alipayClient = AliPayConfig.build().getAlipayClient();
         // 实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
@@ -130,6 +132,7 @@ public class AlipayUtil {
         model.setTradeNo(tradeNo);
         model.setRefundAmount(refundAmount.toString());
         model.setRefundReason(refundReason);
+        model.setOutRequestNo(outRequestNo);
         request.setBizModel(model);
         try {
             // 这里和普通的接口调用不同，使用的是sdkExecute
