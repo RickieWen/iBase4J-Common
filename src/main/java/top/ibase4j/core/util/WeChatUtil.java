@@ -201,7 +201,7 @@ public class WeChatUtil {
                 if (WxPayment.codeIsOK(trade_state)) {
                     Date date = DateUtil.stringToDate(resultMap.get("time_end"));
                     result.put("time_end", date);
-                    result.put("transaction_id", resultMap.get("transaction_id"));
+                    result.put("trade_no", resultMap.get("transaction_id"));
                     result.put("trade_state", "1");
                 } else {
                     result.put("trade_state_desc", resultMap.get("trade_state_desc"));

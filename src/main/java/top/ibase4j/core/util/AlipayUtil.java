@@ -87,8 +87,8 @@ public class AlipayUtil {
         try {
             AlipayTradeQueryResponse response = alipayClient.execute(request);
             if (!response.isSuccess()) {
-                result.put("trade_status_desc", response.getSubMsg());
-                result.put("trade_status", "0");
+                result.put("trade_state_desc", response.getSubMsg());
+                result.put("trade_state", "0");
             } else {
                 Map<?, ?> body = JSON.parseObject(response.getBody(), Map.class);
                 Map<?, ?> resultMap = JSON.parseObject(body.get("alipay_trade_query_response").toString());
@@ -97,16 +97,16 @@ public class AlipayUtil {
                     Date date = DateUtil.stringToDate((String)resultMap.get("send_pay_date"));
                     result.put("time_end", date);
                     result.put("trade_no", resultMap.get("trade_no"));
-                    result.put("trade_status", "1");
+                    result.put("trade_state", "1");
                 } else {
-                    result.put("trade_status_desc", resultMap.get("msg"));
-                    result.put("trade_status", "2");
+                    result.put("trade_state_desc", resultMap.get("msg"));
+                    result.put("trade_state", "2");
                 }
             }
         } catch (AlipayApiException e) {
             logger.error("", e);
-            result.put("trade_status_desc", e.getMessage());
-            result.put("trade_status", "0");
+            result.put("trade_state_desc", e.getMessage());
+            result.put("trade_state", "0");
         }
         return result;
     }
