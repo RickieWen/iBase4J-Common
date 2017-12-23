@@ -4,6 +4,7 @@
 package top.ibase4j.core.util;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,10 +14,13 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 
 import top.ibase4j.core.support.pay.AliPayConfig;
@@ -68,6 +72,43 @@ public class AlipayUtil {
         } catch (AlipayApiException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Map<?, ?> searchTreade(String outTradeNo, String tradeNo) {
+        // 实例化客户端
+        AlipayClient alipayClient = AliPayConfig.build().getAlipayClient();
+        // 实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        AlipayTradeQueryModel model = new AlipayTradeQueryModel();
+        model.setOutTradeNo(outTradeNo);
+        model.setTradeNo(tradeNo);
+        request.setBizModel(model);
+        Map<String, Object> result = InstanceUtil.newHashMap();
+        try {
+            AlipayTradeQueryResponse response = alipayClient.execute(request);
+            if (!response.isSuccess()) {
+                result.put("trade_status_desc", response.getSubMsg());
+                result.put("trade_status", "0");
+            } else {
+                Map<?, ?> body = JSON.parseObject(response.getBody(), Map.class);
+                Map<?, ?> resultMap = JSON.parseObject(body.get("alipay_trade_query_response").toString());
+                Object trade_status = resultMap.get("trade_status");
+                if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
+                    Date date = DateUtil.stringToDate((String)resultMap.get("send_pay_date"));
+                    result.put("time_end", date);
+                    result.put("trade_no", resultMap.get("trade_no"));
+                    result.put("trade_status", "1");
+                } else {
+                    result.put("trade_status_desc", resultMap.get("msg"));
+                    result.put("trade_status", "2");
+                }
+            }
+        } catch (AlipayApiException e) {
+            logger.error("", e);
+            result.put("trade_status_desc", e.getMessage());
+            result.put("trade_status", "0");
+        }
+        return result;
     }
 
     /**

@@ -5,7 +5,7 @@
 	<groupId>top.ibase4j</groupId>
 	<artifactId>ibase4j-common</artifactId>
 	<name>ibase4j-common</name>
-	<version>1.2.14</version>
+	<version>1.2.15</version>
 	<packaging>jar</packaging>
 
 	<description>ibase4j-common</description>
