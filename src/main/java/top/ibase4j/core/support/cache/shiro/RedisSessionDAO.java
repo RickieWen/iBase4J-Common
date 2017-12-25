@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 
 import top.ibase4j.core.util.InstanceUtil;
+import top.ibase4j.core.util.PropertiesUtil;
 import top.ibase4j.core.util.SerializeUtil;
 
 /**
@@ -86,9 +87,9 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     private void saveSession(Session session) {
         if (session == null || session.getId() == null) throw new UnknownSessionException("session is empty");
         byte[] sessionKey = buildRedisSessionKey(session.getId());
-        Long sessionTimeOut = session.getTimeout() / 1000 + EXPIRE_TIME;
+        int sessionTimeOut = PropertiesUtil.getInt("session.maxInactiveInterval", EXPIRE_TIME);
         byte[] value = SerializeUtil.serialize(session);
-        getRedisConnection().set(sessionKey, value, Expiration.seconds(sessionTimeOut.intValue()), SetOption.UPSERT);
+        getRedisConnection().set(sessionKey, value, Expiration.seconds(sessionTimeOut), SetOption.UPSERT);
     }
 
     private byte[] buildRedisSessionKey(Serializable sessionId) {
