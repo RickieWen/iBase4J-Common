@@ -19,6 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import top.ibase4j.core.Constants;
+import top.ibase4j.core.util.DataUtil;
 import top.ibase4j.core.util.InstanceUtil;
 import top.ibase4j.core.util.PropertiesUtil;
 import top.ibase4j.core.util.SecurityUtil;
@@ -42,7 +43,9 @@ public class Configs implements EnvironmentPostProcessor, Ordered {
                 String keyStr = key.toString();
                 String value = props.getProperty(keyStr);
                 if ("druid.writer.password,druid.reader.password".contains(keyStr)) {
-                    value = SecurityUtil.decryptDes(value, props.getProperty("druid.key", Constants.DB_KEY).getBytes());
+                    String dkey = props.getProperty("druid.key");
+                    value = SecurityUtil.decryptDes(value,
+                        (DataUtil.isEmpty(dkey) ? Constants.DB_KEY : dkey).getBytes());
                     props.setProperty(keyStr, value);
                 }
                 PropertiesUtil.getProperties().put(keyStr, value);
